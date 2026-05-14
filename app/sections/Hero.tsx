@@ -19,7 +19,7 @@ const Hero = () => {
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: "power2.out" }
     );
-  });
+  }, []);
 
   return (
     <section id="hero" className="relative flex flex-col overflow-hidden" style={{ height: "100dvh" }}>
