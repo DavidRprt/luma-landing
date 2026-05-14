@@ -14,16 +14,16 @@ const Button = ({ text, className, id }: { text: string; className?: string; id?
   return (
     <a
       onClick={handleClick}
-      className={`${className ?? ""} group relative inline-flex items-center gap-2 cursor-pointer w-fit border border-white/20 hover:border-white/60 rounded-full px-8 py-3 pr-5 transition-all duration-300 hover:bg-white/5`}
+      className={`${className ?? ""} group relative inline-flex items-center gap-3 cursor-pointer w-fit bg-white hover:bg-white/90 rounded-full px-7 py-3 transition-all duration-300 shadow-[0_0_28px_rgba(124,47,255,0.35)] hover:shadow-[0_0_42px_rgba(124,47,255,0.6)]`}
     >
-      <span className="text-white text-sm font-medium tracking-widest uppercase">
+      <span className="text-black text-sm font-semibold tracking-widest uppercase">
         {text}
       </span>
       <svg
-        className="group-hover:rotate-45 transition-transform duration-300"
+        className="group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0"
         width="14" height="14" viewBox="0 0 14 14" fill="none"
       >
-        <path d="M2 7h10M7 2l5 5-5 5" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M2 7h10M7 2l5 5-5 5" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </a>
   );
