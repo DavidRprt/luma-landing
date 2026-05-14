@@ -75,9 +75,14 @@ const Hero = () => {
           <Button text="Ver trabajos" id="counter" />
           <a
             href="#contacto"
-            className="text-white/40 hover:text-white/80 text-sm tracking-widest uppercase transition-colors duration-300"
+            className="group inline-flex items-center gap-2 border border-white/20 hover:border-white/50 rounded-full px-7 py-3 transition-all duration-300 hover:bg-white/5"
           >
-            Hablemos →
+            <span className="text-white/60 group-hover:text-white/90 text-sm font-medium tracking-widest uppercase transition-colors duration-300">
+              Hablemos
+            </span>
+            <span className="text-white/40 group-hover:text-white/80 group-hover:translate-x-1 inline-block transition-all duration-300">
+              →
+            </span>
           </a>
         </div>
       </div>

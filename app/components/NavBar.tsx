@@ -15,10 +15,10 @@ const NavBar = () => {
   return (
     <header className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-3xl">
       <div
-        className={`flex items-center justify-between gap-10 rounded-full px-6 py-3 transition-all duration-500 ${
+        className={`flex items-center justify-between gap-6 rounded-full px-6 py-3 transition-all duration-500 ${
           scrolled
             ? "bg-black/60 backdrop-blur-xl border border-white/15 shadow-xl shadow-black/50"
-            : "bg-transparent border border-white/10"
+            : "bg-transparent border border-white/15"
         }`}
       >
         <a href="#hero" className="text-white text-base font-semibold hover:opacity-70 transition-opacity duration-300">
@@ -30,7 +30,7 @@ const NavBar = () => {
             <a
               key={name}
               href={link}
-              className="text-white/60 hover:text-white text-sm transition-colors duration-300"
+              className="text-white/70 hover:text-white text-sm transition-colors duration-300"
             >
               {name}
             </a>
