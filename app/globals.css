@@ -5,6 +5,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes aurora {
+  from { background-position: 50% 50%, 50% 50%; }
+  to   { background-position: 350% 50%, 350% 50%; }
+}
+
 @theme inline {
   --animate-aurora: aurora 60s linear infinite;
   --white: #ffffff;
@@ -15,11 +20,6 @@
   --blue-300: #93c5fd;
   --indigo-300: #a5b4fc;
   --violet-200: #ddd6fe;
-
-  @keyframes aurora {
-    from { background-position: 50% 50%, 50% 50%; }
-    to   { background-position: 350% 50%, 350% 50%; }
-  }
 
   --font-heading: var(--font-sans);
 
