@@ -45,8 +45,8 @@ const Laptop = () => {
       </mesh>
 
       {/* Hinge */}
-      <mesh position={[0, 0.1, -1.38]} rotation={[0, 0, 0]}>
-        <cylinderGeometry args={[0.045, 0.045, 3.9, 24]} rotation={[0, Math.PI / 2, 0]} />
+      <mesh position={[0, 0.1, -1.38]} rotation={[0, Math.PI / 2, 0]}>
+        <cylinderGeometry args={[0.045, 0.045, 3.9, 24]} />
         <meshStandardMaterial color="#333" roughness={0.1} metalness={1} />
       </mesh>
 
