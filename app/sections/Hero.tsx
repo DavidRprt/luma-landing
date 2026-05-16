@@ -1,93 +1,76 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-
-import Button from "../components/Button";
-import { words } from "../constants";
-
-const HeroExperience = dynamic(
-  () => import("../components/models/hero_models/HeroExperience"),
-  { ssr: false }
-);
+import { motion } from "motion/react";
+import { AuroraBackground } from "../ui/aurora-background";
 
 const Hero = () => {
-  useGSAP(() => {
-    gsap.fromTo(
-      ".hero-fade",
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: "power2.out" }
-    );
-  }, []);
+  const scrollToServices = () => {
+    document.getElementById("servicios")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <section id="hero" className="relative flex flex-col overflow-hidden" style={{ height: "100dvh" }}>
+    <AuroraBackground>
+      {/* content */}
+      <div className="relative flex flex-col items-center justify-between h-full w-full px-5 md:px-16 py-32 text-center">
 
-      <div className="absolute inset-0 z-0">
-        <HeroExperience />
-      </div>
+        {/* center text */}
+        <div className="flex-1 flex flex-col items-center justify-center gap-6">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-white/40 text-xs tracking-[0.3em] uppercase"
+          >
+            Diseño web · Desarrollo · IA
+          </motion.p>
 
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 70% 50% at 50% 60%, rgba(74,0,255,0.1) 0%, transparent 70%)" }}
-      />
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.8, ease: "easeOut" }}
+            className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-semibold tracking-tight leading-[1.05] text-white max-w-4xl"
+          >
+            Tu negocio merece<br />
+            un sitio que{" "}
+            <span className="italic text-white/60">impresione.</span>
+          </motion.h1>
 
-      <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center px-5 md:px-16">
-
-        {/* line 1 */}
-        <div className="hero-fade text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-semibold tracking-tight leading-tight">
-          Sitios que
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+            className="text-white/40 text-base md:text-lg max-w-md leading-relaxed"
+          >
+            Diseñamos y desarrollamos sitios modernos<br className="hidden md:block" />
+            que hacen crecer tu negocio.
+          </motion.p>
         </div>
 
-        {/* sliding word — clipped container */}
-        <div
-          className="hero-fade overflow-hidden"
-          style={{ height: "clamp(48px, 8vw, 88px)" }}
+        {/* scroll arrow — primary CTA */}
+        <motion.button
+          onClick={scrollToServices}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.6, ease: "easeOut" }}
+          className="group flex flex-col items-center gap-3 cursor-pointer"
         >
-          <div
-            className="flex flex-col"
-            style={{ animation: "wordSlider 21s infinite cubic-bezier(0.9, 0.01, 0.3, 0.99)" }}
+          <span className="text-white/30 text-xs tracking-[0.25em] uppercase group-hover:text-white/60 transition-colors duration-300">
+            Ver servicios
+          </span>
+          <div className="w-px h-10 bg-gradient-to-b from-white/0 to-white/30 group-hover:to-white/60 transition-all duration-300" />
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+            className="w-8 h-8 rounded-full border border-white/20 group-hover:border-white/50 flex items-center justify-center transition-colors duration-300"
           >
-            {words.map((word, i) => (
-              <span
-                key={i}
-                className="bg-gradient-to-r from-[#4cc9f0] to-[#7b2fff] bg-clip-text text-transparent font-semibold tracking-tight leading-tight"
-                style={{ fontSize: "clamp(40px, 7.5vw, 86px)", display: "block" }}
-              >
-                {word.text}
-              </span>
-            ))}
-          </div>
-        </div>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M6 2v8M2 7l4 4 4-4" stroke="white" strokeOpacity="0.5" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-white transition-all duration-300" />
+            </svg>
+          </motion.div>
+        </motion.button>
 
-        {/* line 3 */}
-        <div className="hero-fade text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-semibold tracking-tight leading-tight">
-          y convierten.
-        </div>
-
-        <p className="hero-fade mt-6 text-white/50 text-base md:text-lg max-w-lg leading-relaxed">
-          Diseño web moderno con IA integrada.<br className="hidden md:block" />
-          Para negocios que quieren crecer.
-        </p>
-
-        <div className="hero-fade mt-8 flex items-center gap-6">
-          <Button text="Ver trabajos" id="counter" />
-          <a
-            href="#contacto"
-            className="group inline-flex items-center gap-2 border border-white/20 hover:border-white/50 rounded-full px-7 py-3 transition-all duration-300 hover:bg-white/5"
-          >
-            <span className="text-white/60 group-hover:text-white/90 text-sm font-medium tracking-widest uppercase transition-colors duration-300">
-              Hablemos
-            </span>
-            <span className="text-white/40 group-hover:text-white/80 group-hover:translate-x-1 inline-block transition-all duration-300">
-              →
-            </span>
-          </a>
-        </div>
       </div>
-
-    </section>
+    </AuroraBackground>
   );
 };
 

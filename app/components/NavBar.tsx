@@ -15,11 +15,17 @@ const NavBar = () => {
   return (
     <header className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-3xl">
       <div
-        className={`flex items-center justify-between gap-6 rounded-full px-6 py-3 transition-all duration-500 ${
-          scrolled
-            ? "bg-black/60 backdrop-blur-xl border border-white/15 shadow-xl shadow-black/50"
-            : "bg-transparent border border-white/15"
-        }`}
+        style={scrolled ? {
+          background: "rgba(255,255,255,0.06)",
+          backdropFilter: "blur(40px) saturate(180%)",
+          WebkitBackdropFilter: "blur(40px) saturate(180%)",
+          border: "1px solid rgba(255,255,255,0.12)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)",
+        } : {
+          background: "transparent",
+          border: "1px solid rgba(255,255,255,0.1)",
+        }}
+        className={`flex items-center justify-between gap-6 rounded-full px-6 py-3 transition-all duration-500`}
       >
         <a href="#hero" className="text-white text-base font-semibold hover:opacity-70 transition-opacity duration-300">
           _luma
