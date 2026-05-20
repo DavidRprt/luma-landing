@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NavBar from "./components/NavBar";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +18,6 @@ export default function RootLayout({
   return (
     <html lang="es" className={cn("font-sans", inter.variable)}>
       <body>
-        <NavBar />
         {children}
       </body>
     </html>

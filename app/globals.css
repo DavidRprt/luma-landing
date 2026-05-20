@@ -10,6 +10,21 @@
   to   { background-position: 350% 50%, 350% 50%; }
 }
 
+@keyframes luma-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.333%); }
+}
+
+@keyframes luma-ping {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes luma-typing {
+  0%, 100% { opacity: 0.2; transform: translateY(0); }
+  50%       { opacity: 1;   transform: translateY(-3px); }
+}
+
 @theme inline {
   --animate-aurora: aurora 60s linear infinite;
   --white: #ffffff;
