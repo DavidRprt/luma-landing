@@ -17,10 +17,6 @@ function AIChat({ lang }: { lang: Lang }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMsgs([{ from: "ai", text: c.greeting }]);
-  }, [lang, c.greeting]);
-
-  useEffect(() => {
     if (scrollRef.current)
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [msgs, busy]);
@@ -107,14 +103,13 @@ const Contact = ({ lang }: { lang: Lang }) => {
 
   return (
     <section id="contacto" className="bg-black px-5 md:px-20 pt-20 pb-28" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-      <div ref={ref} className="max-w-[1300px] mx-auto flex flex-wrap items-start" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
+      <div ref={ref} className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 items-start" style={{ gap: "clamp(40px, 6vw, 80px)" }}>
         {/* Left */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex flex-col"
-          style={{ flex: "1 1 260px", maxWidth: 420 }}
         >
           <p className="uppercase text-white/30" style={{ fontSize: 11, letterSpacing: "0.3em", marginBottom: 16 }}>{c.eyebrow}</p>
           <h2 className="text-white font-semibold leading-[1.05]" style={{ fontSize: "clamp(36px, 6vw, 72px)", letterSpacing: "-0.03em", marginBottom: 18 }}>{c.title}</h2>
@@ -136,9 +131,9 @@ const Contact = ({ lang }: { lang: Lang }) => {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
-          style={{ flex: "1 1 320px", maxWidth: 520 }}
+          style={{ minWidth: 0 }}
         >
-          <AIChat lang={lang} />
+          <AIChat key={lang} lang={lang} />
         </motion.div>
       </div>
     </section>

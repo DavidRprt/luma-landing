@@ -1,8 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { AuroraBackground } from "../ui/aurora-background";
-import ScrambleText from "../components/ScrambleText";
 import { t, type Lang } from "../constants/translations";
 
 interface Props {
@@ -30,17 +29,21 @@ const Hero = ({ lang }: Props) => {
             {c.eyebrow}
           </motion.p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.8, ease: "easeOut" }}
-            className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-semibold tracking-tight leading-[1.05] text-white max-w-4xl"
-          >
-            <ScrambleText text={c.h1a} startDelay={80} duration={480} />
-            <br />
-            <ScrambleText text={c.h1b} startDelay={230} duration={420} />{" "}
-            <span className="italic text-white/60">{c.italic}</span>
-          </motion.h1>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.h1
+              key={lang}
+              initial={{ opacity: 0, filter: "blur(10px)", y: 6 }}
+              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+              exit={{ opacity: 0, filter: "blur(10px)", y: -6 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-semibold tracking-tight leading-[1.05] text-white max-w-4xl"
+            >
+              {c.h1a}
+              <br />
+              {c.h1b}{" "}
+              <span className="italic text-white/60">{c.italic}</span>
+            </motion.h1>
+          </AnimatePresence>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}

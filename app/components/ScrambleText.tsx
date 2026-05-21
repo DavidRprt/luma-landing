@@ -11,11 +11,18 @@ interface Props {
 }
 
 const ScrambleText = ({ text, startDelay = 250, duration = 900 }: Props) => {
-  const [out, setOut] = useState(() => text.replace(/[^\s]/g, CHARS[0]));
-  const rafRef   = useRef<number>(0);
-  const frameRef = useRef(0);
+  const [out, setOut] = useState(text);
+  const rafRef    = useRef<number>(0);
+  const frameRef  = useRef(0);
+  const mountedRef = useRef(false);
 
   useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      setOut(text);
+      return;
+    }
+
     const t0       = performance.now() + startDelay;
     const nonSpace = text.replace(/ /g, "").length;
     frameRef.current = 0;

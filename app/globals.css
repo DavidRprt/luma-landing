@@ -25,6 +25,22 @@
   50%       { opacity: 1;   transform: translateY(-3px); }
 }
 
+/* === Services section hover (CSS-only, no JS re-renders) === */
+.service-row { transition: background 0.4s ease, box-shadow 0.3s ease; }
+.service-row:hover { background: linear-gradient(90deg, rgba(96,165,250,0.07) 0%, rgba(96,165,250,0.02) 55%, transparent 100%); box-shadow: inset 3px 0 0 rgba(96,165,250,0.45); }
+.service-num  { color: rgba(255,255,255,0.18); transition: color 0.3s ease; }
+.service-row:hover .service-num { color: rgba(96,165,250,0.75); }
+.service-title { color: rgba(255,255,255,0.88); transition: transform 0.4s ease, color 0.3s ease; }
+.service-row:hover .service-title { color: white; transform: translateX(8px); }
+.service-desc  { color: rgba(255,255,255,0.22); transition: color 0.35s ease, transform 0.4s ease; }
+.service-row:hover .service-desc  { color: rgba(255,255,255,0.52); transform: translateX(-4px); }
+.service-arrow { flex-shrink: 0; opacity: 0; transform: translateX(-10px) rotate(-10deg); transition: opacity 0.3s ease, transform 0.35s ease; color: rgba(96,165,250,0.65); }
+.service-row:hover .service-arrow { opacity: 1; transform: none; }
+
+/* === Work card hover (CSS-only) === */
+.work-card { border: 1px solid rgba(255,255,255,0.08); transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; }
+.work-card:hover { transform: translateY(-5px); border-color: rgba(96,165,250,0.3); box-shadow: 0 24px 60px rgba(0,0,0,0.55); }
+
 @theme inline {
   --animate-aurora: aurora 60s linear infinite;
   --white: #ffffff;

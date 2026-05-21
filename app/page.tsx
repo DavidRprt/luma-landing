@@ -18,7 +18,7 @@ export default function Home() {
     <main>
       <NavBar lang={lang} setLang={setLang} />
       <Hero lang={lang} />
-      <Marquee />
+      <Marquee lang={lang} />
       <Features lang={lang} />
       <Works lang={lang} />
       <AI lang={lang} />

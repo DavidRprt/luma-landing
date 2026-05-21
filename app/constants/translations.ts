@@ -34,7 +34,7 @@ export const t = {
       cta:     "Ver proyecto",
       items: [
         { num: "01", title: "Bloom", category: "E-commerce · Diseño",      year: "2025", desc: "Tienda online para marca de moda independiente. Experiencia de compra fluida y checkout en un paso.",                             stat: "+340% conversiones",      tags: ["Next.js", "Shopify", "Tailwind"],   img: "bloom" },
-        { num: "02", title: "Pulse", category: "IA · Atención al cliente", year: "2025", desc: "Plataforma con IA conversacional que resuelve el 85% de consultas de forma autónoma. Opera 24/7.",                               stat: "85% resolución autónoma", tags: ["OpenAI", "React", "Supabase"],     img: "pulse" },
+        { num: "02", title: "Chatbot IA", category: "IA · Atención al cliente", year: "2025", desc: "Raul es el asistente virtual de BECHA SA. Responde consultas, centraliza documentación interna y permite que los empleados suban reportes desde el chat. Opera de forma autónoma las 24 hs.", stat: "95% resolución autónoma", tags: ["Claude API", "Python"], img: "pulse" },
         { num: "03", title: "Axis",  category: "IA · Empresa",             year: "2025", desc: "Asistente interno de IA para empresa logística con 200+ empleados. Centraliza info y automatiza reportes.", stat: "200+ usuarios internos",  tags: ["RAG", "Next.js", "PostgreSQL"], img: "axis"  },
       ],
     },
@@ -59,6 +59,15 @@ export const t = {
       placeholder: "Escribí sobre tu proyecto...",
       mockReply:   "¡Gracias por tu mensaje! En breve te contactamos. También podés escribirnos a hola@luma.com.",
     },
+    pulseChat: {
+      role:        "Asistente BECHA SA",
+      online:      "en línea",
+      userMsg:     "¿Versión vigente de PR-CAL-007?",
+      botMsg:      "Versión vigente: v4.2 · aprobada 03/02/2026",
+      cite:        "ISO 9001 · cl. 7.5.3",
+      placeholder: "Preguntale a Raul…",
+    },
+    marquee: ["DISEÑO WEB", "E-COMMERCE", "INTELIGENCIA ARTIFICIAL", "NEXT.JS", "PERFORMANCE", "SHOPIFY", "AUTOMATIZACIÓN", "LANDING PAGES", "IA INTEGRADA", "SEO TÉCNICO"],
     footer: {
       tagline: "Diseño web · Desarrollo · IA",
       copy:    "© 2025 _luma",
@@ -98,7 +107,7 @@ export const t = {
       cta:     "See project",
       items: [
         { num: "01", title: "Bloom", category: "E-commerce · Design",   year: "2025", desc: "Online store for an independent fashion brand. Smooth shopping experience and one-step checkout.",                             stat: "+340% conversions",         tags: ["Next.js", "Shopify", "Tailwind"],   img: "bloom" },
-        { num: "02", title: "Pulse", category: "AI · Customer Service", year: "2025", desc: "AI conversational platform that resolves 85% of queries autonomously. Operates 24/7.",                                          stat: "85% autonomous resolution", tags: ["OpenAI", "React", "Supabase"],     img: "pulse" },
+        { num: "02", title: "Chatbot AI", category: "AI · Customer Service", year: "2025", desc: "Raul is BECHA SA's virtual assistant. Handles queries, centralizes internal documentation and lets employees upload reports from the chat. Operates autonomously 24/7.", stat: "95% autonomous resolution", tags: ["Claude API", "Python"], img: "pulse" },
         { num: "03", title: "Axis",  category: "AI · Enterprise",       year: "2025", desc: "Internal AI assistant for a logistics company with 200+ employees. Centralizes info and automates reports.", stat: "200+ internal users",        tags: ["RAG", "Next.js", "PostgreSQL"], img: "axis"  },
       ],
     },
@@ -123,6 +132,15 @@ export const t = {
       placeholder: "Tell me about your project...",
       mockReply:   "Thanks for your message! We'll be in touch shortly. You can also reach us at hello@luma.com.",
     },
+    pulseChat: {
+      role:        "BECHA SA Assistant",
+      online:      "online",
+      userMsg:     "Current version of PR-CAL-007?",
+      botMsg:      "Current version: v4.2 · approved 03/02/2026",
+      cite:        "ISO 9001 · cl. 7.5.3",
+      placeholder: "Ask Raul…",
+    },
+    marquee: ["WEB DESIGN", "E-COMMERCE", "ARTIFICIAL INTELLIGENCE", "NEXT.JS", "PERFORMANCE", "SHOPIFY", "AUTOMATION", "LANDING PAGES", "INTEGRATED AI", "TECHNICAL SEO"],
     footer: {
       tagline: "Web Design · Development · AI",
       copy:    "© 2025 _luma",

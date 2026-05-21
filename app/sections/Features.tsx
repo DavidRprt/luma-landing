@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "motion/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { t, type Lang } from "../constants/translations";
 
 function ServiceRow({
@@ -13,50 +13,29 @@ function ServiceRow({
   i: number;
   inView: boolean;
 }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 22 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, delay: i * 0.08, ease: "easeOut" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="flex items-center border-b border-white/[0.07] -mx-5 md:-mx-20 px-5 md:px-20 cursor-default"
-      style={{
-        gap: "clamp(16px, 3vw, 40px)",
-        padding: `clamp(20px, 3vw, 30px) clamp(20px, 6vw, 80px)`,
-        background: hovered ? "rgba(255,255,255,0.02)" : "transparent",
-        transition: "background 0.35s ease",
-      }}
+      className="service-row flex items-center border-b border-white/[0.07] -mx-5 md:-mx-20 cursor-default"
+      style={{ gap: "clamp(16px, 3vw, 40px)", padding: `clamp(20px, 3vw, 30px) clamp(20px, 6vw, 80px)` }}
     >
-      <span className="font-mono text-white/[0.18] shrink-0" style={{ fontSize: 11, minWidth: 24, letterSpacing: "0.05em" }}>
+      <span className="service-num font-mono shrink-0" style={{ fontSize: 11, minWidth: 24, letterSpacing: "0.05em" }}>
         {svc.num}
       </span>
 
-      <h3
-        className="text-white font-semibold flex-1 leading-tight"
-        style={{
-          fontSize: "clamp(20px, 3.2vw, 42px)",
-          letterSpacing: "-0.025em",
-          transform: hovered ? "translateX(5px)" : "translateX(0)",
-          transition: "transform 0.35s ease",
-        }}
-      >
+      <h3 className="service-title font-semibold flex-1 leading-tight" style={{ fontSize: "clamp(20px, 3.2vw, 42px)", letterSpacing: "-0.025em" }}>
         {svc.title}
       </h3>
 
-      <p
-        className="text-sm leading-relaxed text-right hidden md:block"
-        style={{
-          maxWidth: 320,
-          lineHeight: 1.65,
-          color: hovered ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.25)",
-          transition: "color 0.35s ease",
-        }}
-      >
+      <p className="service-desc text-sm leading-relaxed text-right hidden md:block" style={{ maxWidth: 320, lineHeight: 1.65 }}>
         {svc.desc}
       </p>
+
+      <svg className="service-arrow" width="15" height="15" viewBox="0 0 14 14" fill="none">
+        <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
     </motion.div>
   );
 }
