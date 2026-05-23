@@ -33,19 +33,19 @@ export const t = {
       title:   "Lo que hemos hecho.",
       cta:     "Ver proyecto",
       items: [
-        { num: "01", title: "Bloom", category: "E-commerce · Diseño",      year: "2025", desc: "Tienda online para marca de moda independiente. Experiencia de compra fluida y checkout en un paso.",                             stat: "+340% conversiones",      tags: ["Next.js", "Shopify", "Tailwind"],   img: "bloom" },
+        { num: "01", title: "Red X Mayor", category: "E-commerce · Diseño web", year: "2025", desc: "Diseño y desarrollo completo de una plataforma e-commerce: catálogo de 600+ productos, cuentas por cliente y un panel de gestión interno.", stat: "600+ productos · 250 ciudades", tags: ["Next.js", "Dashboard", "Catálogo"], img: "redxmayor", link: "https://www.redxmayor.com" },
         { num: "02", title: "Chatbot IA", category: "IA · Atención al cliente", year: "2025", desc: "Raul es el asistente virtual de BECHA SA. Responde consultas, centraliza documentación interna y permite que los empleados suban reportes desde el chat. Opera de forma autónoma las 24 hs.", stat: "95% resolución autónoma", tags: ["Claude API", "Python"], img: "pulse" },
-        { num: "03", title: "Axis",  category: "IA · Empresa",             year: "2025", desc: "Asistente interno de IA para empresa logística con 200+ empleados. Centraliza info y automatiza reportes.", stat: "200+ usuarios internos",  tags: ["RAG", "Next.js", "PostgreSQL"], img: "axis"  },
+        { num: "03", title: "Fluxy", category: "SaaS · Landing page", year: "2025", desc: "Diseño y desarrollo completo de una plataforma SaaS de chatbots con IA. Landing orientada a la conversión, más todo el motor detrás: lógica, integraciones y base de datos.", stat: "94% resolución autónoma", tags: ["Next.js", "API propia", "OpenAI API"], img: "fluxia", link: "https://fluxiagroup.com" },
       ],
     },
     ai: {
       eyebrow: "Inteligencia Artificial",
-      title:   "IA que trabaja\npor tu negocio.",
-      sub:     "No solo automatizamos — entendemos tu negocio y construimos soluciones que lo transforman.",
+      title:   "Menos tiempo\nen lo de siempre.",
+      sub:     "Automatizamos lo repetitivo para que te puedas enfocar en lo que importa.",
       items: [
-        { num: "01", tag: "Chatbots",       title: "Atención inteligente 24/7", desc: "Agentes conversacionales entrenados con tu empresa. Atienden, venden y resuelven sin intervención humana." },
-        { num: "02", tag: "Automatización", title: "Procesos sin fricción",      desc: "Conectamos tus herramientas y eliminamos el trabajo manual con flujos inteligentes. Nuevo lead, venta, formulario: todo automatizado." },
-        { num: "03", tag: "Analytics",      title: "Decisiones con datos",       desc: "Dashboards que se actualizan solos y resúmenes generados por IA para entender tu negocio en tiempo real." },
+        { num: "01", tag: "Chatbots",        title: "Que atiende, vende y resuelve",  desc: "Lo entrenamos con tu negocio: preguntas frecuentes, catálogo, documentos. Opera en WhatsApp o tu sitio las 24 hs, sin que tengas que intervenir." },
+        { num: "02", tag: "Automatización",  title: "Automatizamos lo repetitivo",    desc: "Lo implementamos en tu negocio y se encarga del resto: tareas que antes hacías a mano, ahora pasan solas. Con estadísticas para ver cuánto tiempo ganás." },
+        { num: "03", tag: "Integración web", title: "IA visible en tu sitio",         desc: "Sumamos inteligencia directamente en tu web: asistentes de compra, búsqueda inteligente, respuestas automáticas. Algo que tus clientes van a notar." },
       ],
     },
     contact: {
@@ -106,19 +106,19 @@ export const t = {
       title:   "What we have built.",
       cta:     "See project",
       items: [
-        { num: "01", title: "Bloom", category: "E-commerce · Design",   year: "2025", desc: "Online store for an independent fashion brand. Smooth shopping experience and one-step checkout.",                             stat: "+340% conversions",         tags: ["Next.js", "Shopify", "Tailwind"],   img: "bloom" },
+        { num: "01", title: "Red X Mayor", category: "E-commerce · Web Design", year: "2025", desc: "Full design and development of an e-commerce platform: 600+ product catalog, per-client accounts and an internal management dashboard.", stat: "600+ products · 250 cities", tags: ["Next.js", "Dashboard", "Catalog"], img: "redxmayor", link: "https://www.redxmayor.com" },
         { num: "02", title: "Chatbot AI", category: "AI · Customer Service", year: "2025", desc: "Raul is BECHA SA's virtual assistant. Handles queries, centralizes internal documentation and lets employees upload reports from the chat. Operates autonomously 24/7.", stat: "95% autonomous resolution", tags: ["Claude API", "Python"], img: "pulse" },
-        { num: "03", title: "Axis",  category: "AI · Enterprise",       year: "2025", desc: "Internal AI assistant for a logistics company with 200+ employees. Centralizes info and automates reports.", stat: "200+ internal users",        tags: ["RAG", "Next.js", "PostgreSQL"], img: "axis"  },
+        { num: "03", title: "Fluxy", category: "SaaS · Landing page", year: "2025", desc: "Full design and development of an AI chatbot SaaS platform. Conversion-focused landing page, plus everything behind it: logic, integrations and database.", stat: "94% autonomous resolution", tags: ["Next.js", "Custom API", "OpenAI API"], img: "fluxia", link: "https://fluxiagroup.com" },
       ],
     },
     ai: {
       eyebrow: "Artificial Intelligence",
-      title:   "AI that works\nfor your business.",
-      sub:     "We don't just automate — we understand your business and build solutions that transform it.",
+      title:   "Less time on\nthe same old tasks.",
+      sub:     "We automate the repetitive so you can focus on what actually matters.",
       items: [
-        { num: "01", tag: "Chatbots",   title: "Intelligent 24/7 support",  desc: "Conversational agents trained on your company data. They sell, support and resolve without human intervention." },
-        { num: "02", tag: "Automation", title: "Frictionless processes",     desc: "We connect your tools and eliminate manual work with intelligent workflows. New lead, sale, form: all automated." },
-        { num: "03", tag: "Analytics",  title: "Data-driven decisions",      desc: "Self-updating dashboards and AI-generated summaries to understand your business in real time." },
+        { num: "01", tag: "Chatbots",       title: "Answers, sells and resolves",    desc: "Trained on your business: FAQs, catalog, documents. Runs on WhatsApp or your site 24/7, without you having to step in." },
+        { num: "02", tag: "Automation",     title: "We automate the repetitive",     desc: "We set it up in your business and it handles the rest: tasks you used to do by hand, now happen automatically. With stats so you can see exactly how much time you save." },
+        { num: "03", tag: "Web integration",title: "AI your visitors will notice",   desc: "We add intelligence directly to your site: shopping assistants, smart search, automatic responses. Things your customers will actually feel." },
       ],
     },
     contact: {

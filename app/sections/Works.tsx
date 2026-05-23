@@ -2,20 +2,9 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
+import Image from "next/image";
 import { t, type Lang } from "../constants/translations";
 
-const imgSchemes: Record<string, { gradient: string; label: string; stripe: string }> = {
-  bloom: {
-    gradient: "linear-gradient(135deg,rgba(251,113,133,0.22) 0%,rgba(249,168,37,0.12) 60%,rgba(0,0,0,0) 100%)",
-    label: "product shot",
-    stripe: "rgba(251,190,150,0.04)",
-  },
-  axis: {
-    gradient: "linear-gradient(135deg,rgba(109,40,217,0.22) 0%,rgba(99,102,241,0.1) 60%,rgba(0,0,0,0) 100%)",
-    label: "dashboard view",
-    stripe: "rgba(139,92,246,0.04)",
-  },
-};
 
 const BotAvatar = ({ size }: { size: number }) => (
   <div
@@ -32,7 +21,7 @@ function PulseChatPreview({ lang }: { lang: Lang }) {
     <div
       className="w-full relative overflow-hidden shrink-0"
       style={{
-        aspectRatio: "16/10",
+        aspectRatio: "2940/1664",
         background: "linear-gradient(135deg, #0e1a36 0%, #0a1226 60%, #060a16 100%)",
       }}
     >
@@ -97,13 +86,21 @@ function PulseChatPreview({ lang }: { lang: Lang }) {
 }
 
 function WorkImg({ img, lang }: { img: string; lang: Lang }) {
-  if (img === "pulse") return <PulseChatPreview lang={lang} />;
-  const s = imgSchemes[img] ?? imgSchemes.bloom;
+  if (img === "pulse")     return <PulseChatPreview lang={lang} />;
+  if (img === "redxmayor") return (
+    <div className="w-full overflow-hidden shrink-0">
+      <Image src="/redxmayor.png" alt="Red X Mayor" width={0} height={0} sizes="100vw" className="w-full h-auto block" />
+    </div>
+  );
+  if (img === "fluxia") return (
+    <div className="w-full overflow-hidden shrink-0">
+      <Image src="/fluxy.png" alt="Fluxy" width={0} height={0} sizes="100vw" className="w-full h-auto block" />
+    </div>
+  );
   return (
-    <div className="w-full relative overflow-hidden shrink-0" style={{ aspectRatio: "16/9", background: s.gradient }}>
-      <div className="absolute inset-0" style={{ backgroundImage: `repeating-linear-gradient(45deg,${s.stripe} 0,${s.stripe} 1px,transparent 1px,transparent 20px)` }} />
+    <div className="w-full relative overflow-hidden shrink-0" style={{ aspectRatio: "2940/1664", background: "linear-gradient(135deg,rgba(109,40,217,0.18) 0%,rgba(0,0,0,0) 100%)" }}>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="font-mono uppercase text-white/[0.16]" style={{ fontSize: 10, letterSpacing: "0.22em" }}>{s.label}</span>
+        <span className="font-mono uppercase text-white/[0.16]" style={{ fontSize: 10, letterSpacing: "0.22em" }}>preview</span>
       </div>
     </div>
   );
@@ -116,7 +113,7 @@ function WorkCard({
   cta,
   lang,
 }: {
-  w: { num: string; title: string; category: string; year: string; desc: string; stat: string; tags: readonly string[]; img: string };
+  w: { num: string; title: string; category: string; year: string; desc: string; stat: string; tags: readonly string[]; img: string; link?: string };
   i: number;
   inView: boolean;
   cta: string;
@@ -127,31 +124,41 @@ function WorkCard({
       initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-      className="work-card rounded-2xl overflow-hidden flex flex-col cursor-default"
-      style={{ background: "#0d0d13" }}
+      className="work-card rounded-2xl overflow-hidden flex flex-col"
+      style={{ background: "#0d0d13", cursor: w.link ? "pointer" : "default" }}
     >
-      <WorkImg img={w.img} lang={lang} />
-      <div className="flex flex-col flex-1 p-5 pb-6">
-        <div className="flex justify-between items-center mb-3">
+      {w.link ? (
+        <a href={w.link} target="_blank" rel="noopener noreferrer" className="block">
+          <WorkImg img={w.img} lang={lang} />
+        </a>
+      ) : (
+        <WorkImg img={w.img} lang={lang} />
+      )}
+      <div className="flex flex-col flex-1 p-5 pb-6 border-t border-white/[0.12]">
+        <div className="flex items-center mb-3">
           <span className="uppercase text-white/[0.28]" style={{ fontSize: 10, letterSpacing: "0.2em" }}>{w.category}</span>
-          <span className="font-mono text-white/20" style={{ fontSize: 10 }}>{w.year}</span>
         </div>
         <h3 className="text-white font-semibold mb-2" style={{ fontSize: 26, letterSpacing: "-0.025em" }}>{w.title}</h3>
         <p className="text-white/[0.38] leading-relaxed flex-1 mb-4" style={{ fontSize: 13, lineHeight: 1.65 }}>{w.desc}</p>
-        <div className="rounded-[10px] mb-4" style={{ padding: "9px 13px", background: "rgba(96,165,250,0.06)", border: "1px solid rgba(96,165,250,0.1)" }}>
-          <span className="font-medium" style={{ fontSize: 12, color: "rgba(96,165,250,0.85)" }}>{w.stat}</span>
-        </div>
-        <div className="flex flex-wrap gap-[5px] mb-[18px]">
+<div className="flex flex-wrap gap-[5px] mb-[18px]">
           {w.tags.map((tag) => (
             <span key={tag} className="font-mono text-white/25" style={{ fontSize: 11, border: "1px solid rgba(255,255,255,0.07)", borderRadius: 999, padding: "3px 10px" }}>{tag}</span>
           ))}
         </div>
-        <div className="flex items-center gap-1.5 text-white/30" style={{ fontSize: 12, letterSpacing: "0.06em" }}>
-          <span>{cta}</span>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
+        {w.link && (
+          <a
+            href={w.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-white/30 hover:text-white/60 transition-colors duration-300"
+            style={{ fontSize: 12, letterSpacing: "0.06em" }}
+          >
+            <span>{cta}</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+        )}
       </div>
     </motion.div>
   );
@@ -163,13 +170,13 @@ const Works = ({ lang }: { lang: Lang }) => {
   const c = t[lang].works;
 
   return (
-    <section id="trabajos" className="bg-black px-5 md:px-20 pt-20 pb-28 flex flex-col justify-center">
+    <section id="trabajos" className="bg-black px-5 md:px-20 pt-10 md:pt-14 pb-10 md:pb-14 flex flex-col justify-center border-t border-white/[0.1]">
       <motion.div
         ref={ref}
         initial={{ opacity: 0, y: 24 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="mb-14"
+        className="mb-6 md:mb-10"
       >
         <p className="text-white/30 text-xs tracking-[0.3em] uppercase mb-4">{c.eyebrow}</p>
         <h2 className="text-3xl md:text-5xl font-semibold text-white">{c.title}</h2>

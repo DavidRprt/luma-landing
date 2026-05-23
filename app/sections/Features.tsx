@@ -46,13 +46,13 @@ const Features = ({ lang }: { lang: Lang }) => {
   const c = t[lang].services;
 
   return (
-    <section id="servicios" className="bg-black px-5 md:px-20 pt-28 pb-20 flex flex-col justify-center">
+    <section id="servicios" className="bg-black px-5 md:px-20 pt-10 md:pt-14 pb-8 md:pb-12 flex flex-col justify-center border-t border-white/[0.1]">
       <motion.div
         ref={ref}
         initial={{ opacity: 0, y: 24 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="mb-14 flex items-end justify-between gap-6 flex-wrap"
+        className="mb-6 md:mb-10 flex items-end justify-between gap-6 flex-wrap"
       >
         <div>
           <p className="text-white/30 text-xs tracking-[0.3em] uppercase mb-4">{c.eyebrow}</p>
