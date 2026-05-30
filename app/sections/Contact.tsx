@@ -9,30 +9,82 @@ interface Message {
   text: string;
 }
 
+const CONV_KEY = "luma_conv_id"
+
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\*(.*?)\*/g, "$1")
+    .trim()
+}
+
 function AIChat({ lang }: { lang: Lang }) {
   const c = t[lang].contact;
-  const [msgs, setMsgs] = useState<Message[]>([{ from: "ai", text: c.greeting }]);
+  const [msgs, setMsgs] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const convIdRef = useRef<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    try { convIdRef.current = localStorage.getItem(CONV_KEY) } catch { /* ignore */ }
+
+    setBusy(true)
+    fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mensaje: "hola", conversacion_id: null }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.conversacion_id) {
+          convIdRef.current = data.conversacion_id
+          try { localStorage.setItem(CONV_KEY, data.conversacion_id) } catch { /* ignore */ }
+        }
+        const reply = stripMarkdown(
+          data.respuesta_formateada ?? data.respuesta_modelo ?? data.respuesta ?? c.greeting
+        )
+        setMsgs([{ from: "ai", text: reply }])
+      })
+      .catch(() => setMsgs([{ from: "ai", text: c.greeting }]))
+      .finally(() => setBusy(false))
+  }, [])
 
   useEffect(() => {
     if (scrollRef.current)
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [msgs, busy]);
 
-  const send = () => {
+  const send = async () => {
     if (!input.trim() || busy) return;
     const text = input.trim();
     setInput("");
     const updated: Message[] = [...msgs, { from: "user", text }];
     setMsgs(updated);
     setBusy(true);
-    // TODO: replace with real API call to /api/chat
-    setTimeout(() => {
-      setMsgs([...updated, { from: "ai", text: c.mockReply }]);
-      setBusy(false);
-    }, 1200);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mensaje: text, conversacion_id: convIdRef.current }),
+      })
+      const data = await res.json()
+
+      if (data.conversacion_id) {
+        convIdRef.current = data.conversacion_id
+        try { localStorage.setItem(CONV_KEY, data.conversacion_id) } catch { /* ignore */ }
+      }
+
+      const reply = stripMarkdown(
+        data.respuesta_formateada ?? data.respuesta_modelo ?? data.respuesta ?? c.mockReply
+      )
+      setMsgs([...updated, { from: "ai", text: reply }])
+    } catch {
+      setMsgs([...updated, { from: "ai", text: c.mockReply }])
+    } finally {
+      setBusy(false)
+    }
   };
 
   return (
