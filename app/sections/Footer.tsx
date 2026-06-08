@@ -13,6 +13,13 @@ const Footer = ({ lang }: { lang: Lang }) => {
           <span className="text-white/[0.15] mx-2">·</span>
           <span className="text-white/20" style={{ fontSize: 11, letterSpacing: "0.05em" }}>{c.tagline}</span>
         </div>
+        <a
+          href="mailto:hello@underluma.com"
+          className="text-white/30 hover:text-white/60 transition-colors duration-300"
+          style={{ fontSize: 11, letterSpacing: "0.03em" }}
+        >
+          hello@underluma.com
+        </a>
         <span className="font-mono text-white/[0.18]" style={{ fontSize: 11 }}>{c.copy}</span>
       </div>
     </footer>
