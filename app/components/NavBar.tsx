@@ -45,11 +45,19 @@ const NavBar = ({ lang, setLang }: Props) => {
         className="flex items-center justify-between gap-4 rounded-full px-5 py-2.5 transition-all duration-500"
       >
         {/* Logo */}
-        <a
-          href="#hero"
-          className="text-white text-base font-semibold hover:opacity-70 transition-opacity duration-300 shrink-0"
-        >
-          _luma
+        <a href="#hero" className="group relative shrink-0 flex items-center gap-0">
+          {/* underscore + dot */}
+          <span className="relative inline-flex flex-col items-center mr-[3px]" style={{ width: 17, gap: 3.5 }}>
+            <span
+              className="logo-dot rounded-full bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              style={{ width: 6, height: 6 }}
+            />
+            <span
+              className="logo-bar rounded-sm bg-[#6aa9ff]"
+              style={{ width: 17, height: 3 }}
+            />
+          </span>
+          <span className="text-white font-semibold" style={{ fontSize: 17, letterSpacing: "-0.02em" }}>luma</span>
         </a>
 
         {/* Nav links con puntos y subrayado */}

@@ -334,6 +334,39 @@ section {
   }
 }
 
+/* Logo trampoline — 0%=100% at peak so loop is seamless */
+@keyframes trampoline-dot {
+  0%   { transform: translateY(-7px);  animation-timing-function: cubic-bezier(0.55,0,0.85,0.08); }
+  38%  { transform: translateY(0);     animation-timing-function: cubic-bezier(0.12,0.95,0.45,1); }
+  54%  { transform: translateY(-3px);  animation-timing-function: cubic-bezier(0.55,0,0.85,0.08); }
+  66%  { transform: translateY(0);     animation-timing-function: cubic-bezier(0.12,0.95,0.45,1); }
+  76%  { transform: translateY(-1.5px);animation-timing-function: cubic-bezier(0.55,0,0.85,0.08); }
+  83%  { transform: translateY(0);     animation-timing-function: cubic-bezier(0.1,1,0.35,1); }
+  100% { transform: translateY(-7px);  }
+}
+
+@keyframes trampoline-bar {
+  0%,100%{ transform: scaleY(1) scaleX(1); }
+  35%    { transform: scaleY(1) scaleX(1); }
+  40%    { transform: scaleY(0.38) scaleX(1.55); animation-timing-function: ease-out; }
+  48%    { transform: scaleY(1) scaleX(1); }
+  63%    { transform: scaleY(1) scaleX(1); }
+  67%    { transform: scaleY(0.58) scaleX(1.3); animation-timing-function: ease-out; }
+  73%    { transform: scaleY(1) scaleX(1); }
+  80%    { transform: scaleY(1) scaleX(1); }
+  83%    { transform: scaleY(0.72) scaleX(1.15); animation-timing-function: ease-out; }
+  88%    { transform: scaleY(1) scaleX(1); }
+}
+
+.group:hover .logo-dot {
+  animation: trampoline-dot 1.6s linear infinite;
+}
+
+.group:hover .logo-bar {
+  animation: trampoline-bar 1.6s linear infinite;
+  transform-origin: center;
+}
+
 /* Hero text slider */
 .slide {
   display: inline-block;

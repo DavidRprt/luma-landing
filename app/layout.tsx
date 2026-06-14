@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://luma.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://underluma.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "es_AR",
-    alternateLocale: "en_US",
+    locale: "en_US",
+    alternateLocale: "es_AR",
     url: SITE_URL,
     siteName: "_luma",
     title: "_luma — sitios web modernos con IA",
