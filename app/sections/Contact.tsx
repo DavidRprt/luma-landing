@@ -9,8 +9,6 @@ interface Message {
   text: string;
 }
 
-const CONV_KEY = "luma_conv_id"
-
 function stripMarkdown(text: string): string {
   return text
     .replace(/\*\*(.*?)\*\*/g, "$1")
@@ -27,27 +25,37 @@ function AIChat({ lang }: { lang: Lang }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    try { convIdRef.current = localStorage.getItem(CONV_KEY) } catch { /* ignore */ }
-
     setBusy(true)
-    fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mensaje: "hola", conversacion_id: null }),
-    })
+    fetch("/api/bot-info")
       .then(r => r.json())
-      .then(data => {
-        if (data.conversacion_id) {
-          convIdRef.current = data.conversacion_id
-          try { localStorage.setItem(CONV_KEY, data.conversacion_id) } catch { /* ignore */ }
+      .then(({ mensaje_inicial }) => {
+        if (mensaje_inicial) {
+          setMsgs([{ from: "ai", text: stripMarkdown(mensaje_inicial) }])
+          setBusy(false)
+          return
         }
-        const reply = stripMarkdown(
-          data.respuesta_formateada ?? data.respuesta_modelo ?? data.respuesta ?? c.greeting
-        )
-        setMsgs([{ from: "ai", text: reply }])
+
+        return fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mensaje: "hola", conversacion_id: null }),
+        })
+          .then(r => r.json())
+          .then(data => {
+            if (data.conversacion_id) {
+              convIdRef.current = data.conversacion_id
+            }
+            const reply = stripMarkdown(
+              data.respuesta_formateada ?? data.respuesta_modelo ?? data.respuesta ?? c.greeting
+            )
+            setMsgs([{ from: "ai", text: reply }])
+          })
+          .finally(() => setBusy(false))
       })
-      .catch(() => setMsgs([{ from: "ai", text: c.greeting }]))
-      .finally(() => setBusy(false))
+      .catch(() => {
+        setMsgs([{ from: "ai", text: c.greeting }])
+        setBusy(false)
+      })
   }, [])
 
   useEffect(() => {
@@ -73,7 +81,6 @@ function AIChat({ lang }: { lang: Lang }) {
 
       if (data.conversacion_id) {
         convIdRef.current = data.conversacion_id
-        try { localStorage.setItem(CONV_KEY, data.conversacion_id) } catch { /* ignore */ }
       }
 
       const reply = stripMarkdown(
