@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
-import { useRef } from "react";
+import { motion } from "motion/react";
 import Image from "next/image";
 import { t, type Lang } from "../constants/translations";
 
@@ -109,20 +108,19 @@ function WorkImg({ img, lang }: { img: string; lang: Lang }) {
 function WorkCard({
   w,
   i,
-  inView,
   cta,
   lang,
 }: {
   w: { num: string; title: string; category: string; year: string; desc: string; stat: string; tags: readonly string[]; img: string; link?: string };
   i: number;
-  inView: boolean;
   cta: string;
   lang: Lang;
 }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px 0px" }}
       transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
       className="work-card rounded-2xl overflow-hidden flex flex-col"
       style={{ background: "#0d0d13", cursor: w.link ? "pointer" : "default" }}
@@ -165,16 +163,14 @@ function WorkCard({
 }
 
 const Works = ({ lang }: { lang: Lang }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px 0px" });
   const c = t[lang].works;
 
   return (
     <section id="trabajos" className="bg-black px-5 md:px-20 pt-10 md:pt-14 pb-10 md:pb-14 flex flex-col justify-center border-t border-white/[0.1]">
       <motion.div
-        ref={ref}
         initial={{ opacity: 0, y: 24 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px 0px" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="mb-6 md:mb-10"
       >
@@ -184,7 +180,7 @@ const Works = ({ lang }: { lang: Lang }) => {
 
       <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
         {c.items.map((w, i) => (
-          <WorkCard key={w.num} w={w} i={i} inView={inView} cta={c.cta} lang={lang} />
+          <WorkCard key={w.num} w={w} i={i} cta={c.cta} lang={lang} />
         ))}
       </div>
     </section>

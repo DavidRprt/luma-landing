@@ -1,22 +1,20 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
-import { useRef } from "react";
+import { motion } from "motion/react";
 import { t, type Lang } from "../constants/translations";
 
 function ServiceRow({
   svc,
   i,
-  inView,
 }: {
   svc: { num: string; title: string; desc: string };
   i: number;
-  inView: boolean;
 }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 22 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px 0px" }}
       transition={{ duration: 0.7, delay: i * 0.08, ease: "easeOut" }}
       className="service-row flex items-center border-b border-white/[0.07] -mx-5 md:-mx-20 cursor-default"
       style={{ gap: "clamp(16px, 3vw, 40px)", padding: `clamp(20px, 3vw, 30px) clamp(20px, 6vw, 80px)` }}
@@ -41,16 +39,14 @@ function ServiceRow({
 }
 
 const Features = ({ lang }: { lang: Lang }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px 0px" });
   const c = t[lang].services;
 
   return (
     <section id="servicios" className="bg-black px-5 md:px-20 pt-10 md:pt-14 pb-8 md:pb-12 flex flex-col justify-center border-t border-white/[0.1]">
       <motion.div
-        ref={ref}
         initial={{ opacity: 0, y: 24 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px 0px" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="mb-6 md:mb-10 flex items-end justify-between gap-6 flex-wrap"
       >
@@ -72,7 +68,7 @@ const Features = ({ lang }: { lang: Lang }) => {
 
       <div className="border-t border-white/[0.07]">
         {c.items.map((svc, i) => (
-          <ServiceRow key={svc.num} svc={svc} i={i} inView={inView} />
+          <ServiceRow key={svc.num} svc={svc} i={i} />
         ))}
       </div>
     </section>

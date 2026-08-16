@@ -186,7 +186,6 @@ body {
   background-color: black;
   color: white;
   scroll-behavior: smooth;
-  font-family: "Mona Sans", sans-serif;
 }
 
 section {
@@ -194,7 +193,6 @@ section {
 }
 
 @theme {
-  --font-sans: "Mona Sans", sans-serif;
   --color-white-50: #d9ecff;
   --color-black-50: #1c1c21;
   --color-black-100: #0e0e10;

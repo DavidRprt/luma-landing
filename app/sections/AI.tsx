@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
-import { useRef, useState } from "react";
+import { motion } from "motion/react";
+import { useState } from "react";
 import { t, type Lang } from "../constants/translations";
 
 // ── Mini visuals ──────────────────────────────────────────────────────────────
@@ -90,11 +90,9 @@ const accents = ["#6aa9ff", "#a78bfa", "#34d399"];
 function AICard({
   item,
   i,
-  inView,
 }: {
   item: { num: string; tag: string; title: string; desc: string };
   i: number;
-  inView: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const accent = accents[i];
@@ -102,7 +100,8 @@ function AICard({
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px 0px" }}
       transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: "easeOut" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -149,16 +148,14 @@ function AICard({
 // ── Section ───────────────────────────────────────────────────────────────────
 
 const AI = ({ lang }: { lang: Lang }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px 0px" });
   const c = t[lang].ai;
 
   return (
     <section id="ia" className="bg-black px-5 md:px-20 pt-10 md:pt-14 pb-10 md:pb-14 flex flex-col justify-center border-t border-white/[0.1]">
       <motion.div
-        ref={ref}
         initial={{ opacity: 0, y: 24 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px 0px" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="mb-8 md:mb-12 flex flex-col gap-3 max-w-[580px]"
       >
@@ -174,7 +171,7 @@ const AI = ({ lang }: { lang: Lang }) => {
 
       <div className="grid gap-3 md:grid-cols-3">
         {c.items.map((item, i) => (
-          <AICard key={item.num} item={item} i={i} inView={inView} />
+          <AICard key={item.num} item={item} i={i} />
         ))}
       </div>
     </section>

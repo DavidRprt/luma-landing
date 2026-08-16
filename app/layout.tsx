@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    alternateLocale: "es_AR",
+    locale: "es_AR",
+    alternateLocale: "en_US",
     url: SITE_URL,
     siteName: "_luma",
     title: "_luma — sitios web modernos con IA",
@@ -45,7 +45,23 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: SITE_URL,
+    languages: {
+      "es-AR": SITE_URL,
+      "en-US": SITE_URL,
+      "x-default": SITE_URL,
+    },
   },
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "_luma",
+  url: SITE_URL,
+  logo: `${SITE_URL}/favicon.ico`,
+  email: "hello@underluma.com",
+  description:
+    "Diseñamos y desarrollamos sitios web modernos, rápidos e inteligentes que hacen crecer tu negocio.",
 };
 
 export default function RootLayout({
@@ -53,6 +69,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className={cn("font-sans", inter.variable)}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

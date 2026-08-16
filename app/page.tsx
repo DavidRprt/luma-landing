@@ -4,6 +4,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { type Lang } from "./constants/translations";
 import NavBar from "./components/NavBar";
+import ChatWidget from "./components/ChatWidget";
 import Hero from "./sections/Hero";
 import Marquee from "./sections/Marquee";
 
@@ -27,6 +28,7 @@ export default function Home() {
       <AI lang={lang} />
       <Contact lang={lang} />
       <Footer lang={lang} />
+      <ChatWidget lang={lang} />
     </main>
   );
 }
