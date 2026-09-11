@@ -4,9 +4,55 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@keyframes aurora {
-  from { background-position: 50% 50%, 50% 50%; }
-  to   { background-position: 350% 50%, 350% 50%; }
+/* Aurora — three soft glowing blobs (real-sized radial-gradient circles blurred with
+   filter: blur) that drift around their own diamond-shaped path and shimmer via
+   hue-rotate. Each blob's hue only swings ±45deg from its base color so it stays in the
+   blue/teal/violet range instead of cycling through the full rainbow. The blur value is
+   repeated unchanged at every keyframe stop — animating `filter` replaces the whole
+   property each frame, so leaving blur out of a keyframe would make the blob snap sharp. */
+@keyframes luma-aurora-hue-1 {
+  0%, 100% { filter: blur(90px) hue-rotate(0deg); }
+  50%       { filter: blur(90px) hue-rotate(45deg); }
+}
+@keyframes luma-aurora-hue-2 {
+  0%, 100% { filter: blur(95px) hue-rotate(0deg); }
+  50%       { filter: blur(95px) hue-rotate(45deg); }
+}
+@keyframes luma-aurora-hue-3 {
+  0%, 100% { filter: blur(85px) hue-rotate(0deg); }
+  50%       { filter: blur(85px) hue-rotate(45deg); }
+}
+@keyframes luma-aurora-path-1 {
+  0%   { top: -10%; left: 30%; }
+  25%  { top: 10%;  left: -10%; }
+  50%  { top: 45%;  left: 20%; }
+  75%  { top: 15%;  left: 60%; }
+  100% { top: -10%; left: 30%; }
+}
+@keyframes luma-aurora-path-2 {
+  0%   { top: 20%;  left: 70%; }
+  25%  { top: 50%;  left: 95%; }
+  50%  { top: 10%;  left: 55%; }
+  75%  { top: -10%; left: 85%; }
+  100% { top: 20%;  left: 70%; }
+}
+@keyframes luma-aurora-path-3 {
+  0%   { top: 5%;   left: 45%; }
+  25%  { top: 35%;  left: 75%; }
+  50%  { top: -5%;  left: 15%; }
+  75%  { top: 25%;  left: 40%; }
+  100% { top: 5%;   left: 45%; }
+}
+
+/* Accordion open/close — Radix exposes the measured content height as this CSS var,
+   which is what lets us animate `height` from 0 without knowing the content size upfront. */
+@keyframes luma-accordion-down {
+  from { height: 0; }
+  to   { height: var(--radix-accordion-content-height); }
+}
+@keyframes luma-accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to   { height: 0; }
 }
 
 @keyframes luma-marquee {
@@ -22,6 +68,18 @@
 @keyframes luma-typing {
   0%, 100% { opacity: 0.2; transform: translateY(0); }
   50%       { opacity: 1;   transform: translateY(-3px); }
+}
+
+@keyframes luma-overlay-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes luma-overlay-out { from { opacity: 1; } to { opacity: 0; } }
+
+@keyframes luma-dialog-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.95) translateY(16px); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1) translateY(0); }
+}
+@keyframes luma-dialog-out {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1) translateY(0); }
+  to   { opacity: 0; transform: translate(-50%, -50%) scale(0.97) translateY(10px); }
 }
 
 /* === Services section hover (CSS-only, no JS re-renders) === */
@@ -41,7 +99,6 @@
 .work-card:hover { transform: translateY(-5px); border-color: rgba(96,165,250,0.3); box-shadow: 0 24px 60px rgba(0,0,0,0.55); }
 
 @theme inline {
-  --animate-aurora: aurora 60s linear infinite;
   --white: #ffffff;
   --black: #000000;
   --transparent: transparent;

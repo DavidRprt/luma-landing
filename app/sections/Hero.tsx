@@ -1,12 +1,14 @@
 "use client";
 
 import { motion, AnimatePresence } from "motion/react";
-import { AuroraBackground } from "../ui/aurora-background";
+import AuroraGlow from "../components/AuroraGlow";
 import { t, type Lang } from "../constants/translations";
 
 interface Props {
   lang: Lang;
 }
+
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 const Hero = ({ lang }: Props) => {
   const c = t[lang].hero;
@@ -16,15 +18,17 @@ const Hero = ({ lang }: Props) => {
   };
 
   return (
-    <AuroraBackground>
+    <div className="relative flex flex-col h-[100dvh] items-center justify-center bg-black overflow-hidden">
+      <AuroraGlow />
+
       <div className="relative flex flex-col items-center justify-between h-full w-full px-5 md:px-16 py-32 text-center">
 
-        <div className="flex-1 flex flex-col items-center justify-center gap-6">
+        <div className="flex-1 flex flex-col items-center justify-center gap-7">
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-white/40 text-xs tracking-[0.3em] uppercase"
+            transition={{ duration: 0.5, ease: EASE }}
+            className="font-mono text-white/35 text-xs tracking-[0.2em] uppercase"
           >
             {c.eyebrow}
           </motion.p>
@@ -32,10 +36,10 @@ const Hero = ({ lang }: Props) => {
           <AnimatePresence mode="wait" initial={false}>
             <motion.h1
               key={lang}
-              initial={{ opacity: 0, filter: "blur(10px)", y: 6 }}
-              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-              exit={{ opacity: 0, filter: "blur(10px)", y: -6 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.22, ease: EASE }}
               className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-semibold tracking-tight leading-[1.05] text-white max-w-4xl"
             >
               {c.h1a}
@@ -44,22 +48,13 @@ const Hero = ({ lang }: Props) => {
               <span className="italic text-white/60">{c.italic}</span>
             </motion.h1>
           </AnimatePresence>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
-            className="text-white/40 text-base md:text-lg max-w-md leading-relaxed whitespace-pre-line"
-          >
-            {c.sub}
-          </motion.p>
         </div>
 
         <motion.button
           onClick={scrollToServices}
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.6, ease: "easeOut" }}
+          transition={{ delay: 0.5, duration: 0.5, ease: EASE }}
           className="group flex flex-col items-center gap-3 cursor-pointer"
         >
           <span className="text-white/30 text-xs tracking-[0.25em] uppercase group-hover:text-white/60 transition-colors duration-300">
@@ -78,7 +73,7 @@ const Hero = ({ lang }: Props) => {
         </motion.button>
 
       </div>
-    </AuroraBackground>
+    </div>
   );
 };
 

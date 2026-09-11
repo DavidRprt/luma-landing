@@ -1,15 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { t, type Lang } from "../constants/translations";
 
 interface Props {
   lang: Lang;
   setLang: (l: Lang) => void;
+  /** Where the logo links to. Defaults to the in-page hero anchor (for the homepage itself). */
+  homeHref?: string;
+  /** Prefix for the section links so they resolve correctly from other routes (e.g. "/" from /proyectos). */
+  sectionsBase?: string;
 }
 
-const NavBar = ({ lang, setLang }: Props) => {
+const NavBar = ({ lang, setLang, homeHref = "#hero", sectionsBase = "" }: Props) => {
   const [scrolled, setScrolled] = useState(false);
+  const [contactInView, setContactInView] = useState(false);
+  const pathname = usePathname();
   const c = t[lang].nav;
 
   useEffect(() => {
@@ -18,11 +26,21 @@ const NavBar = ({ lang, setLang }: Props) => {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
+  useEffect(() => {
+    const el = document.getElementById("contacto");
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setContactInView(entry.isIntersecting),
+      { rootMargin: "-45% 0px -45% 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [pathname]);
+
   const links = [
-    { label: c.services, href: "#servicios" },
-    { label: c.works,    href: "#trabajos"  },
-    { label: c.ai,       href: "#ia"        },
-    { label: c.contact,  href: "#contacto"  },
+    { label: c.services, href: "/suscripcion", active: pathname.startsWith("/suscripcion") },
+    { label: c.works,    href: "/proyectos",   active: pathname.startsWith("/proyectos")   },
+    { label: c.contact,  href: `${sectionsBase}#contacto`, active: contactInView },
   ];
 
   return (
@@ -45,7 +63,7 @@ const NavBar = ({ lang, setLang }: Props) => {
         className="flex items-center justify-between gap-4 rounded-full px-5 py-2.5 transition-all duration-500"
       >
         {/* Logo */}
-        <a href="#hero" className="group relative shrink-0 flex items-center gap-0">
+        <a href={homeHref} className="group relative shrink-0 flex items-center gap-0">
           {/* underscore + dot */}
           <span className="relative inline-flex flex-col items-center mr-[3px]" style={{ width: 17, gap: 3.5 }}>
             <span
@@ -60,23 +78,25 @@ const NavBar = ({ lang, setLang }: Props) => {
           <span className="text-white font-semibold" style={{ fontSize: 17, letterSpacing: "-0.02em" }}>luma</span>
         </a>
 
-        {/* Nav links con puntos y subrayado */}
-        <nav className="hidden md:flex items-center">
-          {links.map(({ label, href }, i) => (
-            <span key={href} className="flex items-center">
-              {i > 0 && (
-                <span className="text-white/[0.18] select-none" style={{ fontSize: 11, margin: "0 14px" }}>
-                  ·
-                </span>
-              )}
-              <a
-                href={href}
-                className="group relative text-white/50 hover:text-white/90 text-sm transition-colors duration-300"
-              >
-                {label}
-                <span className="absolute -bottom-px left-0 h-px w-0 bg-white/50 group-hover:w-full transition-all duration-300" />
-              </a>
-            </span>
+        {/* Nav links — mono uppercase, con un punto de acento que aparece al hover */}
+        <nav className="hidden md:flex items-center gap-7">
+          {links.map(({ label, href, active }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`group flex items-center gap-1.5 font-mono uppercase transition-colors duration-300 ${
+                active ? "text-white/95" : "text-white/45 hover:text-white/95"
+              }`}
+              style={{ fontSize: 10.5, letterSpacing: "0.14em" }}
+            >
+              <span
+                className={`rounded-full shrink-0 transition-transform duration-300 ${
+                  active ? "scale-100" : "scale-0 group-hover:scale-100"
+                }`}
+                style={{ width: 4, height: 4, background: "#6aa9ff" }}
+              />
+              {label}
+            </Link>
           ))}
         </nav>
 
@@ -118,7 +138,7 @@ const NavBar = ({ lang, setLang }: Props) => {
 
           {/* CTA */}
           <a
-            href="#contacto"
+            href={`${sectionsBase}#contacto`}
             className="text-sm text-black bg-white hover:bg-white/80 transition-colors duration-300 rounded-full px-4 py-1.5 font-medium"
           >
             {c.cta}
