@@ -45,17 +45,18 @@ interface FormState {
   email: string;
   telefono: string;
   empresa: string;
+  motivo: string;
   mensaje: string;
 }
 
-const emptyForm: FormState = { nombre: "", email: "", telefono: "", empresa: "", mensaje: "" };
+const emptyForm: FormState = { nombre: "", email: "", telefono: "", empresa: "", motivo: "", mensaje: "" };
 
 function ContactForm({ lang }: { lang: Lang }) {
   const c = t[lang].contact.form;
   const [form, setForm] = useState<FormState>(emptyForm);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
-  const update = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+  const update = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [field]: e.target.value }));
 
   const submit = async (e: React.FormEvent) => {
@@ -136,6 +137,22 @@ function ContactForm({ lang }: { lang: Lang }) {
       </div>
 
       <div>
+        <label className={labelClass} style={labelStyle}>{c.motivo}</label>
+        <select
+          required
+          value={form.motivo}
+          onChange={update("motivo")}
+          className={inputClass}
+          style={{ ...inputStyle, color: form.motivo ? undefined : "rgba(255,255,255,0.25)" }}
+        >
+          <option value="" disabled style={{ color: "#000" }}>{c.motivoPlaceholder}</option>
+          {c.motivoOptions.map((opt) => (
+            <option key={opt} value={opt} style={{ color: "#000" }}>{opt}</option>
+          ))}
+        </select>
+      </div>
+
+      <div>
         <label className={labelClass} style={labelStyle}>{c.message}</label>
         <textarea
           required
@@ -171,11 +188,15 @@ function ContactForm({ lang }: { lang: Lang }) {
   );
 }
 
-const Contact = ({ lang }: { lang: Lang }) => {
+const Contact = ({ lang, standalone = false }: { lang: Lang; standalone?: boolean }) => {
   const c = t[lang].contact;
 
   return (
-    <section id="contacto" className="bg-black px-5 md:px-20 pt-20 pb-28" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+    <section
+      id="contacto"
+      className={`bg-black px-5 md:px-20 pb-28 ${standalone ? "pt-32" : "pt-20"}`}
+      style={standalone ? undefined : { borderTop: "1px solid rgba(255,255,255,0.06)" }}
+    >
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 items-start" style={{ gap: "clamp(40px, 6vw, 80px)" }}>
         {/* Left */}
         <motion.div

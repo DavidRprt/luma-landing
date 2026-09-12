@@ -10,13 +10,10 @@ interface Props {
   setLang: (l: Lang) => void;
   /** Where the logo links to. Defaults to the in-page hero anchor (for the homepage itself). */
   homeHref?: string;
-  /** Prefix for the section links so they resolve correctly from other routes (e.g. "/" from /proyectos). */
-  sectionsBase?: string;
 }
 
-const NavBar = ({ lang, setLang, homeHref = "#hero", sectionsBase = "" }: Props) => {
+const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
   const [scrolled, setScrolled] = useState(false);
-  const [contactInView, setContactInView] = useState(false);
   const pathname = usePathname();
   const c = t[lang].nav;
 
@@ -26,21 +23,10 @@ const NavBar = ({ lang, setLang, homeHref = "#hero", sectionsBase = "" }: Props)
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  useEffect(() => {
-    const el = document.getElementById("contacto");
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setContactInView(entry.isIntersecting),
-      { rootMargin: "-45% 0px -45% 0px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [pathname]);
-
   const links = [
     { label: c.services, href: "/suscripcion", active: pathname.startsWith("/suscripcion") },
     { label: c.works,    href: "/proyectos",   active: pathname.startsWith("/proyectos")   },
-    { label: c.contact,  href: `${sectionsBase}#contacto`, active: contactInView },
+    { label: c.contact,  href: "/contacto",    active: pathname.startsWith("/contacto")    },
   ];
 
   return (
@@ -137,12 +123,12 @@ const NavBar = ({ lang, setLang, homeHref = "#hero", sectionsBase = "" }: Props)
           </div>
 
           {/* CTA */}
-          <a
-            href={`${sectionsBase}#contacto`}
+          <Link
+            href="/contacto"
             className="text-sm text-black bg-white hover:bg-white/80 transition-colors duration-300 rounded-full px-4 py-1.5 font-medium"
           >
             {c.cta}
-          </a>
+          </Link>
         </div>
       </div>
     </header>

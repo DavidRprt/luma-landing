@@ -27,7 +27,7 @@ export default function SubscriptionPage() {
 
   return (
     <main>
-      <NavBar lang={lang} setLang={setLang} homeHref="/" sectionsBase="/" />
+      <NavBar lang={lang} setLang={setLang} homeHref="/" />
 
       {/* HERO — fits in one screen (h-[100dvh]), no scrolling required to see the whole
           thing: header text, mockup, and the scroll cue all have to share that budget,

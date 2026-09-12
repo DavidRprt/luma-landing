@@ -27,9 +27,10 @@ export async function POST(req: NextRequest) {
   const email = String(body.email ?? "").trim()
   const telefono = String(body.telefono ?? "").trim()
   const empresa = String(body.empresa ?? "").trim()
+  const motivo = String(body.motivo ?? "").trim()
   const mensaje = String(body.mensaje ?? "").trim()
 
-  if (!nombre || !email || !telefono || !mensaje) {
+  if (!nombre || !email || !telefono || !motivo || !mensaje) {
     return NextResponse.json({ error: "Faltan campos requeridos" }, { status: 400 })
   }
   if (!isValidEmail(email)) {
@@ -55,6 +56,7 @@ export async function POST(req: NextRequest) {
           <p><strong>Email:</strong> ${escapeHtml(email)}</p>
           <p><strong>Teléfono:</strong> ${escapeHtml(telefono)}</p>
           ${empresa ? `<p><strong>Empresa:</strong> ${escapeHtml(empresa)}</p>` : ""}
+          <p><strong>Motivo:</strong> ${escapeHtml(motivo)}</p>
           <p><strong>Mensaje:</strong></p>
           <p style="white-space: pre-line;">${escapeHtml(mensaje)}</p>
         </div>

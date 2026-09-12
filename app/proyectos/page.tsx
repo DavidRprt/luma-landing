@@ -21,7 +21,7 @@ export default function ProyectosPage() {
 
   return (
     <main>
-      <NavBar lang={lang} setLang={setLang} homeHref="/" sectionsBase="/" />
+      <NavBar lang={lang} setLang={setLang} homeHref="/" />
 
       <section className="bg-black px-5 md:px-20 pt-32 pb-8 md:pb-10 flex flex-col justify-center">
         <motion.div
