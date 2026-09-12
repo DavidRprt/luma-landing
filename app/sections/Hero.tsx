@@ -24,14 +24,42 @@ const Hero = ({ lang }: Props) => {
       <div className="relative flex flex-col items-center justify-between h-full w-full px-5 md:px-16 py-32 text-center">
 
         <div className="flex-1 flex flex-col items-center justify-center gap-7">
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="font-mono text-white/35 text-xs tracking-[0.2em] uppercase"
+            className="relative inline-flex items-center gap-x-3 gap-y-1.5 flex-wrap justify-center rounded-full overflow-hidden"
+            style={{
+              padding: "9px 20px",
+              border: "1px solid rgba(106,169,255,0.22)",
+              background: "linear-gradient(135deg, rgba(106,169,255,0.09), rgba(106,169,255,0.02))",
+            }}
           >
-            {c.eyebrow}
-          </motion.p>
+            <span
+              aria-hidden="true"
+              className="absolute pointer-events-none"
+              style={{
+                top: -20,
+                bottom: -20,
+                left: 0,
+                width: "26%",
+                background: "linear-gradient(115deg, transparent, rgba(255,255,255,0.16), transparent)",
+                animation: "luma-eyebrow-shine 4.5s ease-in-out infinite",
+              }}
+            />
+            {c.eyebrow.split(" · ").map((part, i) => (
+              <span key={part} className="relative flex items-center gap-3">
+                {i > 0 && (
+                  <span
+                    aria-hidden="true"
+                    className="shrink-0 rounded-full"
+                    style={{ width: 3, height: 3, background: "#6aa9ff", boxShadow: "0 0 6px rgba(106,169,255,0.7)" }}
+                  />
+                )}
+                <span className="font-mono text-white/45 text-xs tracking-[0.18em] uppercase whitespace-nowrap">{part}</span>
+              </span>
+            ))}
+          </motion.div>
 
           <AnimatePresence mode="wait" initial={false}>
             <motion.h1

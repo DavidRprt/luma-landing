@@ -8,23 +8,39 @@ const Marquee = ({ lang }: { lang: Lang }) => {
 
   return (
     <div
-      className="overflow-hidden bg-[#080810] border-t border-b border-white/[0.05]"
+      className="relative overflow-hidden bg-[#080810] border-t border-b border-white/[0.05]"
       style={{
-        padding: "13px 0",
+        padding: "16px 0",
         WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%)",
         maskImage: "linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%)",
       }}
     >
-      <div className="flex w-fit" style={{ animation: "luma-marquee 35s linear infinite" }}>
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(60% 100% at 50% 50%, rgba(106,169,255,0.05), transparent)" }}
+      />
+      <div className="relative flex w-fit items-center" style={{ animation: "luma-marquee 40s linear infinite" }}>
         {all.map((w, i) => (
-          <span key={i} className="flex items-center">
+          <span
+            key={i}
+            className="flex items-center gap-2 shrink-0 rounded-full whitespace-nowrap uppercase transition-colors"
+            style={{
+              fontSize: 10.5,
+              letterSpacing: "0.22em",
+              padding: "7px 16px",
+              margin: "0 5px",
+              color: "rgba(255,255,255,0.32)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              background: "linear-gradient(135deg, rgba(255,255,255,0.025), transparent)",
+            }}
+          >
             <span
-              className="whitespace-nowrap uppercase text-white/[0.18]"
-              style={{ fontSize: 11, letterSpacing: "0.28em", padding: "0 20px" }}
-            >
-              {w}
-            </span>
-            <span style={{ color: "rgba(96,165,250,0.25)", fontSize: 14 }}>·</span>
+              aria-hidden="true"
+              className="shrink-0 rounded-full"
+              style={{ width: 4, height: 4, background: "#6aa9ff", boxShadow: "0 0 6px rgba(106,169,255,0.55)" }}
+            />
+            {w}
           </span>
         ))}
       </div>

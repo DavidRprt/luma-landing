@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Dialog } from "radix-ui";
-import { ArrowDown, ArrowRight, Check, X } from "lucide-react";
+import { ArrowRight, Check, X } from "lucide-react";
 import { t, type Lang } from "../constants/translations";
 import { ShineButton } from "../components/ShineButton";
 
@@ -230,7 +230,7 @@ function PlanCard({
                   <div className="flex flex-col">
                     {/* Qué pasa después de tocar "Empezar" para ESTE plan — no repite "elegís el
                         plan" porque, al estar viendo este popup, ya lo elegiste */}
-                    <motion.div variants={itemVariants} className="flex flex-col mb-4">
+                    <motion.div variants={itemVariants} className="flex flex-col mb-5">
                       {s.afterCta.items.map((label, idx) => {
                         const isLast = idx === s.afterCta.items.length - 1;
                         return (
@@ -238,13 +238,26 @@ function PlanCard({
                             <div className="flex flex-col items-center shrink-0">
                               <span
                                 className="flex items-center justify-center shrink-0 rounded-full font-mono font-semibold"
-                                style={{ width: 22, height: 22, fontSize: 11, color: "#06122a", background: "#6aa9ff" }}
+                                style={{ width: 24, height: 24, fontSize: 11.5, color: "#06122a", background: "#6aa9ff" }}
                               >
                                 {idx + 1}
                               </span>
-                              {!isLast && <ArrowDown size={13} className="text-[#6aa9ff]/40 shrink-0" style={{ marginTop: 3, marginBottom: 3 }} />}
+                              {!isLast && (
+                                <motion.span
+                                  className="relative shrink-0"
+                                  style={{ width: 1, flex: 1, minHeight: 16, background: "linear-gradient(180deg, rgba(106,169,255,0.45), rgba(106,169,255,0.08))" }}
+                                >
+                                  <motion.span
+                                    aria-hidden="true"
+                                    className="absolute left-1/2"
+                                    style={{ width: 5, height: 5, marginLeft: -2, borderRadius: 999, background: "#6aa9ff", boxShadow: "0 0 6px rgba(106,169,255,0.8)" }}
+                                    animate={{ top: ["0%", "100%"], opacity: [0, 1, 1, 0] }}
+                                    transition={{ duration: 1.4, repeat: Infinity, repeatDelay: 0.6, ease: "easeInOut", delay: idx * 0.25 }}
+                                  />
+                                </motion.span>
+                              )}
                             </div>
-                            <span className="text-white/65" style={{ fontSize: 13.5, lineHeight: 1.35, paddingBottom: isLast ? 0 : 10, paddingTop: 2 }}>
+                            <span className="text-white/65" style={{ fontSize: 14, lineHeight: 1.4, paddingBottom: isLast ? 0 : 16, paddingTop: 3 }}>
                               {label}
                             </span>
                           </div>
