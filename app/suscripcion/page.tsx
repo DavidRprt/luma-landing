@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Accordion } from "radix-ui";
-import { ChevronDown, ArrowRight, Check } from "lucide-react";
+import { ChevronDown, ArrowRight, Check, X } from "lucide-react";
 import MacbookShowcase from "../components/MacbookShowcase";
 import StepsTimeline from "../components/StepsTimeline";
 import WhyUs from "../components/WhyUs";
@@ -22,12 +23,64 @@ const fadeUp = {
 };
 
 export default function SubscriptionPage() {
+  return (
+    <Suspense fallback={null}>
+      <SubscriptionPageContent />
+    </Suspense>
+  );
+}
+
+function SubscriptionPageContent() {
   const [lang, setLang] = useState<Lang>("es");
   const c = t[lang].subscription;
+
+  const params = useSearchParams();
+  const [showPostCheckout, setShowPostCheckout] = useState(params.get("suscripto") === "1");
 
   return (
     <main>
       <NavBar lang={lang} setLang={setLang} homeHref="/" />
+
+      <AnimatePresence>
+        {showPostCheckout && (
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.4, ease: EASE }}
+            className="fixed left-1/2 -translate-x-1/2 z-[90] flex items-center gap-3 rounded-2xl"
+            style={{
+              top: 88,
+              maxWidth: "92vw",
+              padding: "14px 16px",
+              background: "rgba(13,13,19,0.9)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(106,169,255,0.3)",
+              boxShadow: "0 20px 50px -20px rgba(0,0,0,0.6)",
+            }}
+          >
+            <div
+              className="flex items-center justify-center rounded-full shrink-0"
+              style={{ width: 30, height: 30, background: "rgba(106,169,255,0.15)" }}
+            >
+              <Check size={15} className="text-[#6aa9ff]" />
+            </div>
+            <div>
+              <p className="text-white font-medium" style={{ fontSize: 13.5 }}>{c.postCheckout.title}</p>
+              <p className="text-white/50" style={{ fontSize: 12.5 }}>{c.postCheckout.body}</p>
+            </div>
+            <button
+              type="button"
+              aria-label={c.postCheckout.close}
+              onClick={() => setShowPostCheckout(false)}
+              className="flex items-center justify-center rounded-full shrink-0 text-white/40 hover:text-white/80 transition-colors"
+              style={{ width: 24, height: 24, marginLeft: 4 }}
+            >
+              <X size={14} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* HERO — fits in one screen (h-[100dvh]), no scrolling required to see the whole
           thing: header text, mockup, and the scroll cue all have to share that budget,

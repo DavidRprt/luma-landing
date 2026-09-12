@@ -247,6 +247,11 @@ export const t = {
         sub: "Contanos qué necesitás y te decimos qué plan te conviene.",
         button: "Hablar por WhatsApp",
       },
+      postCheckout: {
+        title: "¡Listo, quedaste suscripto!",
+        body: "Te vamos a escribir por WhatsApp en breve para coordinar el arranque.",
+        close: "Cerrar",
+      },
     },
     marquee: ["DISEÑO WEB", "SITIOS CORPORATIVOS", "E-COMMERCE", "INTELIGENCIA ARTIFICIAL", "AUTOMATIZACIÓN", "LANDING PAGES", "PERFORMANCE", "SEO TÉCNICO"],
     footer: {
@@ -536,6 +541,11 @@ export const t = {
         title: "Ready to start?",
         sub: "Tell us what you need and we'll tell you which plan fits.",
         button: "Talk on WhatsApp",
+      },
+      postCheckout: {
+        title: "All set, you're subscribed!",
+        body: "We'll message you on WhatsApp shortly to get things started.",
+        close: "Close",
       },
     },
     marquee: ["WEB DESIGN", "CORPORATE SITES", "E-COMMERCE", "ARTIFICIAL INTELLIGENCE", "AUTOMATION", "LANDING PAGES", "PERFORMANCE", "TECHNICAL SEO"],
