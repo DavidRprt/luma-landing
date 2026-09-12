@@ -138,18 +138,30 @@ function ContactForm({ lang }: { lang: Lang }) {
 
       <div>
         <label className={labelClass} style={labelStyle}>{c.motivo}</label>
-        <select
-          required
-          value={form.motivo}
-          onChange={update("motivo")}
-          className={inputClass}
-          style={{ ...inputStyle, color: form.motivo ? undefined : "rgba(255,255,255,0.25)" }}
-        >
-          <option value="" disabled style={{ color: "#000" }}>{c.motivoPlaceholder}</option>
-          {c.motivoOptions.map((opt) => (
-            <option key={opt} value={opt} style={{ color: "#000" }}>{opt}</option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            required
+            value={form.motivo}
+            onChange={update("motivo")}
+            className={`${inputClass} appearance-none cursor-pointer`}
+            style={{ ...inputStyle, paddingRight: 36, color: form.motivo ? undefined : "rgba(255,255,255,0.25)" }}
+          >
+            <option value="" disabled style={{ color: "#000" }}>{c.motivoPlaceholder}</option>
+            {c.motivoOptions.map((opt) => (
+              <option key={opt} value={opt} style={{ color: "#000" }}>{opt}</option>
+            ))}
+          </select>
+          <svg
+            className="pointer-events-none absolute top-1/2 -translate-y-1/2 text-white/30"
+            style={{ right: 14 }}
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+          >
+            <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
       </div>
 
       <div>
