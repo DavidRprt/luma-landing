@@ -4,8 +4,9 @@ import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { ArrowLeft, Check, MessageCircle, CalendarClock, Lock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, MessageCircle, CalendarClock, Lock } from "lucide-react";
 import { t, type Lang } from "../../constants/translations";
+import { ShineButton } from "../../components/ShineButton";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -173,21 +174,10 @@ function EmpezarContent() {
 
             {/* Continue */}
             <div className="mb-4">
-              <button
-                type="button"
-                disabled={!canPay || status === "loading"}
-                onClick={handleContinue}
-                className="inline-flex items-center justify-center gap-2 rounded-full font-medium transition-opacity"
-                style={{
-                  fontSize: 14,
-                  padding: "13px 28px",
-                  background: canPay ? "#6aa9ff" : "rgba(255,255,255,0.08)",
-                  color: canPay ? "#06122a" : "rgba(255,255,255,0.3)",
-                  cursor: canPay && status !== "loading" ? "pointer" : "not-allowed",
-                }}
-              >
+              <ShineButton type="button" disabled={!canPay || status === "loading"} onClick={handleContinue}>
                 {status === "loading" ? cc.submittingLabel : cc.continueLabel}
-              </button>
+                <ArrowRight size={15} />
+              </ShineButton>
               {!canPay && (
                 <p className="text-white/30 mt-3" style={{ fontSize: 12 }}>{cc.submitDisabledHint}</p>
               )}

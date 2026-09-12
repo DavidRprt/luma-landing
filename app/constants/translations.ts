@@ -154,6 +154,17 @@ export const t = {
           { num: "03", title: "Pagás mes a mes", desc: "Nosotros nos encargamos de hosting, dominio y de que todo siga funcionando — no tenés que preocuparte por nada." },
         ],
       },
+      // Versión corta de los pasos del servicio (steps.items) para el popup de
+      // cada plan — ahí "Elegís el plan" no aplica porque ya lo elegiste, así
+      // que el primero cambia por algo que reconoce eso, y el del kickoff se
+      // acorta a una línea en vez del párrafo completo.
+      afterCta: {
+        items: [
+          "Confirmás y arrancamos ya mismo",
+          "Agendamos un kickoff de 30 minutos",
+          "Pagás mes a mes, sin vueltas",
+        ],
+      },
       whyUs: {
         eyebrow: "Por qué nosotros",
         title: "La diferencia está en cómo lo construimos.",
@@ -175,19 +186,23 @@ export const t = {
         title: "Elegí el tuyo.",
         note: "No es básico y premium — es campaña y presencia. Elegí según lo que necesitás hoy.",
         ctaLabel: "Empezar",
+        moreLabel: "Ver más",
+        closeLabel: "Cerrar",
+        altPrefix: "Podés arrancar ya, o si preferís, ",
+        altLink: "reservar una reunión primero.",
         landing: {
           name: "Landing",
           price: "59",
           priceSuffix: "/mes",
-          tagline: "Tu campaña, siempre online.",
+          tagline: "Para que tu campaña esté siempre en vivo.",
           features: [
             { text: "Página enfocada 100% en tu campaña" },
             { text: "Pensada para recibir tráfico pago — mandá tu publicidad directo acá" },
             { text: "Rediseños incluidos" },
             { text: "Hosting incluido" },
+            { text: "Landings adicionales a precio preferencial", addon: true },
             { text: "Gestión de dominio (si no tenés uno)", addon: true },
           ] as PlanFeature[],
-          extraNote: "¿Necesitás más de una? Sumá landings adicionales a precio preferencial — para Navidad, para primavera, o varias campañas corriendo al mismo tiempo.",
           footnote: "Ideal para promociones, campañas de temporada o una oferta puntual que necesitás mantener vigente.",
         },
         corporate: {
@@ -450,6 +465,13 @@ export const t = {
           { num: "03", title: "Pay month to month", desc: "We handle hosting, the domain, and keeping everything running — so you don't have to worry about a thing." },
         ],
       },
+      afterCta: {
+        items: [
+          "You confirm and we get moving right away",
+          "We schedule a 30-minute kickoff call",
+          "You pay month to month, no strings attached",
+        ],
+      },
       whyUs: {
         eyebrow: "Why us",
         title: "The difference is how we build it.",
@@ -471,19 +493,23 @@ export const t = {
         title: "Pick yours.",
         note: "It's not basic vs. premium — it's campaign vs. presence. Pick whichever matches what you need today.",
         ctaLabel: "Get started",
+        moreLabel: "Learn more",
+        closeLabel: "Close",
+        altPrefix: "You can start right now, or if you'd rather, ",
+        altLink: "book a call first.",
         landing: {
           name: "Landing",
           price: "59",
           priceSuffix: "/mo",
-          tagline: "Your campaign, always online.",
+          tagline: "So your campaign stays live around the clock.",
           features: [
             { text: "One page, fully focused on your campaign" },
             { text: "Built to take paid traffic — send your ads straight here" },
             { text: "Redesigns included" },
             { text: "Hosting included" },
+            { text: "Extra landing pages at a preferred rate", addon: true },
             { text: "Domain setup (if you don't have one)", addon: true },
           ] as PlanFeature[],
-          extraNote: "Need more than one? Add extra landing pages at a preferred rate — for Christmas, for spring, or several campaigns running at once.",
           footnote: "Built for promotions, seasonal campaigns, or a single offer you need to keep live.",
         },
         corporate: {

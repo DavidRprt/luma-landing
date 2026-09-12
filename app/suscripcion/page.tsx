@@ -13,6 +13,7 @@ import NavBar from "../components/NavBar";
 import ChatWidget from "../components/ChatWidget";
 import Footer from "../sections/Footer";
 import AuroraGlow from "../components/AuroraGlow";
+import { ShineButton } from "../components/ShineButton";
 import { t, type Lang } from "../constants/translations";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -189,7 +190,7 @@ function SubscriptionPageContent() {
                 <span className="text-white/35" style={{ fontSize: 15 }}>{plan.priceSuffix}</span>
               </div>
               <p className="text-white/55 mb-6" style={{ fontSize: 15 }}>{plan.tagline}</p>
-              <ul className={`flex flex-col gap-3 flex-1 ${"extraNote" in plan && plan.extraNote ? "mb-3" : "mb-8"}`}>
+              <ul className="flex flex-col gap-3 flex-1 mb-8">
                 {plan.features.map((f) => (
                   <li key={f.text} className="flex items-start gap-2 text-white/60" style={{ fontSize: 13.5, lineHeight: 1.5 }}>
                     {f.addon ? (
@@ -206,22 +207,11 @@ function SubscriptionPageContent() {
                   </li>
                 ))}
               </ul>
-              {"extraNote" in plan && plan.extraNote && (
-                <p
-                  className="mb-6 rounded-lg"
-                  style={{ fontSize: 12, lineHeight: 1.5, color: "rgba(106,169,255,0.75)", background: "rgba(106,169,255,0.06)", padding: "10px 12px" }}
-                >
-                  {plan.extraNote}
-                </p>
-              )}
               <p className="text-white/30 mb-6" style={{ fontSize: 12, lineHeight: 1.5 }}>{plan.footnote}</p>
-              <Link
-                href={`/suscripcion/empezar?plan=${i === 0 ? "landing" : "corporativo"}`}
-                className="inline-flex items-center justify-center gap-2 rounded-full font-medium transition-opacity hover:opacity-85"
-                style={{ fontSize: 14, padding: "12px 0", background: "white", color: "#0a0a0a" }}
-              >
+              <ShineButton href={`/suscripcion/empezar?plan=${i === 0 ? "landing" : "corporativo"}`} className="w-full">
                 {c.plans.ctaLabel}
-              </Link>
+                <ArrowRight size={15} />
+              </ShineButton>
             </motion.div>
           ))}
         </div>

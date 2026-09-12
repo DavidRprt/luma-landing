@@ -22,8 +22,8 @@ export default function Home() {
       <NavBar lang={lang} setLang={setLang} />
       <Hero lang={lang} />
       <Marquee lang={lang} />
-      <Works lang={lang} />
       <Subscription lang={lang} />
+      <Works lang={lang} />
       <Contact lang={lang} />
       <Footer lang={lang} />
       <ChatWidget lang={lang} />

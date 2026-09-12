@@ -2,7 +2,9 @@
 
 import { motion } from "motion/react";
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { t, type Lang } from "../constants/translations";
+import { ShineButton } from "../components/ShineButton";
 
 const MailIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -181,21 +183,10 @@ function ContactForm({ lang }: { lang: Lang }) {
         <p className="text-red-400/80" style={{ fontSize: 12.5 }}>{c.error}</p>
       )}
 
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="rounded-[10px] border-none font-medium transition-opacity duration-200 self-start"
-        style={{
-          padding: "12px 22px",
-          background: "white",
-          color: "#000",
-          fontSize: 13.5,
-          cursor: status === "sending" ? "not-allowed" : "pointer",
-          opacity: status === "sending" ? 0.6 : 1,
-        }}
-      >
+      <ShineButton type="submit" disabled={status === "sending"} className="self-start">
         {status === "sending" ? c.sending : c.submit}
-      </button>
+        <ArrowRight size={15} />
+      </ShineButton>
     </form>
   );
 }

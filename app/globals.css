@@ -82,6 +82,22 @@
   to   { opacity: 0; transform: translate(-50%, -50%) scale(0.97) translateY(10px); }
 }
 
+/* Igual que luma-dialog-in/out pero sin tocar `transform`: usa `scale` como
+   propiedad independiente para no pisar el translate responsive (Tailwind)
+   del propio elemento — hace falta cuando el popup no está centrado con
+   transform fijo en todos los breakpoints (p. ej. popup casi fullscreen en mobile).
+   El punto de origen (transform-origin) se calcula en JS a partir de la
+   posición real del botón que lo abrió, así "sale" y "se esconde" hacia ahí
+   en vez de crecer desde el centro de la pantalla. */
+@keyframes luma-popup-in {
+  from { opacity: 0; scale: 0.2; }
+  to   { opacity: 1; scale: 1; }
+}
+@keyframes luma-popup-out {
+  from { opacity: 1; scale: 1; }
+  to   { opacity: 0; scale: 0.2; }
+}
+
 /* === Services section hover (CSS-only, no JS re-renders) === */
 .service-row { transition: background 0.4s ease, box-shadow 0.3s ease; }
 .service-row:hover { background: linear-gradient(90deg, rgba(96,165,250,0.07) 0%, rgba(96,165,250,0.02) 55%, transparent 100%); box-shadow: inset 3px 0 0 rgba(96,165,250,0.45); }
