@@ -92,14 +92,6 @@ function SubscriptionPageContent() {
         </div>
 
         <div className="relative flex flex-col items-center gap-2 md:gap-3 max-w-2xl mx-auto shrink-0">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: EASE }}
-            className="font-mono text-white/35 text-xs tracking-[0.2em] uppercase"
-          >
-            {c.eyebrow}
-          </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
