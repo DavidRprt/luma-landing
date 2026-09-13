@@ -5,9 +5,11 @@ export const t = {
   es: {
     nav: {
       services: "Planes",
-      works:    "Trabajos",
+      works:    "Proyectos",
       contact:  "Contacto",
       cta:      "Hablemos",
+      openMenuLabel:  "Abrir menú",
+      closeMenuLabel: "Cerrar menú",
     },
     hero: {
       eyebrow:   "E-commerce · Sitios Corporativos · IA para Empresas",
@@ -319,6 +321,8 @@ export const t = {
       works:    "Projects",
       contact:  "Contact",
       cta:      "Let's talk",
+      openMenuLabel:  "Open menu",
+      closeMenuLabel: "Close menu",
     },
     hero: {
       eyebrow:   "E-commerce · Corporate Sites · AI for Business",

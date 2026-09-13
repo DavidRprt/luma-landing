@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
+import { Menu, X } from "lucide-react";
 import { t, type Lang } from "../constants/translations";
 
 interface Props {
@@ -14,6 +16,7 @@ interface Props {
 
 const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const c = t[lang].nav;
 
@@ -22,6 +25,21 @@ const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
+
+  // Cierra el menú mobile apenas cambia la ruta (click en un link) o la pantalla
+  // crece a desktop, para que nunca quede abierto colgado de un estado viejo.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onResize = () => {
+      if (window.innerWidth >= 768) setMenuOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [menuOpen]);
 
   const links = [
     { label: c.services, href: "/planes", active: pathname.startsWith("/planes") },
@@ -122,15 +140,71 @@ const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
             ))}
           </div>
 
-          {/* CTA */}
+          {/* CTA — oculto en mobile, donde "Contacto" ya vive en el menú hamburguesa */}
           <Link
             href="/contacto"
-            className="text-sm text-black bg-white hover:bg-white/80 transition-colors duration-300 rounded-full px-4 py-1.5 font-medium"
+            className="hidden md:inline-block text-sm text-black bg-white hover:bg-white/80 transition-colors duration-300 rounded-full px-4 py-1.5 font-medium"
           >
             {c.cta}
           </Link>
+
+          {/* Botón hamburguesa — solo mobile, revela los mismos links que la nav de desktop */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? c.closeMenuLabel : c.openMenuLabel}
+            aria-expanded={menuOpen}
+            className="flex md:hidden items-center justify-center rounded-full transition-colors"
+            style={{ width: 32, height: 32, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "white" }}
+          >
+            {menuOpen ? <X size={15} /> : <Menu size={15} />}
+          </button>
         </div>
       </div>
+
+      {/* Panel mobile — mismos links que la nav de desktop, ahora alcanzables sin ella */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            initial={{ opacity: 0, y: -8, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.97 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden absolute left-0 right-0 top-[calc(100%+10px)] flex flex-col rounded-2xl overflow-hidden origin-top"
+            style={{
+              background: "rgba(20,20,26,0.85)",
+              backdropFilter: "blur(40px) saturate(180%)",
+              WebkitBackdropFilter: "blur(40px) saturate(180%)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              boxShadow: "0 20px 60px -10px rgba(0,0,0,0.6)",
+            }}
+          >
+            {links.map(({ label, href, active }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-2.5 font-mono uppercase transition-colors duration-200 ${
+                  active ? "text-white/95" : "text-white/55 hover:text-white/90"
+                }`}
+                style={{ fontSize: 12, letterSpacing: "0.12em", padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}
+              >
+                <span
+                  className="rounded-full shrink-0"
+                  style={{ width: 4, height: 4, background: "#6aa9ff", opacity: active ? 1 : 0 }}
+                />
+                {label}
+              </Link>
+            ))}
+            <Link
+              href="/contacto"
+              className="text-center text-black bg-white hover:bg-white/85 transition-colors duration-200 font-medium"
+              style={{ fontSize: 13, padding: "13px 20px", margin: 10, borderRadius: 999 }}
+            >
+              {c.cta}
+            </Link>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
