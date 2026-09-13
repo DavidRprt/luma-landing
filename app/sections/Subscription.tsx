@@ -145,7 +145,7 @@ function PlanCard({
           <Dialog.Content
             ref={setSpotRef}
             onMouseMove={onMouseMove}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-3xl max-h-[96vh] sm:max-h-[94vh] overflow-hidden rounded-2xl border flex flex-col data-[state=open]:[animation:luma-popup-in_0.4s_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:[animation:luma-popup-out_0.28s_cubic-bezier(0.6,0,0.8,0.2)]"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-3xl max-h-[94vh] overflow-hidden rounded-2xl border flex flex-col data-[state=open]:[animation:luma-popup-in_0.4s_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:[animation:luma-popup-out_0.28s_cubic-bezier(0.6,0,0.8,0.2)]"
             style={{
               borderColor: "rgba(255,255,255,0.1)",
               background: "#0d0d13",
@@ -177,7 +177,7 @@ function PlanCard({
               </Dialog.Close>
             </div>
 
-            <div className="relative overflow-y-auto max-h-[calc(96vh-46px)] sm:max-h-[calc(94vh-46px)]">
+            <div className="relative overflow-y-auto" style={{ maxHeight: "calc(94vh - 46px)" }}>
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
@@ -255,10 +255,7 @@ function PlanCard({
                             >
                               {idx + 1}
                             </span>
-                            <span
-                              className={`text-white/65 ${isLast ? "pb-0" : "pb-7 sm:pb-5"}`}
-                              style={{ fontSize: 14, lineHeight: 1.4, paddingTop: 3 }}
-                            >
+                            <span className="text-white/65" style={{ fontSize: 14, lineHeight: 1.4, paddingBottom: isLast ? 0 : 20, paddingTop: 3 }}>
                               {label}
                             </span>
                           </div>
