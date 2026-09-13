@@ -230,34 +230,32 @@ function PlanCard({
                   <div className="flex flex-col">
                     {/* Qué pasa después de tocar "Empezar" para ESTE plan — no repite "elegís el
                         plan" porque, al estar viendo este popup, ya lo elegiste */}
-                    <motion.div variants={itemVariants} className="flex flex-col mb-5">
+                    <motion.div variants={itemVariants} className="relative flex flex-col mb-5">
+                      {/* Una sola luz recorre todo el trayecto (1→2→3) en un solo viaje —
+                          nada de segmentos independientes animando "a la vez". */}
+                      <div
+                        aria-hidden="true"
+                        className="absolute"
+                        style={{ left: 11.5, top: 12, bottom: 12, width: 1, background: "linear-gradient(180deg, rgba(106,169,255,0.5), rgba(106,169,255,0.1))" }}
+                      >
+                        <motion.span
+                          className="absolute rounded-full"
+                          style={{ left: "50%", width: 5, height: 5, marginLeft: -2.5, background: "#6aa9ff", boxShadow: "0 0 6px rgba(106,169,255,0.8)" }}
+                          animate={{ top: ["0%", "100%"], opacity: [0, 1, 1, 0] }}
+                          transition={{ duration: 1.9, repeat: Infinity, repeatDelay: 0.7, ease: "easeInOut" }}
+                        />
+                      </div>
                       {s.afterCta.items.map((label, idx) => {
                         const isLast = idx === s.afterCta.items.length - 1;
                         return (
-                          <div key={label} className="flex gap-3">
-                            <div className="flex flex-col items-center shrink-0">
-                              <span
-                                className="flex items-center justify-center shrink-0 rounded-full font-mono font-semibold"
-                                style={{ width: 24, height: 24, fontSize: 11.5, color: "#06122a", background: "#6aa9ff" }}
-                              >
-                                {idx + 1}
-                              </span>
-                              {!isLast && (
-                                <motion.span
-                                  className="relative shrink-0"
-                                  style={{ width: 1, flex: 1, minHeight: 16, background: "linear-gradient(180deg, rgba(106,169,255,0.45), rgba(106,169,255,0.08))" }}
-                                >
-                                  <motion.span
-                                    aria-hidden="true"
-                                    className="absolute left-1/2"
-                                    style={{ width: 5, height: 5, marginLeft: -2, borderRadius: 999, background: "#6aa9ff", boxShadow: "0 0 6px rgba(106,169,255,0.8)" }}
-                                    animate={{ top: ["0%", "100%"], opacity: [0, 1, 1, 0] }}
-                                    transition={{ duration: 1.4, repeat: Infinity, repeatDelay: 0.6, ease: "easeInOut", delay: idx * 0.25 }}
-                                  />
-                                </motion.span>
-                              )}
-                            </div>
-                            <span className="text-white/65" style={{ fontSize: 14, lineHeight: 1.4, paddingBottom: isLast ? 0 : 16, paddingTop: 3 }}>
+                          <div key={label} className="relative flex gap-3">
+                            <span
+                              className="flex items-center justify-center shrink-0 rounded-full font-mono font-semibold"
+                              style={{ width: 24, height: 24, fontSize: 11.5, color: "#06122a", background: "#6aa9ff" }}
+                            >
+                              {idx + 1}
+                            </span>
+                            <span className="text-white/65" style={{ fontSize: 14, lineHeight: 1.4, paddingBottom: isLast ? 0 : 20, paddingTop: 3 }}>
                               {label}
                             </span>
                           </div>
