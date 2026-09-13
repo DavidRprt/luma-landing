@@ -169,10 +169,10 @@ function PlanCard({
               <Dialog.Close asChild>
                 <button
                   aria-label={s.plans.closeLabel}
-                  className="flex items-center justify-center rounded-full transition-colors hover:bg-white/10"
+                  className="group flex items-center justify-center rounded-full transition-colors duration-300 hover:bg-white/10 hover:border-white/25"
                   style={{ width: 27, height: 27, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}
                 >
-                  <X size={14} />
+                  <X size={14} className="transition-transform duration-300 ease-out group-hover:rotate-90" />
                 </button>
               </Dialog.Close>
             </div>
@@ -182,12 +182,12 @@ function PlanCard({
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="relative px-5 pt-1 pb-3 sm:p-9"
+                className="relative px-5 pt-1 pb-2 sm:p-9"
               >
-                <div className="grid sm:grid-cols-2 gap-x-10 gap-y-2">
+                <div className="grid sm:grid-cols-2 gap-x-10 gap-y-1">
                   {/* Columna izquierda — qué es el plan */}
                   <div>
-                    <motion.p variants={itemVariants} className="font-mono uppercase text-white/30 mb-1" style={{ fontSize: 10.5, letterSpacing: 2 }}>
+                    <motion.p variants={itemVariants} className="font-mono uppercase text-white/30 mb-0.5" style={{ fontSize: 10.5, letterSpacing: 2 }}>
                       {plan.name}
                     </motion.p>
                     <motion.div variants={itemVariants}>
@@ -195,29 +195,29 @@ function PlanCard({
                         <h3 className="text-white font-semibold mb-2" style={{ fontSize: 23, letterSpacing: "-0.02em" }}>{plan.tagline}</h3>
                       </Dialog.Title>
                     </motion.div>
-                    <motion.div variants={itemVariants} className="flex items-baseline gap-1 mb-3">
+                    <motion.div variants={itemVariants} className="flex items-baseline gap-1 mb-2">
                       <span className="text-white font-semibold" style={{ fontSize: 33 }}>${plan.price}</span>
                       <span className="text-white/35" style={{ fontSize: 14 }}>{plan.priceSuffix}</span>
                     </motion.div>
 
                     <Dialog.Description asChild>
-                      <motion.ul variants={listVariants} className="flex flex-col gap-0.5 sm:gap-1">
+                      <motion.ul variants={listVariants} className="flex flex-col gap-1 sm:gap-1">
                         {plan.features.map((f) => (
                           <motion.li
                             key={f.text}
                             variants={itemVariants}
-                            className="flex items-start gap-2 text-white/65"
-                            style={{ fontSize: 13, lineHeight: 1.35 }}
+                            className="flex items-start gap-2 text-white/65 text-[13.5px] sm:text-[13px]"
+                            style={{ lineHeight: 1.35 }}
                           >
                             {f.addon ? (
                               <span
                                 className="flex items-center justify-center shrink-0 rounded-full font-mono font-semibold"
-                                style={{ width: 15, height: 15, marginTop: 1, fontSize: 10, background: "rgba(106,169,255,0.16)", color: "#6aa9ff" }}
+                                style={{ width: 16, height: 16, marginTop: 1, fontSize: 10.5, background: "rgba(106,169,255,0.16)", color: "#6aa9ff" }}
                               >
                                 +
                               </span>
                             ) : (
-                              <Check size={14} className="text-[#6aa9ff] shrink-0" style={{ marginTop: 1 }} />
+                              <Check size={15} className="text-[#6aa9ff] shrink-0" style={{ marginTop: 1 }} />
                             )}
                             {f.text}
                           </motion.li>
@@ -230,7 +230,7 @@ function PlanCard({
                   <div className="flex flex-col">
                     {/* Qué pasa después de tocar "Empezar" para ESTE plan — no repite "elegís el
                         plan" porque, al estar viendo este popup, ya lo elegiste */}
-                    <motion.div variants={itemVariants} className="relative flex flex-col mt-5 mb-7 sm:mt-0 sm:mb-5">
+                    <motion.div variants={itemVariants} className="relative flex flex-col mt-6 mb-6 sm:mt-0 sm:mb-5">
                       {/* Una sola luz recorre todo el trayecto (1→2→3) en un solo viaje —
                           nada de segmentos independientes animando "a la vez". */}
                       <div
@@ -263,7 +263,7 @@ function PlanCard({
                       })}
                     </motion.div>
 
-                    <motion.p variants={itemVariants} className="text-white/30 mb-2.5" style={{ fontSize: 11, lineHeight: 1.35 }}>{plan.footnote}</motion.p>
+                    <motion.p variants={itemVariants} className="text-white/30 mb-2" style={{ fontSize: 11, lineHeight: 1.35 }}>{plan.footnote}</motion.p>
 
                     <motion.div variants={itemVariants} className="mt-auto">
                       <ShineButton href={`/planes/empezar?plan=${id}`} className="w-full">
