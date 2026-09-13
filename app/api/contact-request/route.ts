@@ -1,8 +1,10 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest, NextResponse, after } from "next/server"
 import { Resend } from "resend"
+import ContactAutoReply from "../../../emails/ContactAutoReply"
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL || "davirapo@gmail.com"
 const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || "_luma <onboarding@resend.dev>"
+const WHATSAPP_URL = "https://wa.me/5491157387432"
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -66,6 +68,20 @@ export async function POST(req: NextRequest) {
     if (error) {
       return NextResponse.json({ error: "No se pudo enviar" }, { status: 502 })
     }
+
+    // Confirmación para quien completó el form — se manda después de responder
+    // (after) y si falla no debe afectar la respuesta: el aviso interno de
+    // arriba, que es lo esencial, ya se envió.
+    after(() =>
+      resend.emails
+        .send({
+          from: FROM_EMAIL,
+          to: email,
+          subject: "Recibimos tu mensaje — _luma",
+          react: ContactAutoReply({ nombre, whatsappUrl: WHATSAPP_URL }),
+        })
+        .catch((err) => console.error("[contact-request] no se pudo enviar la confirmación al remitente:", err))
+    )
 
     return NextResponse.json({ ok: true })
   } catch {

@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest, NextResponse, after } from "next/server"
 import { createHmac, timingSafeEqual } from "node:crypto"
 import { Resend } from "resend"
+import WelcomeEmail from "../../../../emails/WelcomeEmail"
 
 const ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN!
 const WEBHOOK_SECRET = process.env.MERCADOPAGO_WEBHOOK_SECRET
@@ -9,6 +10,7 @@ const NOTIFY_EMAILS = (process.env.MERCADOPAGO_NOTIFY_EMAILS ?? "")
   .map((e) => e.trim())
   .filter(Boolean)
 const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || "_luma <onboarding@resend.dev>"
+const WHATSAPP_URL = "https://wa.me/5491157387432"
 
 // Valida que la notificación venga realmente de Mercado Pago.
 // Formato del header, y algoritmo de validación:
@@ -80,6 +82,26 @@ export async function POST(req: NextRequest) {
           <p><strong>Monto:</strong> $${sub.auto_recurring?.transaction_amount} ${sub.auto_recurring?.currency_id}</p>
         </div>`
       )
+
+      // Bienvenida al cliente — solo quedará "authorized" la primera vez que
+      // se activa la suscripción, así que no hace falta deduplicar acá.
+      if (sub.status === "authorized" && sub.payer_email && process.env.RESEND_API_KEY) {
+        const resend = new Resend(process.env.RESEND_API_KEY)
+        after(() =>
+          resend.emails
+            .send({
+              from: FROM_EMAIL,
+              to: sub.payer_email,
+              subject: `¡Bienvenido/a a _luma! Tu plan ${sub.reason ?? ""} ya está activo`,
+              react: WelcomeEmail({
+                planName: sub.reason ?? "",
+                price: String(sub.auto_recurring?.transaction_amount ?? ""),
+                whatsappUrl: WHATSAPP_URL,
+              }),
+            })
+            .catch((err) => console.error("[mercadopago webhook] no se pudo enviar la bienvenida al cliente:", err))
+        )
+      }
     } else if (topic === "subscription_authorized_payment") {
       const res = await fetch(`https://api.mercadopago.com/authorized_payments/${dataId}`, {
         headers: { Authorization: `Bearer ${ACCESS_TOKEN}` },
