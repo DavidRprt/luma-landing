@@ -59,7 +59,7 @@ function EmpezarContent() {
     <main className="min-h-screen bg-black text-white">
       <div className="px-5 md:px-20 py-10 md:py-16">
         <Link
-          href="/suscripcion"
+          href="/planes"
           className="inline-flex items-center gap-1.5 text-white/40 hover:text-white/70 transition-colors mb-10"
           style={{ fontSize: 13 }}
         >

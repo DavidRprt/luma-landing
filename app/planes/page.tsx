@@ -200,7 +200,7 @@ function SubscriptionPageContent() {
                 ))}
               </ul>
               <p className="text-white/30 mb-6" style={{ fontSize: 12, lineHeight: 1.5 }}>{plan.footnote}</p>
-              <ShineButton href={`/suscripcion/empezar?plan=${i === 0 ? "landing" : "corporativo"}`} className="w-full">
+              <ShineButton href={`/planes/empezar?plan=${i === 0 ? "landing" : "corporativo"}`} className="w-full">
                 {c.plans.ctaLabel}
                 <ArrowRight size={15} />
               </ShineButton>

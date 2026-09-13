@@ -4,7 +4,7 @@ type PlanFeature = { text: string; addon?: boolean };
 export const t = {
   es: {
     nav: {
-      services: "Servicios",
+      services: "Planes",
       works:    "Trabajos",
       contact:  "Contacto",
       cta:      "Hablemos",
@@ -315,7 +315,7 @@ export const t = {
 
   en: {
     nav: {
-      services: "Services",
+      services: "Plans",
       works:    "Projects",
       contact:  "Contact",
       cta:      "Let's talk",

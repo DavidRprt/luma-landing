@@ -266,7 +266,7 @@ function PlanCard({
                     <motion.p variants={itemVariants} className="text-white/30 mb-2.5" style={{ fontSize: 11, lineHeight: 1.35 }}>{plan.footnote}</motion.p>
 
                     <motion.div variants={itemVariants} className="mt-auto">
-                      <ShineButton href={`/suscripcion/empezar?plan=${id}`} className="w-full">
+                      <ShineButton href={`/planes/empezar?plan=${id}`} className="w-full">
                         {s.plans.ctaLabel}
                         <ArrowRight size={15} />
                       </ShineButton>
@@ -348,7 +348,7 @@ const Subscription = ({ lang }: { lang: Lang }) => {
         }}
       >
         <p className="text-white font-medium" style={{ fontSize: 16 }}>{c.morePrompt}</p>
-        <ShineButton href="/suscripcion" className="shrink-0">
+        <ShineButton href="/planes" className="shrink-0">
           {c.moreCta}
           <ArrowRight size={16} />
         </ShineButton>

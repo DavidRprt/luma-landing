@@ -24,7 +24,7 @@ const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
   }, []);
 
   const links = [
-    { label: c.services, href: "/suscripcion", active: pathname.startsWith("/suscripcion") },
+    { label: c.services, href: "/planes", active: pathname.startsWith("/planes") },
     { label: c.works,    href: "/proyectos",   active: pathname.startsWith("/proyectos")   },
     { label: c.contact,  href: "/contacto",    active: pathname.startsWith("/contacto")    },
   ];
