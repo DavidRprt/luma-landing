@@ -145,7 +145,7 @@ function PlanCard({
           <Dialog.Content
             ref={setSpotRef}
             onMouseMove={onMouseMove}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-3xl max-h-[94vh] overflow-hidden rounded-2xl border flex flex-col data-[state=open]:[animation:luma-popup-in_0.4s_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:[animation:luma-popup-out_0.28s_cubic-bezier(0.6,0,0.8,0.2)]"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-3xl max-h-[96vh] sm:max-h-[94vh] overflow-hidden rounded-2xl border flex flex-col data-[state=open]:[animation:luma-popup-in_0.4s_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:[animation:luma-popup-out_0.28s_cubic-bezier(0.6,0,0.8,0.2)]"
             style={{
               borderColor: "rgba(255,255,255,0.1)",
               background: "#0d0d13",
@@ -177,7 +177,7 @@ function PlanCard({
               </Dialog.Close>
             </div>
 
-            <div className="relative overflow-y-auto" style={{ maxHeight: "calc(94vh - 46px)" }}>
+            <div className="relative overflow-y-auto max-h-[calc(96vh-46px)] sm:max-h-[calc(94vh-46px)]">
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
@@ -201,7 +201,7 @@ function PlanCard({
                     </motion.div>
 
                     <Dialog.Description asChild>
-                      <motion.ul variants={listVariants} className="flex flex-col gap-1">
+                      <motion.ul variants={listVariants} className="flex flex-col gap-0.5 sm:gap-1">
                         {plan.features.map((f) => (
                           <motion.li
                             key={f.text}
@@ -230,7 +230,7 @@ function PlanCard({
                   <div className="flex flex-col">
                     {/* Qué pasa después de tocar "Empezar" para ESTE plan — no repite "elegís el
                         plan" porque, al estar viendo este popup, ya lo elegiste */}
-                    <motion.div variants={itemVariants} className="relative flex flex-col mb-5">
+                    <motion.div variants={itemVariants} className="relative flex flex-col mt-5 mb-7 sm:mt-0 sm:mb-5">
                       {/* Una sola luz recorre todo el trayecto (1→2→3) en un solo viaje —
                           nada de segmentos independientes animando "a la vez". */}
                       <div
