@@ -48,8 +48,8 @@ export const t = {
         },
         {
           num: "02", title: "BECHA SA", category: "IA para Empresas", year: "2025",
-          desc: "Raul es el asistente virtual de BECHA SA: centraliza la documentación interna certificada ISO 9001, responde consultas de los empleados y permite subir reportes desde el chat. Opera de forma autónoma, sin intervención humana.",
-          stat: "95% resolución autónoma", img: "pulse",
+          desc: "Chatbot con IA para BECHA SA: responde sobre la documentación técnica ISO 9001 en segundos, algo que antes tomaba horas de revisar manuales. Los empleados también cargan reportes de incidentes desde el chat.",
+          stat: "95% resolución autónoma", img: "becha",
           highlights: [
             { icon: "docs", title: "Base de conocimiento ISO 9001", desc: "Centraliza toda la documentación certificada, siempre con la versión vigente a mano." },
             { icon: "chat", title: "Respuestas 24/7", desc: "Resuelve consultas de los empleados sin que nadie tenga que estar del otro lado." },
@@ -362,7 +362,7 @@ export const t = {
         {
           num: "02", title: "BECHA SA", category: "AI for Business", year: "2025",
           desc: "Raul is BECHA SA's virtual assistant: centralizes ISO 9001-certified internal documentation, answers employee queries, and lets staff upload reports from the chat. Runs fully autonomously, no human intervention needed.",
-          stat: "95% autonomous resolution", img: "pulse",
+          stat: "95% autonomous resolution", img: "becha",
           highlights: [
             { icon: "docs", title: "ISO 9001 knowledge base", desc: "Centralizes all certified documentation, always with the current version on hand." },
             { icon: "chat", title: "24/7 answers", desc: "Resolves employee queries without anyone needing to be on the other end." },
