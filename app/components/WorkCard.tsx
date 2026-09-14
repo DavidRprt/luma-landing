@@ -137,14 +137,15 @@ const STATIC_IMAGES: Record<string, { src: string; alt: string }> = {
   fluxia: { src: "/fluxia.png", alt: "Fluxia Group" },
   nash: { src: "/nash.png", alt: "Nash" },
   seofy: { src: "/seofy.png", alt: "SeoFy" },
+  becha: { src: "/becha.png", alt: "BECHA SA" },
 };
 
 function WorkImg({ img, lang }: { img: string; lang: Lang }) {
   if (img === "pulse") return <PulseChatPreview lang={lang} />;
   const staticImg = STATIC_IMAGES[img];
   if (staticImg) return (
-    <div className="w-full overflow-hidden shrink-0">
-      <Image src={staticImg.src} alt={staticImg.alt} width={0} height={0} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px" className="w-full h-auto block" />
+    <div className="w-full relative overflow-hidden shrink-0" style={{ aspectRatio: "2940/1664", background: "#0d0d13" }}>
+      <Image src={staticImg.src} alt={staticImg.alt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px" className="object-fill" />
     </div>
   );
   return (
