@@ -79,74 +79,82 @@ function ContactForm({ lang }: { lang: Lang }) {
     }
   };
 
-  const inputStyle: React.CSSProperties = {
-    fontSize: 13.5,
-    padding: "12px 14px",
-  };
-  const inputClass =
-    "w-full bg-white/[0.04] border border-white/[0.08] rounded-[10px] text-white/85 placeholder:text-white/25 outline-none focus:border-white/[0.2] transition-colors duration-200";
-  const labelClass = "text-white/40 mb-1.5 block";
-  const labelStyle: React.CSSProperties = { fontSize: 11.5, letterSpacing: "0.06em" };
+  // Sin caja ni fondo — el campo es solo una línea de base que se enciende
+  // en celeste al enfocar. El span "underline" es hermano del input (no hijo)
+  // para poder animarlo desde afuera con el truco `peer` de Tailwind, sin JS.
+  const fieldClass =
+    "peer w-full bg-transparent border-0 border-b border-white/[0.12] rounded-none text-white/90 placeholder:text-white/20 outline-none transition-colors duration-300 focus:border-transparent";
+  const fieldStyle: React.CSSProperties = { fontSize: 15, padding: "8px 0 10px" };
+  const underline = (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute left-0 bottom-0 w-full origin-left scale-x-0 transition-transform duration-300 ease-out peer-focus:scale-x-100"
+      style={{ height: 1.5, background: "#6aa9ff" }}
+    />
+  );
+  const Label = ({ children }: { children: React.ReactNode }) => (
+    <label className="flex items-center gap-2 text-white/40 mb-2.5" style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+      <span className="shrink-0 rounded-full" style={{ width: 4, height: 4, background: "#6aa9ff" }} />
+      {children}
+    </label>
+  );
 
   if (status === "success") {
     return (
-      <div
-        className="flex flex-col items-center justify-center text-center gap-3 rounded-2xl"
-        style={{ background: "#0d0d13", border: "1px solid rgba(96,165,250,0.2)", padding: "48px 32px" }}
-      >
+      <div className="flex flex-col items-start gap-3" style={{ padding: "40px 0" }}>
         <div
           className="flex items-center justify-center rounded-full"
-          style={{ width: 44, height: 44, background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.3)" }}
+          style={{ width: 40, height: 40, background: "rgba(106,169,255,0.1)", border: "1px solid rgba(106,169,255,0.3)" }}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M4 12l5 5L20 6" stroke="#6aa9ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <p className="text-white/80" style={{ fontSize: 14, lineHeight: 1.6, maxWidth: 320 }}>{c.success}</p>
+        <p className="text-white/70" style={{ fontSize: 15, lineHeight: 1.6, maxWidth: 340 }}>{c.success}</p>
       </div>
     );
   }
 
   return (
-    <form
-      onSubmit={submit}
-      className="flex flex-col gap-4 rounded-2xl"
-      style={{ background: "#0d0d13", border: "1px solid rgba(255,255,255,0.08)", padding: "28px 24px" }}
-    >
-      <p className="text-white/70 font-semibold" style={{ fontSize: 14 }}>{c.title}</p>
+    <form onSubmit={submit} className="flex flex-col" style={{ gap: 30 }}>
+      <p className="text-white/30 uppercase" style={{ fontSize: 11, letterSpacing: "0.3em" }}>{c.title}</p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className={labelClass} style={labelStyle}>{c.name}</label>
-          <input required value={form.nombre} onChange={update("nombre")} placeholder={c.namePlaceholder} className={inputClass} style={inputStyle} />
+      <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: 30 }}>
+        <div className="relative">
+          <Label>{c.name}</Label>
+          <input required value={form.nombre} onChange={update("nombre")} placeholder={c.namePlaceholder} className={fieldClass} style={fieldStyle} />
+          {underline}
         </div>
-        <div>
-          <label className={labelClass} style={labelStyle}>{c.phone}</label>
-          <input required type="tel" value={form.telefono} onChange={update("telefono")} placeholder={c.phonePlaceholder} className={inputClass} style={inputStyle} />
+        <div className="relative">
+          <Label>{c.phone}</Label>
+          <input required type="tel" value={form.telefono} onChange={update("telefono")} placeholder={c.phonePlaceholder} className={fieldClass} style={fieldStyle} />
+          {underline}
         </div>
       </div>
 
-      <div>
-        <label className={labelClass} style={labelStyle}>{c.email}</label>
-        <input required type="email" value={form.email} onChange={update("email")} placeholder={c.emailPlaceholder} className={inputClass} style={inputStyle} />
+      <div className="relative">
+        <Label>{c.email}</Label>
+        <input required type="email" value={form.email} onChange={update("email")} placeholder={c.emailPlaceholder} className={fieldClass} style={fieldStyle} />
+        {underline}
+      </div>
+
+      <div className="relative">
+        <Label>
+          {c.company} <span className="normal-case text-white/25">{c.companyOptional}</span>
+        </Label>
+        <input value={form.empresa} onChange={update("empresa")} placeholder={c.companyPlaceholder} className={fieldClass} style={fieldStyle} />
+        {underline}
       </div>
 
       <div>
-        <label className={labelClass} style={labelStyle}>
-          {c.company} <span className="text-white/25">{c.companyOptional}</span>
-        </label>
-        <input value={form.empresa} onChange={update("empresa")} placeholder={c.companyPlaceholder} className={inputClass} style={inputStyle} />
-      </div>
-
-      <div>
-        <label className={labelClass} style={labelStyle}>{c.motivo}</label>
+        <Label>{c.motivo}</Label>
         <div className="relative">
           <select
             required
             value={form.motivo}
             onChange={update("motivo")}
-            className={`${inputClass} appearance-none cursor-pointer`}
-            style={{ ...inputStyle, paddingRight: 36, color: form.motivo ? undefined : "rgba(255,255,255,0.25)" }}
+            className={`${fieldClass} appearance-none cursor-pointer`}
+            style={{ ...fieldStyle, paddingRight: 22, color: form.motivo ? undefined : "rgba(255,255,255,0.2)" }}
           >
             <option value="" disabled style={{ color: "#000" }}>{c.motivoPlaceholder}</option>
             {c.motivoOptions.map((opt) => (
@@ -155,7 +163,7 @@ function ContactForm({ lang }: { lang: Lang }) {
           </select>
           <svg
             className="pointer-events-none absolute top-1/2 -translate-y-1/2 text-white/30"
-            style={{ right: 14 }}
+            style={{ right: 2 }}
             width="12"
             height="12"
             viewBox="0 0 12 12"
@@ -163,27 +171,29 @@ function ContactForm({ lang }: { lang: Lang }) {
           >
             <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
+          {underline}
         </div>
       </div>
 
-      <div>
-        <label className={labelClass} style={labelStyle}>{c.message}</label>
+      <div className="relative">
+        <Label>{c.message}</Label>
         <textarea
           required
           value={form.mensaje}
           onChange={update("mensaje")}
           placeholder={c.messagePlaceholder}
-          rows={4}
-          className={inputClass}
-          style={{ ...inputStyle, resize: "vertical", minHeight: 90 }}
+          rows={3}
+          className={fieldClass}
+          style={{ ...fieldStyle, resize: "vertical", minHeight: 60 }}
         />
+        {underline}
       </div>
 
       {status === "error" && (
         <p className="text-red-400/80" style={{ fontSize: 12.5 }}>{c.error}</p>
       )}
 
-      <ShineButton type="submit" disabled={status === "sending"} className="self-start">
+      <ShineButton type="submit" disabled={status === "sending"} className="self-start mt-2">
         {status === "sending" ? c.sending : c.submit}
         <ArrowRight size={15} />
       </ShineButton>
