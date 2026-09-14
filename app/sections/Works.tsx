@@ -27,7 +27,7 @@ const Works = ({ lang }: { lang: Lang }) => {
 
       <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))" }}>
         {items.map((w, i) => (
-          <WorkCard key={w.num} w={w} i={i} cta={c.cta} detailsCta={c.detailsCta} closeCta={c.closeCta} lang={lang} />
+          <WorkCard key={w.num} w={w} i={i} cta={c.cta} detailsCta={c.detailsCta} closeCta={c.closeCta} />
         ))}
       </div>
 

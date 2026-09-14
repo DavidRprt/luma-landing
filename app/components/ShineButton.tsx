@@ -5,6 +5,8 @@ import Link from "next/link";
 interface ShineButtonProps {
   children: React.ReactNode;
   href?: string;
+  target?: string;
+  rel?: string;
   onClick?: () => void;
   type?: "button" | "submit";
   disabled?: boolean;
@@ -12,8 +14,8 @@ interface ShineButtonProps {
 }
 
 // Pill con borde/gradiente celeste y un destello diagonal que cruza al hover.
-// Se usa como <button> (onClick/type/disabled) o como link (href).
-export function ShineButton({ children, href, onClick, type = "button", disabled, className = "" }: ShineButtonProps) {
+// Se usa como <button> (onClick/type/disabled) o como link (href, target/rel para links externos).
+export function ShineButton({ children, href, target, rel, onClick, type = "button", disabled, className = "" }: ShineButtonProps) {
   const baseClass = `group relative inline-flex items-center justify-center gap-2 rounded-full font-medium overflow-hidden transition-colors duration-300 ${className}`;
 
   const shine = (
@@ -48,7 +50,7 @@ export function ShineButton({ children, href, onClick, type = "button", disabled
 
   if (href) {
     return (
-      <Link href={href} className={baseClass} style={style}>
+      <Link href={href} target={target} rel={rel} className={baseClass} style={style}>
         {shine}
         <span className="relative inline-flex items-center gap-2">{children}</span>
       </Link>

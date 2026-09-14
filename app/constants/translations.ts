@@ -132,14 +132,6 @@ export const t = {
         invalidEmail: "¿Me confirmás un email válido?",
       },
     },
-    pulseChat: {
-      role:        "Asistente BECHA SA",
-      online:      "en línea",
-      userMsg:     "¿Versión vigente de PR-CAL-007?",
-      botMsg:      "Versión vigente: v4.2 · aprobada 03/02/2026",
-      cite:        "ISO 9001 · cl. 7.5.3",
-      placeholder: "Preguntale a Raul…",
-    },
     subscription: {
       eyebrow: "Suscripción · Pagás mes a mes",
       heroTitleA: "Un sitio profesional,",
@@ -444,14 +436,6 @@ export const t = {
         error:   "Something went wrong. Try again or message us on WhatsApp.",
         invalidEmail: "Could you confirm a valid email?",
       },
-    },
-    pulseChat: {
-      role:        "BECHA SA Assistant",
-      online:      "online",
-      userMsg:     "Current version of PR-CAL-007?",
-      botMsg:      "Current version: v4.2 · approved 03/02/2026",
-      cite:        "ISO 9001 · cl. 7.5.3",
-      placeholder: "Ask Raul…",
     },
     subscription: {
       eyebrow: "Subscription · Pay Month to Month",

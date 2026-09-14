@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Dialog } from "radix-ui";
 import Image from "next/image";
@@ -11,7 +11,7 @@ import {
   Plus, X, ArrowUpRight,
   type LucideIcon,
 } from "lucide-react";
-import { t, type Lang } from "../constants/translations";
+import { ShineButton } from "./ShineButton";
 
 const HIGHLIGHT_ICONS: Record<string, LucideIcon> = {
   dashboard: LayoutDashboard,
@@ -53,85 +53,6 @@ const HIGHLIGHT_BRAND: Partial<Record<string, BrandName>> = {
   payment: "mercadopago",
 };
 
-const BotAvatar = ({ size }: { size: number }) => (
-  <div
-    className="rounded-full flex items-center justify-center font-bold text-white shrink-0"
-    style={{ width: size, height: size, background: "linear-gradient(135deg, #6aa9ff, #2d6dd1)", fontSize: Math.round(size * 0.4) }}
-  >
-    R
-  </div>
-);
-
-function PulseChatPreview({ lang }: { lang: Lang }) {
-  const c = t[lang].pulseChat;
-  return (
-    <div
-      className="w-full relative overflow-hidden shrink-0"
-      style={{
-        aspectRatio: "2940/1664",
-        background: "linear-gradient(135deg, #0e1a36 0%, #0a1226 60%, #060a16 100%)",
-      }}
-    >
-      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 14px)" }} />
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(60% 50% at 50% 0%, rgba(106,169,255,0.10), transparent 70%), linear-gradient(180deg, rgba(255,255,255,0.04), transparent 30%)" }} />
-      {/* Browser window */}
-      <div
-        className="absolute flex flex-col overflow-hidden"
-        style={{ inset: 14, borderRadius: 12, background: "#0a0f1c", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 50px -20px rgba(0,0,0,0.7), 0 8px 24px -10px rgba(106,169,255,0.18)" }}
-      >
-        {/* Chat — flex column, children must not overflow */}
-        <div className="flex flex-col min-h-0" style={{ flex: 1, background: "#0c1322", padding: "10px 14px 14px" }}>
-          {/* Header */}
-          <div className="flex items-center gap-2 shrink-0" style={{ paddingBottom: 8, marginBottom: 8, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            <BotAvatar size={28} />
-            <div>
-              <div className="flex items-center gap-1.5" style={{ fontSize: 12, fontWeight: 700, color: "#e9edf3" }}>
-                Raul
-                <span className="flex items-center gap-1" style={{ fontSize: 9.5, fontWeight: 600, color: "#5fc48a" }}>
-                  <span className="rounded-full inline-block" style={{ width: 4, height: 4, background: "#5fc48a" }} />
-                  {c.online}
-                </span>
-              </div>
-              <div style={{ fontSize: 10, color: "#8a93a3", marginTop: 1 }}>{c.role}</div>
-            </div>
-          </div>
-          {/* Messages — overflow hidden so they never push the input */}
-          <div className="flex flex-col shrink-0" style={{ gap: 6, overflow: "hidden" }}>
-            <div className="flex justify-end">
-              <div style={{ background: "#6aa9ff", color: "#06122a", fontWeight: 500, fontSize: 11, padding: "6px 10px", borderRadius: "9px 9px 2px 9px", maxWidth: "78%", lineHeight: 1.4 }}>
-                {c.userMsg}
-              </div>
-            </div>
-            <div className="flex gap-1.5 items-start">
-              <BotAvatar size={20} />
-              <div style={{ background: "#182135", border: "1px solid #232c44", borderRadius: "9px 9px 9px 2px", padding: "6px 10px", fontSize: 11, lineHeight: 1.45, color: "#e9edf3", maxWidth: "82%" }}>
-                {c.botMsg}
-                <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 5, fontFamily: "monospace", fontSize: 9.5, color: "#6aa9ff", background: "rgba(106,169,250,0.08)", padding: "2px 6px", borderRadius: 4, width: "fit-content" }}>
-                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /></svg>
-                  {c.cite}
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-1.5 items-center">
-              <BotAvatar size={20} />
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#182135", border: "1px solid #232c44", borderRadius: "9px 9px 9px 2px", padding: "7px 10px" }}>
-                {[0, 1, 2].map((i) => (
-                  <span key={i} className="block rounded-full" style={{ width: 4, height: 4, background: "#6aa9ff", opacity: 0.4, animation: `luma-typing 1.2s ease-in-out ${i * 0.2}s infinite` }} />
-                ))}
-              </div>
-            </div>
-          </div>
-          {/* Input — always at the bottom */}
-          <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "space-between", background: "#0a1020", border: "1px solid #1d2638", borderRadius: 7, paddingTop: 7, paddingBottom: 7, paddingLeft: 10, paddingRight: 10, fontSize: 10.5 }}>
-            <span style={{ color: "#555c6a" }}>{c.placeholder}</span>
-            <div style={{ width: 18, height: 18, borderRadius: 5, background: "#6aa9ff", color: "#06122a", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 11 }}>→</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const STATIC_IMAGES: Record<string, { src: string; alt: string }> = {
   redxmayor: { src: "/redxmayor.png", alt: "Red X Mayor" },
   fluxia: { src: "/fluxia.png", alt: "Fluxia Group" },
@@ -140,16 +61,31 @@ const STATIC_IMAGES: Record<string, { src: string; alt: string }> = {
   becha: { src: "/becha.png", alt: "BECHA SA" },
 };
 
-function WorkImg({ img, lang }: { img: string; lang: Lang }) {
-  if (img === "pulse") return <PulseChatPreview lang={lang} />;
+function WorkImg({
+  img,
+  aspectClassName = "aspect-[2940/1664]",
+  objectFit = "fill",
+  zoom = false,
+}: {
+  img: string;
+  aspectClassName?: string;
+  objectFit?: "fill" | "cover";
+  zoom?: boolean;
+}) {
   const staticImg = STATIC_IMAGES[img];
   if (staticImg) return (
-    <div className="w-full relative overflow-hidden shrink-0" style={{ aspectRatio: "2940/1664", background: "#0d0d13" }}>
-      <Image src={staticImg.src} alt={staticImg.alt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px" className="object-fill" />
+    <div className={`w-full relative overflow-hidden shrink-0 ${aspectClassName}`} style={{ background: "#0d0d13" }}>
+      <Image
+        src={staticImg.src}
+        alt={staticImg.alt}
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+        className={`${objectFit === "cover" ? "object-cover" : "object-fill"} ${zoom ? "transition-transform duration-500 ease-out group-hover:scale-105" : ""}`}
+      />
     </div>
   );
   return (
-    <div className="w-full relative overflow-hidden shrink-0" style={{ aspectRatio: "2940/1664", background: "linear-gradient(135deg,rgba(109,40,217,0.18) 0%,rgba(0,0,0,0) 100%)" }}>
+    <div className={`w-full relative overflow-hidden shrink-0 ${aspectClassName}`} style={{ background: "linear-gradient(135deg,rgba(109,40,217,0.18) 0%,rgba(0,0,0,0) 100%)" }}>
       <div className="absolute inset-0 flex items-center justify-center">
         <span className="font-mono uppercase text-white/[0.16]" style={{ fontSize: 10, letterSpacing: "0.22em" }}>preview</span>
       </div>
@@ -166,26 +102,20 @@ export type Work = {
 
 function HighlightGrid({ highlights }: { highlights: readonly Highlight[] }) {
   return (
-    <div className="grid gap-2.5 sm:grid-cols-2 mb-6">
+    <div className="flex flex-col gap-2.5">
       {highlights.map((h) => {
-        const brand = HIGHLIGHT_BRAND[h.icon];
-        const Icon = HIGHLIGHT_ICONS[h.icon] ?? Server;
         return (
-          <div
-            key={h.title}
-            className="flex gap-3 rounded-xl p-3.5"
-            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
-          >
+          <div key={h.title} className="flex items-start gap-2.5">
             <div
-              className="shrink-0 flex items-center justify-center rounded-lg"
-              style={{ width: 32, height: 32, background: "rgba(106,169,255,0.1)", color: "#6aa9ff" }}
+              className="shrink-0 flex items-center justify-center rounded-full"
+              style={{ width: 8, height: 8, marginTop: 5, background: "rgba(106,169,255,0.18)", color: "#6aa9ff" }}
             >
-              {brand ? <BrandIcon name={brand} size={16} /> : <Icon size={16} />}
+              <span className="rounded-full" style={{ width: 4, height: 4, background: "#6aa9ff" }} />
             </div>
-            <div>
-              <p className="text-white/80 font-medium mb-0.5" style={{ fontSize: 13 }}>{h.title}</p>
-              <p className="text-white/35" style={{ fontSize: 12.5, lineHeight: 1.55 }}>{h.desc}</p>
-            </div>
+            <p className="min-w-0" style={{ fontSize: 13, lineHeight: 1.5 }}>
+              <span className="text-white/85 font-medium">{h.title}</span>
+              <span className="text-white/40"> — {h.desc}</span>
+            </p>
           </div>
         );
       })}
@@ -199,26 +129,51 @@ export function WorkCard({
   cta,
   detailsCta,
   closeCta,
-  lang,
 }: {
   w: Work;
   i: number;
   cta: string;
   detailsCta: string;
   closeCta: string;
-  lang: Lang;
 }) {
   const [open, setOpen] = useState(false);
 
+  const spotRef = useRef<HTMLDivElement>(null);
+  const onCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = spotRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--spot-x", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--spot-y", `${e.clientY - rect.top}px`);
+  };
+
+  const dialogSpotRef = useRef<HTMLDivElement>(null);
+  const onDialogMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = dialogSpotRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--spot-x", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--spot-y", `${e.clientY - rect.top}px`);
+  };
+
   return (
     <motion.div
+      ref={spotRef}
+      onMouseMove={onCardMouseMove}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px 0px" }}
       transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-      className="work-card rounded-2xl overflow-hidden flex flex-col"
-      style={{ background: "#0d0d13" }}
+      className="work-card group/card relative rounded-2xl overflow-hidden flex flex-col"
+      style={{ background: "#0d0d13", "--spot-x": "50%", "--spot-y": "0%" } as React.CSSProperties}
     >
+      {/* Mancha de luz que sigue al cursor, igual que en el popup de planes */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none z-10 opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+        style={{ background: "radial-gradient(220px circle at var(--spot-x) var(--spot-y), rgba(106,169,255,0.1), transparent 70%)" }}
+      />
+
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger asChild>
           <button
@@ -226,7 +181,7 @@ export function WorkCard({
             className="group flex flex-col flex-1 text-left"
             style={{ background: "none", border: "none", padding: 0, margin: 0, cursor: "pointer", font: "inherit", color: "inherit" }}
           >
-            <WorkImg img={w.img} lang={lang} />
+            <WorkImg img={w.img} zoom />
             <div className="flex flex-col flex-1 p-5 pb-6 border-t border-white/[0.12] relative overflow-hidden w-full">
               <span
                 aria-hidden="true"
@@ -236,8 +191,14 @@ export function WorkCard({
                 {w.num}
               </span>
               <div className="relative flex flex-col flex-1 w-full">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="uppercase text-white/[0.28]" style={{ fontSize: 10, letterSpacing: "0.2em" }}>{w.category}</span>
+                <div className="flex items-center justify-between mb-3.5">
+                  <span
+                    className="inline-flex items-center gap-1.5 rounded-full uppercase w-fit"
+                    style={{ fontSize: 9.5, letterSpacing: "0.16em", padding: "3px 9px 3px 7px", border: "1px solid rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.45)" }}
+                  >
+                    <span className="shrink-0 rounded-full" style={{ width: 3.5, height: 3.5, background: "#6aa9ff" }} />
+                    {w.category}
+                  </span>
                   <span className="font-mono text-white/[0.18]" style={{ fontSize: 10 }}>{w.year}</span>
                 </div>
                 <h3 className="text-white font-semibold mb-2" style={{ fontSize: 26, letterSpacing: "-0.025em" }}>{w.title}</h3>
@@ -251,7 +212,7 @@ export function WorkCard({
                   </div>
                 )}
                 <span
-                  className="flex items-center gap-1.5 text-white/35 transition-colors duration-300 group-hover:text-white/75 mt-auto"
+                  className="flex items-center gap-1.5 text-white/35 transition-colors duration-300 group-hover:text-[#6aa9ff] mt-auto"
                   style={{ fontSize: 12, letterSpacing: "0.06em" }}
                 >
                   <span
@@ -273,59 +234,74 @@ export function WorkCard({
             style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(3px)", zIndex: 100 }}
           />
           <Dialog.Content
-            className="fixed left-1/2 top-1/2 w-[92vw] max-w-xl overflow-hidden rounded-2xl border flex flex-col data-[state=open]:[animation:luma-dialog-in_0.28s_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:[animation:luma-dialog-out_0.18s_ease-in]"
+            ref={dialogSpotRef}
+            onMouseMove={onDialogMouseMove}
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-xl max-h-[90vh] overflow-hidden rounded-2xl border flex flex-col data-[state=open]:[animation:luma-dialog-in_0.28s_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:[animation:luma-dialog-out_0.18s_ease-in]"
             style={{
-              transform: "translate(-50%, -50%)",
               borderColor: "rgba(255,255,255,0.1)",
               background: "#0d0d13",
-              maxHeight: "88vh",
               boxShadow: "0 40px 100px -20px rgba(0,0,0,0.7)",
               zIndex: 101,
-            }}
+              "--spot-x": "50%",
+              "--spot-y": "0%",
+            } as React.CSSProperties}
           >
+            {/* Misma mancha de luz que sigue al cursor del popup de planes — no se ve
+                sobre la foto porque es opaca, solo en el contenido de abajo */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: "radial-gradient(280px circle at var(--spot-x) var(--spot-y), rgba(106,169,255,0.1), transparent 70%)" }}
+            />
+
             <div className="relative shrink-0">
-              <WorkImg img={w.img} lang={lang} />
+              <WorkImg img={w.img} />
               <Dialog.Close asChild>
                 <button
                   aria-label={closeCta}
-                  className="absolute flex items-center justify-center rounded-full"
+                  className="group absolute flex items-center justify-center rounded-full transition-colors duration-300 hover:bg-black/70"
                   style={{ top: 12, right: 12, width: 32, height: 32, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(4px)", border: "1px solid rgba(255,255,255,0.14)", color: "rgba(255,255,255,0.85)" }}
                 >
-                  <X size={16} />
+                  <X size={16} className="transition-transform duration-300 ease-out group-hover:rotate-90" />
                 </button>
               </Dialog.Close>
             </div>
-            <div className="overflow-y-auto p-6 md:p-8">
+
+            <div className="relative overflow-y-auto p-6">
               <div className="flex items-center justify-between mb-3">
-                <span className="uppercase text-white/[0.28]" style={{ fontSize: 10, letterSpacing: "0.2em" }}>{w.category}</span>
+                <span
+                  className="inline-flex items-center gap-1.5 rounded-full uppercase w-fit"
+                  style={{ fontSize: 9.5, letterSpacing: "0.16em", padding: "3px 9px 3px 7px", border: "1px solid rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.45)" }}
+                >
+                  <span className="shrink-0 rounded-full" style={{ width: 3.5, height: 3.5, background: "#6aa9ff" }} />
+                  {w.category}
+                </span>
                 <span className="font-mono text-white/[0.25]" style={{ fontSize: 10 }}>{w.year}</span>
               </div>
               <Dialog.Title asChild>
-                <h3 className="text-white font-semibold mb-3" style={{ fontSize: 28, letterSpacing: "-0.025em" }}>{w.title}</h3>
+                <h3 className="text-white font-semibold mb-2" style={{ fontSize: 24, letterSpacing: "-0.02em" }}>{w.title}</h3>
               </Dialog.Title>
               {w.stat && (
                 <div
-                  className="font-mono w-fit mb-4"
+                  className="font-mono w-fit mb-3"
                   style={{ fontSize: 11, color: "#6aa9ff", background: "rgba(106,169,255,0.08)", padding: "5px 10px", borderRadius: 6, letterSpacing: "0.01em" }}
                 >
                   {w.stat}
                 </div>
               )}
               <Dialog.Description asChild>
-                <p className="text-white/[0.45] leading-relaxed mb-6" style={{ fontSize: 14, lineHeight: 1.7 }}>{w.desc}</p>
+                <p className="text-white/[0.5] leading-relaxed mb-4" style={{ fontSize: 13, lineHeight: 1.6 }}>{w.desc}</p>
               </Dialog.Description>
-              {w.highlights && w.highlights.length > 0 && <HighlightGrid highlights={w.highlights} />}
+              {w.highlights && w.highlights.length > 0 && (
+                <div className="mb-5">
+                  <HighlightGrid highlights={w.highlights} />
+                </div>
+              )}
               {w.link && (
-                <a
-                  href={w.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full font-medium transition-opacity hover:opacity-80"
-                  style={{ fontSize: 13, padding: "10px 20px", background: "white", color: "#0a0a0a" }}
-                >
+                <ShineButton href={w.link} target="_blank" rel="noopener noreferrer" className="w-fit">
                   {cta}
                   <ArrowUpRight size={14} />
-                </a>
+                </ShineButton>
               )}
             </div>
           </Dialog.Content>

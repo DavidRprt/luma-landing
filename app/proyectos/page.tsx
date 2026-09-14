@@ -61,7 +61,7 @@ export default function ProyectosPage() {
       <section className="bg-black px-5 md:px-20 pb-16 md:pb-24">
         <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))" }}>
           {filtered.map((w, i) => (
-            <WorkCard key={w.num} w={w} i={i} cta={c.cta} detailsCta={c.detailsCta} closeCta={c.closeCta} lang={lang} />
+            <WorkCard key={w.num} w={w} i={i} cta={c.cta} detailsCta={c.detailsCta} closeCta={c.closeCta} />
           ))}
         </div>
       </section>
