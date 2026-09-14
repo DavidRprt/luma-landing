@@ -93,7 +93,7 @@ function ContactForm({ lang }: { lang: Lang }) {
     />
   );
   const Label = ({ children }: { children: React.ReactNode }) => (
-    <label className="flex items-center gap-2 text-white/40 mb-2.5" style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+    <label className="flex items-center gap-2 text-white/40 mb-2" style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>
       <span className="shrink-0 rounded-full" style={{ width: 4, height: 4, background: "#6aa9ff" }} />
       {children}
     </label>
@@ -116,10 +116,10 @@ function ContactForm({ lang }: { lang: Lang }) {
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-col" style={{ gap: 30 }}>
+    <form onSubmit={submit} className="flex flex-col" style={{ gap: 22 }}>
       <p className="text-white/30 uppercase" style={{ fontSize: 11, letterSpacing: "0.3em" }}>{c.title}</p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: 30 }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: 22 }}>
         <div className="relative">
           <Label>{c.name}</Label>
           <input required value={form.nombre} onChange={update("nombre")} placeholder={c.namePlaceholder} className={fieldClass} style={fieldStyle} />
