@@ -140,10 +140,13 @@ const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
             ))}
           </div>
 
-          {/* CTA — oculto en mobile, donde "Contacto" ya vive en el menú hamburguesa */}
+          {/* CTA — oculto en mobile, donde "Contacto" ya vive en el menú hamburguesa.
+              Ancho fijo (no solo padding) para que no cambie de tamaño entre
+              "Hablemos" y "Let's talk" al cambiar de idioma. */}
           <Link
             href="/contacto"
-            className="hidden md:inline-block text-sm text-black bg-white hover:bg-white/80 transition-colors duration-300 rounded-full px-4 py-1.5 font-medium"
+            className="hidden md:inline-flex items-center justify-center text-sm text-black bg-white hover:bg-white/80 transition-colors duration-300 rounded-full py-1.5 font-medium"
+            style={{ width: 104 }}
           >
             {c.cta}
           </Link>
