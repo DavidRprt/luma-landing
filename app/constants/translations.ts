@@ -36,7 +36,7 @@ export const t = {
       allFilter:  "Todos",
       items: [
         {
-          num: "01", title: "Nash", category: "E-commerce", year: "2025",
+          num: "01", title: "Nash", category: "E-commerce", year: "2026",
           desc: "Tienda online de productos para el hogar y estilo de vida: catálogo por categorías, ofertas por tiempo limitado y checkout propio.",
           stat: "", img: "nash", link: "https://www.nash.com.ar",
           highlights: [
@@ -58,7 +58,7 @@ export const t = {
           ],
         },
         {
-          num: "03", title: "Fluxia Group", category: "Sitios Corporativos", year: "2025",
+          num: "03", title: "Fluxia Group", category: "Sitio Corporativo", year: "2025",
           desc: "Sitio institucional y blog para Fluxia Group, plataforma de IA conversacional para empresas y gobiernos: diseño, contenido y navegación pensados para transmitir confianza y convertir visitas.",
           stat: "", img: "fluxia", link: "https://fluxiagroup.com",
           highlights: [
@@ -79,7 +79,7 @@ export const t = {
           ],
         },
         {
-          num: "05", title: "SeoFy", category: "Sitios Corporativos", year: "2025",
+          num: "05", title: "SeoFy", category: "Sitio Corporativo", year: "2024",
           desc: "Plataforma para comprar guest posts, backlinks y contenido SEO: catálogo de sitios, gestión de pedidos propia y disponible en varios idiomas.",
           stat: "1500+ sitios listados", img: "seofy", link: "https://www.seofy.link",
           highlights: [
@@ -341,7 +341,7 @@ export const t = {
       allFilter:  "All",
       items: [
         {
-          num: "01", title: "Nash", category: "E-commerce", year: "2025",
+          num: "01", title: "Nash", category: "E-commerce", year: "2026",
           desc: "Online store for home and lifestyle products: catalog by category, time-limited deals, and a custom checkout.",
           stat: "", img: "nash", link: "https://www.nash.com.ar",
           highlights: [
@@ -363,7 +363,7 @@ export const t = {
           ],
         },
         {
-          num: "03", title: "Fluxia Group", category: "Corporate Sites", year: "2025",
+          num: "03", title: "Fluxia Group", category: "Corporate Site", year: "2025",
           desc: "Corporate site and blog for Fluxia Group, an AI conversational platform for businesses and governments: design, content and navigation built to earn trust and convert visits.",
           stat: "", img: "fluxia", link: "https://fluxiagroup.com",
           highlights: [
@@ -384,7 +384,7 @@ export const t = {
           ],
         },
         {
-          num: "05", title: "SeoFy", category: "Corporate Sites", year: "2025",
+          num: "05", title: "SeoFy", category: "Corporate Site", year: "2024",
           desc: "Platform to buy guest posts, backlinks and SEO content: site catalog, own order management, and available in multiple languages.",
           stat: "1500+ sites listed", img: "seofy", link: "https://www.seofy.link",
           highlights: [

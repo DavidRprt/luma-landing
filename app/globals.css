@@ -79,16 +79,7 @@
 @keyframes luma-overlay-in  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes luma-overlay-out { from { opacity: 1; } to { opacity: 0; } }
 
-@keyframes luma-dialog-in {
-  from { opacity: 0; transform: translate(-50%, -50%) scale(0.95) translateY(16px); }
-  to   { opacity: 1; transform: translate(-50%, -50%) scale(1) translateY(0); }
-}
-@keyframes luma-dialog-out {
-  from { opacity: 1; transform: translate(-50%, -50%) scale(1) translateY(0); }
-  to   { opacity: 0; transform: translate(-50%, -50%) scale(0.97) translateY(10px); }
-}
-
-/* Igual que luma-dialog-in/out pero sin tocar `transform`: usa `scale` como
+/* Usa `scale` como
    propiedad independiente para no pisar el translate responsive (Tailwind)
    del propio elemento — hace falta cuando el popup no está centrado con
    transform fijo en todos los breakpoints (p. ej. popup casi fullscreen en mobile).

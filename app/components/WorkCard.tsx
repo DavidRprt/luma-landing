@@ -61,31 +61,21 @@ const STATIC_IMAGES: Record<string, { src: string; alt: string }> = {
   becha: { src: "/becha.png", alt: "BECHA SA" },
 };
 
-function WorkImg({
-  img,
-  aspectClassName = "aspect-[2940/1664]",
-  objectFit = "fill",
-  zoom = false,
-}: {
-  img: string;
-  aspectClassName?: string;
-  objectFit?: "fill" | "cover";
-  zoom?: boolean;
-}) {
+function WorkImg({ img }: { img: string }) {
   const staticImg = STATIC_IMAGES[img];
   if (staticImg) return (
-    <div className={`w-full relative overflow-hidden shrink-0 ${aspectClassName}`} style={{ background: "#0d0d13" }}>
+    <div className="w-full relative overflow-hidden shrink-0 aspect-[2940/1664]" style={{ background: "#0d0d13" }}>
       <Image
         src={staticImg.src}
         alt={staticImg.alt}
         fill
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
-        className={`${objectFit === "cover" ? "object-cover" : "object-fill"} ${zoom ? "transition-transform duration-500 ease-out group-hover:scale-105" : ""}`}
+        className="object-fill"
       />
     </div>
   );
   return (
-    <div className={`w-full relative overflow-hidden shrink-0 ${aspectClassName}`} style={{ background: "linear-gradient(135deg,rgba(109,40,217,0.18) 0%,rgba(0,0,0,0) 100%)" }}>
+    <div className="w-full relative overflow-hidden shrink-0 aspect-[2940/1664]" style={{ background: "linear-gradient(135deg,rgba(109,40,217,0.18) 0%,rgba(0,0,0,0) 100%)" }}>
       <div className="absolute inset-0 flex items-center justify-center">
         <span className="font-mono uppercase text-white/[0.16]" style={{ fontSize: 10, letterSpacing: "0.22em" }}>preview</span>
       </div>
@@ -156,6 +146,27 @@ export function WorkCard({
     el.style.setProperty("--spot-y", `${e.clientY - rect.top}px`);
   };
 
+  // Igual que en el popup de planes: el popup "sale" y "se esconde" desde la
+  // card que lo abrió, en vez de crecer siempre desde el centro de la pantalla.
+  const triggerPointRef = useRef<{ x: number; y: number } | null>(null);
+  const onTriggerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    triggerPointRef.current = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+  };
+
+  const applyTransformOrigin = (el: HTMLDivElement) => {
+    const point = triggerPointRef.current;
+    if (!point) return;
+    const popupLeft = window.innerWidth / 2 - el.offsetWidth / 2;
+    const popupTop = window.innerHeight / 2 - el.offsetHeight / 2;
+    el.style.transformOrigin = `${point.x - popupLeft}px ${point.y - popupTop}px`;
+  };
+
+  const setDialogSpotRef = (el: HTMLDivElement | null) => {
+    dialogSpotRef.current = el;
+    if (el) applyTransformOrigin(el);
+  };
+
   return (
     <motion.div
       ref={spotRef}
@@ -178,10 +189,11 @@ export function WorkCard({
         <Dialog.Trigger asChild>
           <button
             type="button"
+            onClick={onTriggerClick}
             className="group flex flex-col flex-1 text-left"
             style={{ background: "none", border: "none", padding: 0, margin: 0, cursor: "pointer", font: "inherit", color: "inherit" }}
           >
-            <WorkImg img={w.img} zoom />
+            <WorkImg img={w.img} />
             <div className="flex flex-col flex-1 p-5 pb-6 border-t border-white/[0.12] relative overflow-hidden w-full">
               <span
                 aria-hidden="true"
@@ -234,9 +246,9 @@ export function WorkCard({
             style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(3px)", zIndex: 100 }}
           />
           <Dialog.Content
-            ref={dialogSpotRef}
+            ref={setDialogSpotRef}
             onMouseMove={onDialogMouseMove}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-xl max-h-[90vh] overflow-hidden rounded-2xl border flex flex-col data-[state=open]:[animation:luma-dialog-in_0.28s_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:[animation:luma-dialog-out_0.18s_ease-in]"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-xl max-h-[90vh] overflow-hidden rounded-2xl border flex flex-col data-[state=open]:[animation:luma-popup-in_0.4s_cubic-bezier(0.16,1,0.3,1)] data-[state=closed]:[animation:luma-popup-out_0.28s_cubic-bezier(0.6,0,0.8,0.2)]"
             style={{
               borderColor: "rgba(255,255,255,0.1)",
               background: "#0d0d13",
