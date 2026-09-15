@@ -4,15 +4,13 @@ import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import { cn } from "@/lib/utils";
-import { pageMetadata } from "@/lib/seo";
+import { pageMetadata, SITE_URL, HOME_COPY } from "@/lib/seo";
+import { OrganizationJsonLd } from "./components/OrganizationJsonLd";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://underluma.com";
-
-const HOME_TITLE = "_luma — sitios web modernos y a medida";
-const HOME_DESCRIPTION =
-  "Diseñamos y desarrollamos sitios web modernos, rápidos y a medida que hacen crecer tu negocio: landing pages, e-commerce y sitios corporativos con hosting y mantenimiento incluidos.";
+const HOME_TITLE = HOME_COPY.es.title;
+const HOME_DESCRIPTION = HOME_COPY.es.description;
 
 const home = pageMetadata({ path: "/", lang: "es", title: HOME_TITLE, description: HOME_DESCRIPTION });
 
@@ -48,26 +46,13 @@ export const metadata: Metadata = {
   alternates: home.alternates,
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "_luma",
-  url: SITE_URL,
-  logo: `${SITE_URL}/favicon.ico`,
-  email: "hello@underluma.com",
-  description: HOME_DESCRIPTION,
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className={cn("font-sans", inter.variable)}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
+        <OrganizationJsonLd />
       </head>
       <body>
         {children}
