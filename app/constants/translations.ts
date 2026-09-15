@@ -135,8 +135,8 @@ export const t = {
     subscription: {
       eyebrow: "Suscripción · Pagás mes a mes",
       heroTitleA: "Un sitio profesional,",
-      heroTitleB: "sin pagar todo",
-      heroItalic: "de una.",
+      heroTitleB: "sin",
+      heroItalic: "pago inicial.",
       heroSub: "Landing pages y sitios corporativos por suscripción mensual. Hosting, dominio y mantenimiento resueltos — vos pagás mes a mes.",
       scrollCta: "Ver más",
       steps: {
@@ -178,7 +178,7 @@ export const t = {
       plans: {
         eyebrow: "Planes",
         title: "Elegí el tuyo.",
-        note: "No es básico y premium — es campaña y presencia. Elegí según lo que necesitás hoy.",
+        note: "Campaña. Presencia. Elegí uno, o combiná los dos.",
         ctaLabel: "Empezar",
         moreLabel: "Ver más",
         closeLabel: "Cerrar",
@@ -479,7 +479,7 @@ export const t = {
       plans: {
         eyebrow: "Plans",
         title: "Pick yours.",
-        note: "It's not basic vs. premium — it's campaign vs. presence. Pick whichever matches what you need today.",
+        note: "Campaign. Presence. Pick one, or combine both.",
         ctaLabel: "Get started",
         moreLabel: "Learn more",
         closeLabel: "Close",
