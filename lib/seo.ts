@@ -8,14 +8,14 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://underluma.c
 // diverjan con el tiempo.
 export const HOME_COPY: Record<Lang, { title: string; description: string }> = {
   es: {
-    title: "_luma — sitios web mes a mes, sin pago inicial",
+    title: "_luma — premium, a medida, sin pago inicial",
     description:
-      "Landing pages, e-commerce y sitios corporativos por suscripción mensual — sin un pago grande para arrancar. Hosting, dominio y mantenimiento incluidos.",
+      "Programamos tu sitio de cero, con tecnología moderna, para que accedas a algo realmente premium sin el pago grande de siempre: pagás mes a mes, con hosting, dominio y mantenimiento incluidos.",
   },
   en: {
-    title: "_luma — websites month to month, no upfront cost",
+    title: "_luma — premium, custom-built, no upfront cost",
     description:
-      "Landing pages, e-commerce, and corporate sites by monthly subscription — no big payment to get started. Hosting, domain, and maintenance included.",
+      "We build your site from scratch, with modern technology, so you get something truly premium without the usual big payment: pay month to month, with hosting, domain, and maintenance included.",
   },
 };
 
