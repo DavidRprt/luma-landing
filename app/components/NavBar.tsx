@@ -2,23 +2,25 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { t, type Lang } from "../constants/translations";
+import { withLang, basePathFromPathname } from "@/lib/i18n";
 
 interface Props {
   lang: Lang;
-  setLang: (l: Lang) => void;
   /** Where the logo links to. Defaults to the in-page hero anchor (for the homepage itself). */
   homeHref?: string;
 }
 
-const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
+const NavBar = ({ lang, homeHref = "#hero" }: Props) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const c = t[lang].nav;
+  const basePath = basePathFromPathname(pathname);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
@@ -42,9 +44,9 @@ const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
   }, [menuOpen]);
 
   const links = [
-    { label: c.services, href: "/planes", active: pathname.startsWith("/planes") },
-    { label: c.works,    href: "/proyectos",   active: pathname.startsWith("/proyectos")   },
-    { label: c.contact,  href: "/contacto",    active: pathname.startsWith("/contacto")    },
+    { label: c.services, href: withLang("/planes", lang), active: basePath.startsWith("/planes") },
+    { label: c.works,    href: withLang("/proyectos", lang),   active: basePath.startsWith("/proyectos")   },
+    { label: c.contact,  href: withLang("/contacto", lang),    active: basePath.startsWith("/contacto")    },
   ];
 
   return (
@@ -122,7 +124,7 @@ const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
             {(["es", "en"] as Lang[]).map((l) => (
               <button
                 key={l}
-                onClick={() => setLang(l)}
+                onClick={() => router.push(withLang(basePath, l))}
                 className="relative z-10 text-center rounded-full border-none cursor-pointer bg-transparent"
                 style={{
                   width: 34,
@@ -144,7 +146,7 @@ const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
               Ancho fijo (no solo padding) para que no cambie de tamaño entre
               "Hablemos" y "Let's talk" al cambiar de idioma. */}
           <Link
-            href="/contacto"
+            href={withLang("/contacto", lang)}
             className="hidden md:inline-flex items-center justify-center text-sm text-black bg-white hover:bg-white/80 transition-colors duration-300 rounded-full py-1.5 font-medium"
             style={{ width: 104 }}
           >
@@ -199,7 +201,7 @@ const NavBar = ({ lang, setLang, homeHref = "#hero" }: Props) => {
               </Link>
             ))}
             <Link
-              href="/contacto"
+              href={withLang("/contacto", lang)}
               className="text-center text-black bg-white hover:bg-white/85 transition-colors duration-200 font-medium"
               style={{ fontSize: 13, padding: "13px 20px", margin: 10, borderRadius: 999 }}
             >

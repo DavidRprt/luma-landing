@@ -1,8 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useSearchParams, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { Accordion } from "radix-ui";
 import { ChevronDown, ArrowRight, Check, X } from "lucide-react";
@@ -10,11 +9,13 @@ import MacbookShowcase from "../components/MacbookShowcase";
 import StepsTimeline from "../components/StepsTimeline";
 import WhyUs from "../components/WhyUs";
 import NavBar from "../components/NavBar";
+import { LangHtmlSync } from "../components/LangHtmlSync";
 import ChatWidget from "../components/ChatWidget";
 import Footer from "../sections/Footer";
 import AuroraGlow from "../components/AuroraGlow";
 import { ShineButton } from "../components/ShineButton";
-import { t, type Lang } from "../constants/translations";
+import { t } from "../constants/translations";
+import { withLang, langFromPathname } from "@/lib/i18n";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const fadeUp = {
@@ -32,7 +33,7 @@ export default function SubscriptionPage() {
 }
 
 function SubscriptionPageContent() {
-  const [lang, setLang] = useState<Lang>("es");
+  const lang = langFromPathname(usePathname());
   const c = t[lang].subscription;
 
   const params = useSearchParams();
@@ -40,7 +41,8 @@ function SubscriptionPageContent() {
 
   return (
     <main>
-      <NavBar lang={lang} setLang={setLang} homeHref="/" />
+      <LangHtmlSync lang={lang} />
+      <NavBar lang={lang} homeHref={withLang("/", lang)} />
 
       <AnimatePresence>
         {showPostCheckout && (
@@ -200,7 +202,7 @@ function SubscriptionPageContent() {
                 ))}
               </ul>
               <p className="text-white/30 mb-6" style={{ fontSize: 12, lineHeight: 1.5 }}>{plan.footnote}</p>
-              <ShineButton href={`/planes/empezar?plan=${i === 0 ? "landing" : "corporativo"}`} className="w-full">
+              <ShineButton href={withLang(`/planes/empezar?plan=${i === 0 ? "landing" : "corporativo"}`, lang)} className="w-full">
                 {c.plans.ctaLabel}
                 <ArrowRight size={15} />
               </ShineButton>

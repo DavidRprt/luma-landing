@@ -1,15 +1,18 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import NavBar from "../components/NavBar";
+import { LangHtmlSync } from "../components/LangHtmlSync";
 import ChatWidget from "../components/ChatWidget";
 import Footer from "../sections/Footer";
 import { WorkCard } from "../components/WorkCard";
-import { t, type Lang } from "../constants/translations";
+import { t } from "../constants/translations";
+import { withLang, langFromPathname } from "@/lib/i18n";
 
 export default function ProyectosPage() {
-  const [lang, setLang] = useState<Lang>("es");
+  const lang = langFromPathname(usePathname());
   const c = t[lang].works;
   const [filter, setFilter] = useState<string>(c.allFilter);
 
@@ -21,7 +24,8 @@ export default function ProyectosPage() {
 
   return (
     <main>
-      <NavBar lang={lang} setLang={setLang} homeHref="/" />
+      <LangHtmlSync lang={lang} />
+      <NavBar lang={lang} homeHref={withLang("/", lang)} />
 
       <section className="bg-black px-5 md:px-20 pt-32 pb-8 md:pb-10 flex flex-col justify-center">
         <motion.div

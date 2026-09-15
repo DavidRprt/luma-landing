@@ -1,12 +1,14 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowLeft, ArrowRight, Check, MessageCircle, CalendarClock, Lock } from "lucide-react";
-import { t, type Lang } from "../../constants/translations";
+import { t } from "../../constants/translations";
 import { ShineButton } from "../../components/ShineButton";
+import { LangHtmlSync } from "../../components/LangHtmlSync";
+import { withLang, langFromPathname } from "@/lib/i18n";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -26,7 +28,7 @@ export default function EmpezarPage() {
 
 function EmpezarContent() {
   const params = useSearchParams();
-  const [lang] = useState<Lang>("es");
+  const lang = langFromPathname(usePathname());
   const c = t[lang].subscription;
   const cc = t[lang].checkout;
 
@@ -57,9 +59,10 @@ function EmpezarContent() {
 
   return (
     <main className="min-h-screen bg-black text-white">
+      <LangHtmlSync lang={lang} />
       <div className="px-5 md:px-20 py-10 md:py-16">
         <Link
-          href="/planes"
+          href={withLang("/planes", lang)}
           className="inline-flex items-center gap-1.5 text-white/40 hover:text-white/70 transition-colors mb-10"
           style={{ fontSize: 13 }}
         >

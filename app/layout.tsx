@@ -4,23 +4,29 @@ import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import { cn } from "@/lib/utils";
+import { pageMetadata } from "@/lib/seo";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://underluma.com";
 
+const HOME_TITLE = "_luma — sitios web modernos y a medida";
+const HOME_DESCRIPTION =
+  "Diseñamos y desarrollamos sitios web modernos, rápidos y a medida que hacen crecer tu negocio: landing pages, e-commerce y sitios corporativos con hosting y mantenimiento incluidos.";
+
+const home = pageMetadata({ path: "/", lang: "es", title: HOME_TITLE, description: HOME_DESCRIPTION });
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "_luma — sitios web modernos con IA",
+    default: HOME_TITLE,
     template: "%s | _luma",
   },
-  description:
-    "Diseñamos y desarrollamos sitios web modernos, rápidos e inteligentes que hacen crecer tu negocio. Diseño web, e-commerce, IA integrada y SEO técnico.",
+  description: HOME_DESCRIPTION,
   keywords: [
-    "diseño web", "desarrollo web", "inteligencia artificial",
-    "Next.js", "e-commerce", "landing page", "SEO", "chatbot IA",
-    "sitios web modernos", "agencia web",
+    "diseño web", "desarrollo web", "sitios corporativos",
+    "Next.js", "e-commerce", "landing page", "SEO técnico",
+    "sitios web modernos", "agencia web", "suscripción mensual",
   ],
   authors: [{ name: "_luma", url: SITE_URL }],
   robots: {
@@ -30,29 +36,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "es_AR",
-    alternateLocale: "en_US",
-    url: SITE_URL,
     siteName: "_luma",
-    title: "_luma — sitios web modernos con IA",
-    description:
-      "Diseñamos y desarrollamos sitios web modernos, rápidos e inteligentes que hacen crecer tu negocio.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "_luma — sitios web modernos con IA" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: HOME_TITLE }],
+    ...home.openGraph,
   },
   twitter: {
     card: "summary_large_image",
-    title: "_luma — sitios web modernos con IA",
-    description: "Diseñamos y desarrollamos sitios web modernos, rápidos e inteligentes.",
     images: ["/og-image.png"],
+    ...home.twitter,
   },
-  alternates: {
-    canonical: SITE_URL,
-    languages: {
-      "es-AR": SITE_URL,
-      "en-US": SITE_URL,
-      "x-default": SITE_URL,
-    },
-  },
+  alternates: home.alternates,
 };
 
 const organizationJsonLd = {
@@ -62,8 +55,7 @@ const organizationJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.ico`,
   email: "hello@underluma.com",
-  description:
-    "Diseñamos y desarrollamos sitios web modernos, rápidos e inteligentes que hacen crecer tu negocio.",
+  description: HOME_DESCRIPTION,
 };
 
 export default function RootLayout({

@@ -6,6 +6,7 @@ import { Dialog } from "radix-ui";
 import { ArrowRight, Check, X } from "lucide-react";
 import { t, type Lang } from "../constants/translations";
 import { ShineButton } from "../components/ShineButton";
+import { withLang } from "@/lib/i18n";
 
 type PlanId = "landing" | "corporativo";
 type SubscriptionCopy = (typeof t)[Lang]["subscription"];
@@ -33,6 +34,7 @@ function PlanCard({
   plan,
   index,
   s,
+  lang,
   open,
   onOpenChange,
 }: {
@@ -40,6 +42,7 @@ function PlanCard({
   plan: PlanData;
   index: number;
   s: SubscriptionCopy;
+  lang: Lang;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
@@ -266,7 +269,7 @@ function PlanCard({
                     <motion.p variants={itemVariants} className="text-white/30 mb-2" style={{ fontSize: 11, lineHeight: 1.35 }}>{plan.footnote}</motion.p>
 
                     <motion.div variants={itemVariants} className="mt-auto">
-                      <ShineButton href={`/planes/empezar?plan=${id}`} className="w-full">
+                      <ShineButton href={withLang(`/planes/empezar?plan=${id}`, lang)} className="w-full">
                         {s.plans.ctaLabel}
                         <ArrowRight size={15} />
                       </ShineButton>
@@ -329,6 +332,7 @@ const Subscription = ({ lang }: { lang: Lang }) => {
             plan={plan}
             index={i}
             s={s}
+            lang={lang}
             open={openPlan === id}
             onOpenChange={(open) => setOpenPlan(open ? id : null)}
           />
@@ -348,7 +352,7 @@ const Subscription = ({ lang }: { lang: Lang }) => {
         }}
       >
         <p className="text-white font-medium" style={{ fontSize: 16 }}>{c.morePrompt}</p>
-        <ShineButton href="/planes" className="shrink-0">
+        <ShineButton href={withLang("/planes", lang)} className="shrink-0">
           {c.moreCta}
           <ArrowRight size={16} />
         </ShineButton>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { WorkCard } from "../components/WorkCard";
 import { t, type Lang } from "../constants/translations";
+import { withLang } from "@/lib/i18n";
 
 const HOMEPAGE_COUNT = 3;
 
@@ -39,7 +40,7 @@ const Works = ({ lang }: { lang: Lang }) => {
         className="flex justify-center mt-8 md:mt-10"
       >
         <Link
-          href="/proyectos"
+          href={withLang("/proyectos", lang)}
           className="group inline-flex items-center gap-2 rounded-full border font-medium transition-colors duration-300"
           style={{ fontSize: 14, padding: "12px 26px", borderColor: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.85)" }}
         >
