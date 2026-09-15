@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
@@ -21,6 +21,25 @@ const NavBar = ({ lang, homeHref = "#hero" }: Props) => {
   const router = useRouter();
   const c = t[lang].nav;
   const basePath = basePathFromPathname(pathname);
+
+  // La pastillita desliza apenas se toca — la navegación real (a otra
+  // página, con su propio <html lang> y metadata) se dispara un instante
+  // después, para que la transición se vea en vez de quedar tapada por el
+  // remount de la página nueva. No cambia nada de las URLs/SEO: es solo
+  // el timing de este click.
+  const [pendingLang, setPendingLang] = useState<Lang | null>(null);
+  const displayLang = pendingLang ?? lang;
+  const langTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const onLangClick = (l: Lang) => {
+    if (l === displayLang) return;
+    setPendingLang(l);
+    langTimerRef.current = setTimeout(() => {
+      router.push(withLang(basePath, l), { scroll: false });
+    }, 280);
+  };
+  useEffect(() => () => {
+    if (langTimerRef.current) clearTimeout(langTimerRef.current);
+  }, []);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
@@ -117,14 +136,15 @@ const NavBar = ({ lang, homeHref = "#hero" }: Props) => {
               style={{
                 width: "calc(50% - 2px)",
                 background: "rgba(255,255,255,0.15)",
-                transform: lang === "en" ? "translateX(100%)" : "translateX(0)",
+                transform: displayLang === "en" ? "translateX(100%)" : "translateX(0)",
                 transition: "transform 0.28s cubic-bezier(0.4,0,0.2,1)",
               }}
             />
             {(["es", "en"] as Lang[]).map((l) => (
               <button
                 key={l}
-                onClick={() => router.push(withLang(basePath, l))}
+                onClick={() => onLangClick(l)}
+                onMouseEnter={() => router.prefetch(withLang(basePath, l))}
                 className="relative z-10 text-center rounded-full border-none cursor-pointer bg-transparent"
                 style={{
                   width: 34,
@@ -133,7 +153,7 @@ const NavBar = ({ lang, homeHref = "#hero" }: Props) => {
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
                   padding: "5px 0",
-                  color: lang === l ? "white" : "rgba(255,255,255,0.35)",
+                  color: displayLang === l ? "white" : "rgba(255,255,255,0.35)",
                   transition: "color 0.25s",
                 }}
               >
