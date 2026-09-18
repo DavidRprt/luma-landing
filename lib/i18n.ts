@@ -19,3 +19,8 @@ export function basePathFromPathname(pathname: string): string {
   if (pathname.startsWith("/en/")) return pathname.slice(3);
   return pathname;
 }
+
+/** Type guard para validar un `lang` recibido en el body de una request (no confiable por sí solo). */
+export function isLang(value: unknown): value is Lang {
+  return value === "es" || value === "en";
+}

@@ -8,6 +8,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import type { Lang } from "../../app/constants/translations";
 
 // Fondo claro a propósito, aunque el sitio sea oscuro: muchos clientes de
 // mail (Gmail, Outlook) fuerzan su propio "dark mode" sobre HTML con fondo
@@ -15,15 +16,24 @@ import {
 // azul de acento se ve igual en todos lados.
 const ACCENT = "#3d7fd6";
 
+const FOOTER_TAGLINE: Record<Lang, string> = {
+  es: "_luma · Diseño web · Desarrollo · IA",
+  en: "_luma · Web design · Development · AI",
+};
+
 export function EmailLayout({
   preview,
+  lang = "es",
   children,
 }: {
   preview: string;
+  /** Opcional — por defecto "es" para no cambiar el resultado de los emails
+      que todavía no pasan idioma (p. ej. WelcomeEmail). */
+  lang?: Lang;
   children: React.ReactNode;
 }) {
   return (
-    <Html lang="es">
+    <Html lang={lang}>
       <Head />
       <Preview>{preview}</Preview>
       <Body style={{ backgroundColor: "#f4f5f7", fontFamily: "Helvetica, Arial, sans-serif", margin: 0, padding: 0 }}>
@@ -48,7 +58,7 @@ export function EmailLayout({
 
           <Hr style={{ borderColor: "#e4e6ea", margin: "32px 0 20px" }} />
           <Text style={{ margin: 0, fontSize: 12, lineHeight: 1.6, color: "#8a8f98" }}>
-            _luma · Diseño web · Desarrollo · IA
+            {FOOTER_TAGLINE[lang]}
             <br />
             hello@underluma.com · +54 9 11 5738-7432
           </Text>

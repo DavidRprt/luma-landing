@@ -1,5 +1,5 @@
 import { Button, Heading, Section, Text } from "@react-email/components";
-import { EmailLayout, emailAccent } from "./components/EmailLayout";
+import { EmailLayout, emailAccent } from "../components/EmailLayout";
 
 interface WelcomeEmailProps {
   planName: string;

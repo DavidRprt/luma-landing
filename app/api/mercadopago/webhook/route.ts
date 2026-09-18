@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse, after } from "next/server"
 import { createHmac, timingSafeEqual } from "node:crypto"
 import { Resend } from "resend"
-import WelcomeEmail from "../../../../emails/WelcomeEmail"
+import WelcomeEmail from "../../../../emails/customer/WelcomeEmail"
 
 const ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN!
 const WEBHOOK_SECRET = process.env.MERCADOPAGO_WEBHOOK_SECRET

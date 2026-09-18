@@ -18,6 +18,28 @@ function isPlanId(value: string | null): value is PlanId {
   return value === "landing" || value === "corporativo";
 }
 
+// Línea de base, no caja: mismo lenguaje visual que el form de contacto.
+const fieldClass =
+  "peer w-full bg-transparent border-0 border-b border-white/[0.12] rounded-none text-white/90 placeholder:text-white/20 outline-none transition-colors duration-300 focus:border-transparent";
+const fieldStyle: React.CSSProperties = { fontSize: 15, padding: "8px 0 10px" };
+
+function FormField({ label, className, children }: { label: string; className?: string; children: React.ReactNode }) {
+  return (
+    <div className={`relative ${className ?? ""}`}>
+      <label className="flex items-center gap-2 text-white/40 uppercase mb-2" style={{ fontSize: 10.5, letterSpacing: 1.5 }}>
+        <span className="shrink-0 rounded-full" style={{ width: 4, height: 4, background: "#6aa9ff" }} />
+        {label}
+      </label>
+      {children}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 bottom-0 w-full origin-left scale-x-0 transition-transform duration-300 ease-out peer-focus:scale-x-100"
+        style={{ height: 1.5, background: "#6aa9ff" }}
+      />
+    </div>
+  );
+}
+
 export default function EmpezarPage() {
   return (
     <Suspense fallback={null}>
@@ -37,10 +59,13 @@ function EmpezarContent() {
   const plan = planId === "landing" ? c.plans.landing : c.plans.corporate;
 
   const [email, setEmail] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [empresa, setEmpresa] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [accepted, setAccepted] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
 
-  const canPay = accepted && email.trim().length > 3;
+  const canPay = accepted && email.trim().length > 3 && telefono.trim().length > 3 && empresa.trim().length > 1;
 
   const waMessage = (reason: string) =>
     `https://wa.me/5491157387432?text=${encodeURIComponent(reason)}`;
@@ -48,7 +73,18 @@ function EmpezarContent() {
   const handleContinue = async () => {
     setStatus("loading");
     try {
-      const res = await fetch(`/api/mercadopago/checkout-link?plan=${planId}`);
+      // Se avisa al equipo antes de redirigir: si el cliente abandona el pago
+      // en Mercado Pago, ya tenemos sus datos para poder contactarlo.
+      const checkoutIntent = fetch("/api/checkout-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, telefono, empresa, descripcion, plan: planId, lang }),
+      }).catch(() => {});
+
+      const [res] = await Promise.all([
+        fetch(`/api/mercadopago/checkout-link?plan=${planId}`),
+        checkoutIntent,
+      ]);
       const data = await res.json();
       if (!res.ok || !data.url) throw new Error("checkout link failed");
       window.location.href = data.url;
@@ -135,25 +171,48 @@ function EmpezarContent() {
             <p className="font-mono text-white/30 uppercase mb-3" style={{ fontSize: 11, letterSpacing: 2 }}>{cc.eyebrow}</p>
             <h1 className="text-3xl md:text-4xl font-semibold mb-6">{cc.title}</h1>
 
-            {/* Email — línea de base, no caja: mismo lenguaje que el form de contacto */}
-            <div className="relative mb-5" style={{ maxWidth: 420 }}>
-              <label className="flex items-center gap-2 text-white/40 uppercase mb-2" style={{ fontSize: 10.5, letterSpacing: 1.5 }}>
-                <span className="shrink-0 rounded-full" style={{ width: 4, height: 4, background: "#6aa9ff" }} />
-                {cc.emailLabel}
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={cc.emailPlaceholder}
-                className="peer w-full bg-transparent border-0 border-b border-white/[0.12] rounded-none text-white/90 placeholder:text-white/20 outline-none transition-colors duration-300 focus:border-transparent"
-                style={{ fontSize: 15, padding: "8px 0 10px" }}
-              />
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute left-0 bottom-0 w-full origin-left scale-x-0 transition-transform duration-300 ease-out peer-focus:scale-x-100"
-                style={{ height: 1.5, background: "#6aa9ff" }}
-              />
+            {/* Contacto — misma línea de base que el form de contacto, sin caja */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 mb-5" style={{ gap: 20, maxWidth: 620 }}>
+              <FormField label={cc.emailLabel}>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={cc.emailPlaceholder}
+                  className={fieldClass}
+                  style={fieldStyle}
+                />
+              </FormField>
+              <FormField label={cc.phoneLabel}>
+                <input
+                  type="tel"
+                  value={telefono}
+                  onChange={(e) => setTelefono(e.target.value)}
+                  placeholder={cc.phonePlaceholder}
+                  className={fieldClass}
+                  style={fieldStyle}
+                />
+              </FormField>
+              <FormField label={cc.companyLabel}>
+                <input
+                  type="text"
+                  value={empresa}
+                  onChange={(e) => setEmpresa(e.target.value)}
+                  placeholder={cc.companyPlaceholder}
+                  className={fieldClass}
+                  style={fieldStyle}
+                />
+              </FormField>
+              <FormField label={cc.descriptionLabel} className="sm:col-span-2">
+                <textarea
+                  value={descripcion}
+                  onChange={(e) => setDescripcion(e.target.value)}
+                  placeholder={cc.descriptionPlaceholder}
+                  rows={2}
+                  className={fieldClass}
+                  style={{ ...fieldStyle, resize: "vertical", minHeight: 48 }}
+                />
+              </FormField>
             </div>
 
             {/* Terms and conditions — dense fine print, classic corporate boilerplate */}
