@@ -103,6 +103,7 @@ export const t = {
       mockReply:   "¡Gracias por tu mensaje! En breve te contactamos. También podés escribirnos a hello@underluma.com.",
       chatOpen:    "Chatear con _luma",
       chatClose:   "Cerrar chat",
+      chatStartPlan: "Comenzar con",
       form: {
         title:            "Contanos tu proyecto",
         name:             "Nombre",
@@ -414,6 +415,7 @@ export const t = {
       mockReply:   "Thanks for your message! We'll be in touch shortly. You can also reach us at hello@underluma.com.",
       chatOpen:    "Chat with _luma",
       chatClose:   "Close chat",
+      chatStartPlan: "Get started with",
       form: {
         title:            "Tell us about your project",
         name:             "Name",

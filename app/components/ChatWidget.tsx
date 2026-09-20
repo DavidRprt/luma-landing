@@ -2,11 +2,16 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { t, type Lang } from "../constants/translations";
+import { withLang } from "@/lib/i18n";
+
+type PlanId = "landing" | "corporativo";
 
 interface Message {
   from: "ai" | "user";
   text: string;
+  plan?: PlanId;
 }
 
 function stripMarkdown(text: string): string {
@@ -14,6 +19,15 @@ function stripMarkdown(text: string): string {
     .replace(/\*\*(.*?)\*\*/g, "$1")
     .replace(/\*(.*?)\*/g, "$1")
     .trim();
+}
+
+// El prompt del bot (en Fluxy) puede terminar una respuesta con [[PLAN:landing]]
+// o [[PLAN:corporativo]]: acá se saca del texto visible y se convierte en un botón.
+const PLAN_MARKER = /\[\[PLAN:(landing|corporativo)\]\]/gi;
+
+function aiMessage(raw: string): Message {
+  const plan = [...raw.matchAll(PLAN_MARKER)][0]?.[1]?.toLowerCase() as PlanId | undefined;
+  return { from: "ai", text: stripMarkdown(raw.replace(PLAN_MARKER, "")), plan };
 }
 
 const ChatWidget = ({ lang }: { lang: Lang }) => {
@@ -34,7 +48,7 @@ const ChatWidget = ({ lang }: { lang: Lang }) => {
       .then((r) => r.json())
       .then(({ mensaje_inicial }) => {
         if (mensaje_inicial) {
-          setMsgs([{ from: "ai", text: stripMarkdown(mensaje_inicial) }]);
+          setMsgs([aiMessage(mensaje_inicial)]);
           setBusy(false);
           return;
         }
@@ -49,10 +63,9 @@ const ChatWidget = ({ lang }: { lang: Lang }) => {
             if (data.conversacion_id) {
               convIdRef.current = data.conversacion_id;
             }
-            const reply = stripMarkdown(
-              data.respuesta_formateada ?? data.respuesta_modelo ?? data.respuesta ?? c.greeting
-            );
-            setMsgs([{ from: "ai", text: reply }]);
+            setMsgs([
+              aiMessage(data.respuesta_formateada ?? data.respuesta_modelo ?? data.respuesta ?? c.greeting),
+            ]);
           })
           .finally(() => setBusy(false));
       })
@@ -86,10 +99,10 @@ const ChatWidget = ({ lang }: { lang: Lang }) => {
         convIdRef.current = data.conversacion_id;
       }
 
-      const reply = stripMarkdown(
-        data.respuesta_formateada ?? data.respuesta_modelo ?? data.respuesta ?? c.mockReply
-      );
-      setMsgs([...updated, { from: "ai", text: reply }]);
+      setMsgs([
+        ...updated,
+        aiMessage(data.respuesta_formateada ?? data.respuesta_modelo ?? data.respuesta ?? c.mockReply),
+      ]);
     } catch {
       setMsgs([...updated, { from: "ai", text: c.mockReply }]);
     } finally {
@@ -174,6 +187,16 @@ const ChatWidget = ({ lang }: { lang: Lang }) => {
                     }}
                   >
                     {m.text}
+                    {m.plan && (
+                      <Link
+                        href={`${withLang("/planes/empezar", lang)}?plan=${m.plan}`}
+                        onClick={() => setOpen(false)}
+                        className="mt-2.5 flex w-fit items-center gap-1.5 rounded-full font-medium transition-opacity hover:opacity-85"
+                        style={{ fontSize: 12.5, padding: "8px 14px", background: "#6aa9ff", color: "#050508" }}
+                      >
+                        {c.chatStartPlan} {t[lang].subscription.plans[m.plan === "landing" ? "landing" : "corporate"].name} →
+                      </Link>
+                    )}
                   </div>
                 </div>
               ))}
