@@ -15,7 +15,7 @@ const COPY: Record<Lang, {
     eyebrow: "Mensaje recibido",
     title: (name) => `¡Gracias por escribirnos, ${name}!`,
     body: "Recibimos tu consulta y la estamos revisando. Te vamos a responder a este mismo email en menos de 24hs con los detalles que necesitás.",
-    urgent: "Si es algo urgente, escribinos directo por WhatsApp y te contestamos al toque.",
+    urgent: "Si es algo urgente, escribinos directo por WhatsApp y te respondemos a la brevedad.",
     cta: "Escribinos por WhatsApp",
   },
   en: {
