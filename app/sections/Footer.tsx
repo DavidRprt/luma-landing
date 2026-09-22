@@ -30,6 +30,15 @@ const Footer = ({ lang }: { lang: Lang }) => {
           >
             {t[lang].contact.whatsapp}
           </a>
+          <a
+            href="https://instagram.com/_underluma"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/30 hover:text-white/60 transition-colors duration-300"
+            style={{ fontSize: 11, letterSpacing: "0.03em" }}
+          >
+            {t[lang].contact.instagram}
+          </a>
         </div>
         <span className="font-mono text-white/[0.18]" style={{ fontSize: 11 }}>{c.copy}</span>
       </div>

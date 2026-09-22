@@ -18,6 +18,14 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
+const InstagramIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth="1.6" />
+    <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.6" />
+    <circle cx="17.1" cy="6.9" r="1.1" fill="currentColor" />
+  </svg>
+);
+
 function ContactLink({ href, icon, label, value }: { href: string; icon: React.ReactNode; label: string; value: string }) {
   return (
     <a
@@ -225,6 +233,7 @@ const Contact = ({ lang, standalone = false }: { lang: Lang; standalone?: boolea
           <div className="flex flex-col gap-6">
             <ContactLink href={`mailto:${c.email}`} icon={<MailIcon />} label={c.form.email} value={c.email} />
             <ContactLink href="https://wa.me/5491157387432" icon={<WhatsAppIcon />} label="WhatsApp" value={c.whatsapp} />
+            <ContactLink href="https://instagram.com/_underluma" icon={<InstagramIcon />} label="Instagram" value={c.instagram} />
           </div>
         </motion.div>
 
