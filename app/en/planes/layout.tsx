@@ -6,7 +6,7 @@ export const metadata: Metadata = pageMetadata({
   lang: "en",
   title: "Plans & Pricing",
   description:
-    "Landing pages and corporate sites by monthly subscription, starting at $59/month. Hosting, domain, and maintenance included — no big upfront payment.",
+    "Landing pages and corporate sites by monthly subscription, starting at ARS $89,900/month. Hosting, domain, and maintenance included — no big upfront payment.",
 });
 
 export default function PlanesLayout({ children }: { children: React.ReactNode }) {

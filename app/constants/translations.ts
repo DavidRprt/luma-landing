@@ -188,7 +188,7 @@ export const t = {
         altLink: "reservar una reunión primero.",
         landing: {
           name: "Landing",
-          price: "59",
+          price: "89.900",
           priceSuffix: "/mes",
           tagline: "Para que tu campaña esté siempre en vivo.",
           features: [
@@ -203,7 +203,7 @@ export const t = {
         },
         corporate: {
           name: "Corporativo",
-          price: "89",
+          price: "139.900",
           priceSuffix: "/mes",
           tagline: "La presencia estable de tu negocio.",
           features: [
@@ -497,8 +497,8 @@ export const t = {
         altLink: "book a call first.",
         landing: {
           name: "Landing",
-          price: "59",
-          priceSuffix: "/mo",
+          price: "89,900",
+          priceSuffix: "/mo ARS",
           tagline: "So your campaign stays live around the clock.",
           features: [
             { text: "One page, fully focused on your campaign" },
@@ -512,8 +512,8 @@ export const t = {
         },
         corporate: {
           name: "Corporate",
-          price: "89",
-          priceSuffix: "/mo",
+          price: "139,900",
+          priceSuffix: "/mo ARS",
           tagline: "Your business's stable presence.",
           features: [
             { text: "Up to 5 routes" },
@@ -582,7 +582,7 @@ export const t = {
       eyebrow: "You're about to subscribe",
       title: "Confirm your plan.",
       planLabel: "Selected plan",
-      priceSuffix: "/mo",
+      priceSuffix: "/mo ARS",
       emailLabel: "Email",
       emailPlaceholder: "you@email.com",
       phoneLabel: "Phone / WhatsApp",
