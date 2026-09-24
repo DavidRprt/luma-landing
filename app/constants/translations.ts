@@ -497,8 +497,8 @@ export const t = {
         altLink: "book a call first.",
         landing: {
           name: "Landing",
-          price: "89,900",
-          priceSuffix: "/mo ARS",
+          price: "89",
+          priceSuffix: "/mo",
           tagline: "So your campaign stays live around the clock.",
           features: [
             { text: "One page, fully focused on your campaign" },
@@ -512,8 +512,8 @@ export const t = {
         },
         corporate: {
           name: "Corporate",
-          price: "139,900",
-          priceSuffix: "/mo ARS",
+          price: "129",
+          priceSuffix: "/mo",
           tagline: "Your business's stable presence.",
           features: [
             { text: "Up to 5 routes" },
@@ -582,7 +582,7 @@ export const t = {
       eyebrow: "You're about to subscribe",
       title: "Confirm your plan.",
       planLabel: "Selected plan",
-      priceSuffix: "/mo ARS",
+      priceSuffix: "/mo",
       emailLabel: "Email",
       emailPlaceholder: "you@email.com",
       phoneLabel: "Phone / WhatsApp",
