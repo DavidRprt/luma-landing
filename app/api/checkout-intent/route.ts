@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
   after(() =>
     notifyTeam(
       TEAM_EMAILS,
-      `Nuevo intento de checkout — ${planName}`,
+      lang === "en" ? `Nueva solicitud (EN) — ${planName}` : `Nuevo intento de checkout — ${planName}`,
       CheckoutIntent({ planName, email, telefono, empresa, descripcion: descripcion || undefined, lang })
     )
   )

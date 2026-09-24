@@ -38,9 +38,13 @@ export default function CheckoutIntent({
 }: CheckoutIntentProps) {
   return (
     <div style={{ fontFamily: "Helvetica, Arial, sans-serif", fontSize: 14, color: "#111318", maxWidth: 560 }}>
-      <Heading style={{ margin: "0 0 16px", fontSize: 20 }}>Nuevo intento de checkout</Heading>
+      <Heading style={{ margin: "0 0 16px", fontSize: 20 }}>
+        {lang === "en" ? "Nueva solicitud de plan (versión en inglés)" : "Nuevo intento de checkout"}
+      </Heading>
       <Text style={{ margin: "0 0 16px", fontSize: 13, lineHeight: 1.5, color: "#5b5f66" }}>
-        Completó el formulario de suscripción y va camino a Mercado Pago — todavía no confirmó el pago.
+        {lang === "en"
+          ? "Pidió el plan desde la versión en inglés, que todavía no tiene cobro automático. Hay que enviarle el link de pago a mano (respondiendo a su email)."
+          : "Completó el formulario de suscripción y va camino a Mercado Pago — todavía no confirmó el pago."}
       </Text>
       <Field label="Plan" value={planName} />
       <Field label="Email" value={email} />

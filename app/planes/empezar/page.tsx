@@ -63,7 +63,7 @@ function EmpezarContent() {
   const [empresa, setEmpresa] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [accepted, setAccepted] = useState(false);
-  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "error" | "sent">("idle");
 
   const canPay = accepted && email.trim().length > 3 && telefono.trim().length > 3 && empresa.trim().length > 1;
 
@@ -72,6 +72,24 @@ function EmpezarContent() {
 
   const handleContinue = async () => {
     setStatus("loading");
+
+    // Versión en inglés: todavía no hay cobro en dólares, así que no se pasa por
+    // Mercado Pago. Se envía la solicitud al equipo, que responde con el link de pago.
+    if (lang === "en") {
+      try {
+        const res = await fetch("/api/checkout-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, telefono, empresa, descripcion, plan: planId, lang }),
+        });
+        if (!res.ok) throw new Error("request failed");
+        setStatus("sent");
+      } catch {
+        setStatus("error");
+      }
+      return;
+    }
+
     try {
       // Se avisa al equipo antes de redirigir: si el cliente abandona el pago
       // en Mercado Pago, ya tenemos sus datos para poder contactarlo.
@@ -171,6 +189,19 @@ function EmpezarContent() {
             <p className="font-mono text-white/30 uppercase mb-3" style={{ fontSize: 11, letterSpacing: 2 }}>{cc.eyebrow}</p>
             <h1 className="text-3xl md:text-4xl font-semibold mb-6">{cc.title}</h1>
 
+            {status === "sent" ? (
+              <div className="flex flex-col items-start gap-3" style={{ maxWidth: 460, padding: "16px 0" }}>
+                <div
+                  className="flex items-center justify-center rounded-full"
+                  style={{ width: 40, height: 40, background: "rgba(106,169,255,0.1)", border: "1px solid rgba(106,169,255,0.3)" }}
+                >
+                  <Check size={18} className="text-[#6aa9ff]" />
+                </div>
+                <p className="text-white font-medium" style={{ fontSize: 18 }}>{cc.requestSentTitle}</p>
+                <p className="text-white/60" style={{ fontSize: 15, lineHeight: 1.6 }}>{cc.requestSentBody}</p>
+              </div>
+            ) : (
+            <>
             {/* Contacto — misma línea de base que el form de contacto, sin caja */}
             <div className="grid grid-cols-1 sm:grid-cols-2 mb-5" style={{ gap: 20, maxWidth: 620 }}>
               <FormField label={cc.emailLabel}>
@@ -257,6 +288,8 @@ function EmpezarContent() {
               )}
               {status === "error" && <p className="mt-3" style={{ fontSize: 13, color: "#ff8383" }}>{cc.errorBody}</p>}
             </div>
+            </>
+            )}
           </motion.div>
         </div>
       </div>
