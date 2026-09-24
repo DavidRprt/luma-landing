@@ -20,8 +20,8 @@ function isPlanId(value: string | null): value is PlanId {
 
 // Línea de base, no caja: mismo lenguaje visual que el form de contacto.
 const fieldClass =
-  "peer w-full bg-transparent border-0 border-b border-white/[0.12] rounded-none text-white/90 placeholder:text-white/20 outline-none transition-colors duration-300 focus:border-transparent";
-const fieldStyle: React.CSSProperties = { fontSize: 15, padding: "8px 0 10px" };
+  "peer w-full bg-transparent border-0 border-b border-white/[0.12] rounded-none text-white/90 placeholder:text-white/20 outline-none transition-colors duration-300 focus:border-transparent text-base md:text-[15px]";
+const fieldStyle: React.CSSProperties = { padding: "8px 0 10px" };
 
 function FormField({ label, className, children }: { label: string; className?: string; children: React.ReactNode }) {
   return (
@@ -124,19 +124,16 @@ function EmpezarContent() {
           {cc.backLabel}
         </Link>
 
-        <div className="grid md:grid-cols-[1fr_1.4fr] gap-10 md:gap-16">
-          {/* LEFT: talk to us instead */}
+        <div className="grid md:grid-cols-[1fr_1.4fr] gap-x-16 gap-y-10 md:auto-rows-min">
+          {/* Resumen del plan */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="md:pt-2"
+            className="md:col-start-1 md:row-start-1 md:pt-2"
           >
-            <p className="font-mono text-white/30 uppercase mb-3" style={{ fontSize: 10.5, letterSpacing: 2 }}>{cc.talkEyebrow}</p>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-5">{cc.talkTitle}</h2>
-
             {/* Plan summary */}
-            <div className="rounded-2xl p-6 mb-6" style={{ background: "#0d0d13", border: "1px solid rgba(255,255,255,0.08)" }}>
+            <div className="rounded-2xl p-6" style={{ background: "#0d0d13", border: "1px solid rgba(255,255,255,0.08)" }}>
               <p className="font-mono text-white/30 uppercase mb-2" style={{ fontSize: 10, letterSpacing: 2 }}>{cc.planLabel}</p>
               <div className="flex items-baseline gap-1 mb-1">
                 <span className="font-semibold" style={{ fontSize: 30 }}>{plan.name}</span>
@@ -154,38 +151,10 @@ function EmpezarContent() {
                 ))}
               </ul>
             </div>
-
-            <p className="text-white/45 mb-7" style={{ fontSize: 14.5, lineHeight: 1.6, maxWidth: 360 }}>{cc.talkSub}</p>
-            <div className="flex flex-col gap-3" style={{ maxWidth: 300 }}>
-              <a
-                href={waMessage(
-                  lang === "es" ? `Hola! Tengo dudas antes de suscribirme al plan ${plan.name}.` : `Hi! I have questions before subscribing to the ${plan.name} plan.`
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-full font-medium transition-opacity hover:opacity-85"
-                style={{ fontSize: 14, padding: "12px 18px", background: "rgba(106,169,255,0.12)", border: "1px solid rgba(106,169,255,0.3)", color: "#6aa9ff" }}
-              >
-                <MessageCircle size={16} />
-                {cc.talkWhatsapp}
-              </a>
-              <a
-                href={waMessage(
-                  lang === "es" ? `Hola! Quiero reservar una llamada para hablar del plan ${plan.name}.` : `Hi! I'd like to book a call to talk about the ${plan.name} plan.`
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-full font-medium transition-colors hover:border-white/30"
-                style={{ fontSize: 14, padding: "12px 18px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)" }}
-              >
-                <CalendarClock size={16} />
-                {cc.talkMeeting}
-              </a>
-            </div>
           </motion.div>
 
           {/* RIGHT: form */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.05, ease: EASE }}>
+          <motion.div className="md:col-start-2 md:row-start-1 md:row-span-2" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.05, ease: EASE }}>
             <p className="font-mono text-white/30 uppercase mb-3" style={{ fontSize: 11, letterSpacing: 2 }}>{cc.eyebrow}</p>
             <h1 className="text-3xl md:text-4xl font-semibold mb-6">{cc.title}</h1>
 
@@ -207,6 +176,8 @@ function EmpezarContent() {
               <FormField label={cc.emailLabel}>
                 <input
                   type="email"
+                  inputMode="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={cc.emailPlaceholder}
@@ -217,6 +188,8 @@ function EmpezarContent() {
               <FormField label={cc.phoneLabel}>
                 <input
                   type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
                   value={telefono}
                   onChange={(e) => setTelefono(e.target.value)}
                   placeholder={cc.phonePlaceholder}
@@ -227,6 +200,7 @@ function EmpezarContent() {
               <FormField label={cc.companyLabel}>
                 <input
                   type="text"
+                  autoComplete="organization"
                   value={empresa}
                   onChange={(e) => setEmpresa(e.target.value)}
                   placeholder={cc.companyPlaceholder}
@@ -290,6 +264,45 @@ function EmpezarContent() {
             </div>
             </>
             )}
+          </motion.div>
+
+          {/* Ayuda: queda después del formulario para que lo primero sea suscribirse */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
+            className="md:col-start-1 md:row-start-2"
+          >
+            <p className="font-mono text-white/30 uppercase mb-3" style={{ fontSize: 10.5, letterSpacing: 2 }}>{cc.talkEyebrow}</p>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-5">{cc.talkTitle}</h2>
+
+            <p className="text-white/45 mb-7" style={{ fontSize: 14.5, lineHeight: 1.6, maxWidth: 360 }}>{cc.talkSub}</p>
+            <div className="flex flex-col gap-3" style={{ maxWidth: 300 }}>
+              <a
+                href={waMessage(
+                  lang === "es" ? `Hola! Tengo dudas antes de suscribirme al plan ${plan.name}.` : `Hi! I have questions before subscribing to the ${plan.name} plan.`
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 rounded-full font-medium transition-opacity hover:opacity-85"
+                style={{ fontSize: 14, padding: "12px 18px", background: "rgba(106,169,255,0.12)", border: "1px solid rgba(106,169,255,0.3)", color: "#6aa9ff" }}
+              >
+                <MessageCircle size={16} />
+                {cc.talkWhatsapp}
+              </a>
+              <a
+                href={waMessage(
+                  lang === "es" ? `Hola! Quiero reservar una llamada para hablar del plan ${plan.name}.` : `Hi! I'd like to book a call to talk about the ${plan.name} plan.`
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 rounded-full font-medium transition-colors hover:border-white/30"
+                style={{ fontSize: 14, padding: "12px 18px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)" }}
+              >
+                <CalendarClock size={16} />
+                {cc.talkMeeting}
+              </a>
+            </div>
           </motion.div>
         </div>
       </div>

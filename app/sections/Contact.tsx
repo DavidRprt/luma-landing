@@ -92,8 +92,8 @@ function ContactForm({ lang }: { lang: Lang }) {
   // en celeste al enfocar. El span "underline" es hermano del input (no hijo)
   // para poder animarlo desde afuera con el truco `peer` de Tailwind, sin JS.
   const fieldClass =
-    "peer w-full bg-transparent border-0 border-b border-white/[0.12] rounded-none text-white/90 placeholder:text-white/20 outline-none transition-colors duration-300 focus:border-transparent";
-  const fieldStyle: React.CSSProperties = { fontSize: 15, padding: "8px 0 10px" };
+    "peer w-full bg-transparent border-0 border-b border-white/[0.12] rounded-none text-white/90 placeholder:text-white/20 outline-none transition-colors duration-300 focus:border-transparent text-base md:text-[15px]";
+  const fieldStyle: React.CSSProperties = { padding: "8px 0 10px" };
   const underline = (
     <span
       aria-hidden="true"
@@ -131,19 +131,19 @@ function ContactForm({ lang }: { lang: Lang }) {
       <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: 22 }}>
         <div className="relative">
           <Label>{c.name}</Label>
-          <input required value={form.nombre} onChange={update("nombre")} placeholder={c.namePlaceholder} className={fieldClass} style={fieldStyle} />
+          <input required autoComplete="name" value={form.nombre} onChange={update("nombre")} placeholder={c.namePlaceholder} className={fieldClass} style={fieldStyle} />
           {underline}
         </div>
         <div className="relative">
           <Label>{c.phone}</Label>
-          <input required type="tel" value={form.telefono} onChange={update("telefono")} placeholder={c.phonePlaceholder} className={fieldClass} style={fieldStyle} />
+          <input required type="tel" inputMode="tel" autoComplete="tel" value={form.telefono} onChange={update("telefono")} placeholder={c.phonePlaceholder} className={fieldClass} style={fieldStyle} />
           {underline}
         </div>
       </div>
 
       <div className="relative">
         <Label>{c.email}</Label>
-        <input required type="email" value={form.email} onChange={update("email")} placeholder={c.emailPlaceholder} className={fieldClass} style={fieldStyle} />
+        <input required type="email" inputMode="email" autoComplete="email" value={form.email} onChange={update("email")} placeholder={c.emailPlaceholder} className={fieldClass} style={fieldStyle} />
         {underline}
       </div>
 
@@ -151,7 +151,7 @@ function ContactForm({ lang }: { lang: Lang }) {
         <Label>
           {c.company} <span className="normal-case text-white/25">{c.companyOptional}</span>
         </Label>
-        <input value={form.empresa} onChange={update("empresa")} placeholder={c.companyPlaceholder} className={fieldClass} style={fieldStyle} />
+        <input autoComplete="organization" value={form.empresa} onChange={update("empresa")} placeholder={c.companyPlaceholder} className={fieldClass} style={fieldStyle} />
         {underline}
       </div>
 
