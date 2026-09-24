@@ -23,7 +23,7 @@ const fieldClass =
   "peer w-full bg-transparent border-0 border-b border-white/[0.12] rounded-none text-white/90 placeholder:text-white/20 outline-none transition-colors duration-300 focus:border-transparent text-base md:text-[15px]";
 const fieldStyle: React.CSSProperties = { padding: "8px 0 10px" };
 
-function FormField({ label, className, children }: { label: string; className?: string; children: React.ReactNode }) {
+function FormField({ label, className, error, children }: { label: string; className?: string; error?: string; children: React.ReactNode }) {
   return (
     <div className={`relative ${className ?? ""}`}>
       <label className="flex items-center gap-2 text-white/40 uppercase mb-2" style={{ fontSize: 10.5, letterSpacing: 1.5 }}>
@@ -33,9 +33,12 @@ function FormField({ label, className, children }: { label: string; className?: 
       {children}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute left-0 bottom-0 w-full origin-left scale-x-0 transition-transform duration-300 ease-out peer-focus:scale-x-100"
-        style={{ height: 1.5, background: "#6aa9ff" }}
+        className={`pointer-events-none absolute left-0 w-full origin-left transition-transform duration-300 ease-out ${error ? "scale-x-100" : "scale-x-0 peer-focus:scale-x-100"}`}
+        style={{ bottom: error ? 22 : 0, height: 1.5, background: error ? "#ff8383" : "#6aa9ff" }}
       />
+      {error && (
+        <p role="alert" className="mt-1.5" style={{ fontSize: 12, color: "#ff8383" }}>{error}</p>
+      )}
     </div>
   );
 }
@@ -65,12 +68,34 @@ function EmpezarContent() {
   const [accepted, setAccepted] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "sent">("idle");
 
-  const canPay = accepted && email.trim().length > 3 && telefono.trim().length > 3 && empresa.trim().length > 1;
+  const [attempted, setAttempted] = useState(false);
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  const telefonoOk = telefono.replace(/\D/g, "").length >= 7;
+  const empresaOk = empresa.trim().length > 1;
+
+  const errors = {
+    email: attempted && !emailOk ? (email.trim() ? cc.emailInvalid : cc.fieldRequired) : undefined,
+    telefono: attempted && !telefonoOk ? cc.fieldRequired : undefined,
+    empresa: attempted && !empresaOk ? cc.fieldRequired : undefined,
+    terms: attempted && !accepted ? cc.termsRequired : undefined,
+  };
 
   const waMessage = (reason: string) =>
     `https://wa.me/5491157387432?text=${encodeURIComponent(reason)}`;
 
   const handleContinue = async () => {
+    setAttempted(true);
+
+    // El botón no se deshabilita: si falta algo se marca qué y se lleva a la persona hasta ahí.
+    const firstInvalid = !emailOk ? "field-email" : !telefonoOk ? "field-telefono" : !empresaOk ? "field-empresa" : !accepted ? "field-terms" : null;
+    if (firstInvalid) {
+      const el = document.getElementById(firstInvalid);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      el?.focus({ preventScroll: true });
+      return;
+    }
+
     setStatus("loading");
 
     // Versión en inglés: todavía no hay cobro en dólares, así que no se pasa por
@@ -173,8 +198,9 @@ function EmpezarContent() {
             <>
             {/* Contacto — misma línea de base que el form de contacto, sin caja */}
             <div className="grid grid-cols-1 sm:grid-cols-2 mb-5" style={{ gap: 20, maxWidth: 620 }}>
-              <FormField label={cc.emailLabel}>
+              <FormField label={cc.emailLabel} error={errors.email}>
                 <input
+                  id="field-email"
                   type="email"
                   inputMode="email"
                   autoComplete="email"
@@ -185,8 +211,9 @@ function EmpezarContent() {
                   style={fieldStyle}
                 />
               </FormField>
-              <FormField label={cc.phoneLabel}>
+              <FormField label={cc.phoneLabel} error={errors.telefono}>
                 <input
+                  id="field-telefono"
                   type="tel"
                   inputMode="tel"
                   autoComplete="tel"
@@ -197,8 +224,9 @@ function EmpezarContent() {
                   style={fieldStyle}
                 />
               </FormField>
-              <FormField label={cc.companyLabel}>
+              <FormField label={cc.companyLabel} error={errors.empresa}>
                 <input
+                  id="field-empresa"
                   type="text"
                   autoComplete="organization"
                   value={empresa}
@@ -235,26 +263,28 @@ function EmpezarContent() {
               </div>
               <label className="flex items-start gap-2.5 cursor-pointer select-none">
                 <input
+                  id="field-terms"
                   type="checkbox"
                   checked={accepted}
                   onChange={(e) => setAccepted(e.target.checked)}
+                  aria-invalid={errors.terms ? true : undefined}
                   className="mt-0.5 shrink-0"
-                  style={{ width: 15, height: 15, accentColor: "#6aa9ff" }}
+                  style={{ width: 15, height: 15, accentColor: "#6aa9ff", outline: errors.terms ? "2px solid #ff8383" : undefined, outlineOffset: 2 }}
                 />
-                <span className="text-white/55" style={{ fontSize: 12.5, lineHeight: 1.5 }}>{cc.termsCheckbox}</span>
+                <span style={{ fontSize: 12.5, lineHeight: 1.5, color: errors.terms ? "#ff8383" : "rgba(255,255,255,0.55)" }}>{cc.termsCheckbox}</span>
               </label>
+              {errors.terms && (
+                <p role="alert" className="mt-2" style={{ fontSize: 12.5, color: "#ff8383" }}>{errors.terms}</p>
+              )}
             </div>
 
             {/* Continue */}
             <div className="mb-4">
-              <ShineButton type="button" disabled={!canPay || status === "loading"} onClick={handleContinue}>
+              <ShineButton type="button" disabled={status === "loading"} onClick={handleContinue}>
                 {status === "loading" ? cc.submittingLabel : cc.continueLabel}
                 <ArrowRight size={15} />
               </ShineButton>
-              {!canPay && (
-                <p className="text-white/30 mt-3" style={{ fontSize: 12 }}>{cc.submitDisabledHint}</p>
-              )}
-              {canPay && status !== "error" && (
+              {status !== "error" && (
                 <p className="flex items-center gap-1.5 text-white/30 mt-3" style={{ fontSize: 12 }}>
                   <Lock size={11} />
                   {cc.redirectNote}
