@@ -36,7 +36,7 @@ interface ContactAutoReplyProps {
 
 export default function ContactAutoReply({
   nombre = "Nombre",
-  whatsappUrl = "https://wa.me/5491157387432",
+  whatsappUrl = "https://wa.me/5491155988007",
   lang = "es",
 }: ContactAutoReplyProps) {
   const c = COPY[lang];

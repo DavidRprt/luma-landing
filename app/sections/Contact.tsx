@@ -233,7 +233,7 @@ const Contact = ({ lang, standalone = false }: { lang: Lang; standalone?: boolea
           <p className="text-white/40 leading-relaxed" style={{ fontSize: 15, lineHeight: 1.7, marginBottom: 36 }}>{c.sub}</p>
           <div className="flex flex-col gap-6">
             <ContactLink href={`mailto:${c.email}`} icon={<MailIcon />} label={c.form.email} value={c.email} />
-            <ContactLink href="https://wa.me/5491157387432" icon={<WhatsAppIcon />} label="WhatsApp" value={c.whatsapp} />
+            <ContactLink href="https://wa.me/5491155988007" icon={<WhatsAppIcon />} label="WhatsApp" value={c.whatsapp} />
             <ContactLink href="https://instagram.com/_underluma" icon={<InstagramIcon />} label="Instagram" value={c.instagram} />
           </div>
         </motion.div>

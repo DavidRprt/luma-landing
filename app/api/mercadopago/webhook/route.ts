@@ -10,7 +10,7 @@ const NOTIFY_EMAILS = (process.env.MERCADOPAGO_NOTIFY_EMAILS ?? "")
   .map((e) => e.trim())
   .filter(Boolean)
 const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || "_luma <onboarding@resend.dev>"
-const WHATSAPP_URL = "https://wa.me/5491157387432"
+const WHATSAPP_URL = "https://wa.me/5491155988007"
 
 // Valida que la notificación venga realmente de Mercado Pago.
 // Formato del header, y algoritmo de validación:

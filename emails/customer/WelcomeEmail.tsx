@@ -10,7 +10,7 @@ interface WelcomeEmailProps {
 export default function WelcomeEmail({
   planName = "Landing",
   price = "59",
-  whatsappUrl = "https://wa.me/5491157387432",
+  whatsappUrl = "https://wa.me/5491155988007",
 }: WelcomeEmailProps) {
   return (
     <EmailLayout preview={`Tu plan ${planName} ya está activo — coordinamos el arranque por WhatsApp.`}>

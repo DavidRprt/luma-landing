@@ -82,7 +82,7 @@ function EmpezarContent() {
   };
 
   const waMessage = (reason: string) =>
-    `https://wa.me/5491157387432?text=${encodeURIComponent(reason)}`;
+    `https://wa.me/5491155988007?text=${encodeURIComponent(reason)}`;
 
   const handleContinue = async () => {
     setAttempted(true);

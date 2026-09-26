@@ -276,7 +276,7 @@ function PlanCard({
                       <p className="text-white/35 text-center mt-2" style={{ fontSize: 10.5, lineHeight: 1.3 }}>
                         {s.plans.altPrefix}
                         <a
-                          href={`https://wa.me/5491157387432?text=${encodeURIComponent(`Hola! Quiero reservar una reunión antes de suscribirme al plan ${plan.name}.`)}`}
+                          href={`https://wa.me/5491155988007?text=${encodeURIComponent(`Hola! Quiero reservar una reunión antes de suscribirme al plan ${plan.name}.`)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="underline transition-colors hover:text-white/60"

@@ -6,7 +6,7 @@ import { FROM_EMAIL } from "@/lib/email"
 import { isLang } from "@/lib/i18n"
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL || "davirapo@gmail.com"
-const WHATSAPP_URL = "https://wa.me/5491157387432"
+const WHATSAPP_URL = "https://wa.me/5491155988007"
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)

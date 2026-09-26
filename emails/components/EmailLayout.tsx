@@ -60,7 +60,7 @@ export function EmailLayout({
           <Text style={{ margin: 0, fontSize: 12, lineHeight: 1.6, color: "#8a8f98" }}>
             {FOOTER_TAGLINE[lang]}
             <br />
-            hello@underluma.com · +54 9 11 5738-7432
+            hello@underluma.com · +54 9 11 5598-8007
           </Text>
         </Container>
       </Body>

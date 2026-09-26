@@ -218,7 +218,7 @@ function SubscriptionPageContent() {
         >
           <span className="text-white/40">{c.upsell.bundle.text}</span>{" "}
           <a
-            href={`https://wa.me/5491157387432?text=${encodeURIComponent(lang === "es" ? "Hola! Quiero combinar Landing y Corporativo." : "Hi! I'd like to combine the Landing and Corporate plans.")}`}
+            href={`https://wa.me/5491155988007?text=${encodeURIComponent(lang === "es" ? "Hola! Quiero combinar Landing y Corporativo." : "Hi! I'd like to combine the Landing and Corporate plans.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="underline transition-colors"
@@ -274,7 +274,7 @@ function SubscriptionPageContent() {
 
           <div className="flex justify-center md:justify-start mt-8 pt-6" style={{ borderTop: "1px solid rgba(106,169,255,0.18)" }}>
             <a
-              href={`https://wa.me/5491157387432?text=${encodeURIComponent(lang === "es" ? "Hola! Quiero armar mi tienda online." : "Hi! I'd like to set up my online store.")}`}
+              href={`https://wa.me/5491155988007?text=${encodeURIComponent(lang === "es" ? "Hola! Quiero armar mi tienda online." : "Hi! I'd like to set up my online store.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full font-medium transition-opacity hover:opacity-85"
@@ -325,7 +325,7 @@ function SubscriptionPageContent() {
           <h2 className="text-3xl md:text-5xl font-semibold text-white mb-4">{c.finalCta.title}</h2>
           <p className="text-white/40 mb-8 max-w-md mx-auto" style={{ fontSize: 15 }}>{c.finalCta.sub}</p>
           <a
-            href="https://wa.me/5491157387432"
+            href="https://wa.me/5491155988007"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full font-medium transition-opacity hover:opacity-85"

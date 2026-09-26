@@ -22,7 +22,7 @@ const Footer = ({ lang }: { lang: Lang }) => {
             hello@underluma.com
           </a>
           <a
-            href="https://wa.me/5491157387432"
+            href="https://wa.me/5491155988007"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white/30 hover:text-white/60 transition-colors duration-300"
