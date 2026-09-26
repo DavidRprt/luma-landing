@@ -43,6 +43,14 @@ const ChatWidget = ({ lang }: { lang: Lang }) => {
   const startConversation = () => {
     if (started) return;
     setStarted(true);
+
+    // Fluxy solo tiene un saludo (en español): en la versión en inglés se usa el
+    // texto fijo del sitio para que la conversación no arranque en otro idioma.
+    if (lang === "en") {
+      setMsgs([{ from: "ai", text: c.greeting }]);
+      return;
+    }
+
     setBusy(true);
     fetch("/api/bot-info")
       .then((r) => r.json())

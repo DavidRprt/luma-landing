@@ -416,7 +416,7 @@ export const t = {
       instagram:   "@_underluma",
       chatHeader:  "_luma Assistant",
       online:      "online",
-      greeting:    "Hi! I'm _luma's assistant. What kind of website or web solution are you looking for?",
+      greeting:    "Hi! 👋 I'm Luma from _luma. We build websites, online stores and AI solutions to help your business grow. What would you like us to help you with today?",
       placeholder: "Tell me about your project...",
       mockReply:   "Thanks for your message! We'll be in touch shortly. You can also reach us at hello@underluma.com.",
       chatOpen:    "Chat with _luma",
