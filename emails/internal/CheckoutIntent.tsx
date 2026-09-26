@@ -43,7 +43,7 @@ export default function CheckoutIntent({
       </Heading>
       <Text style={{ margin: "0 0 16px", fontSize: 13, lineHeight: 1.5, color: "#5b5f66" }}>
         {lang === "en"
-          ? "Pidió el plan desde la versión en inglés, que todavía no tiene cobro automático. Hay que enviarle el link de pago a mano (respondiendo a su email)."
+          ? "Pidió el plan desde la versión en inglés, que todavía no tiene cobro automático. Hay que enviarle los datos para pagar por transferencia en dólares (respondiendo a su email)."
           : "Completó el formulario de suscripción y va camino a Mercado Pago — todavía no confirmó el pago."}
       </Text>
       <Field label="Plan" value={planName} />
