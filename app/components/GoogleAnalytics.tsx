@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -16,6 +17,9 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 /**
  * Las navegaciones de Next.js (Link, router.push) no recargan la página, así
  * que gtag no las ve solo — cada cambio de ruta se reporta a mano acá.
+ *
+ * Va en su propio <Suspense>: usar useSearchParams sin aislarlo saca del HTML
+ * estático a todo lo que esté al lado dentro del mismo límite.
  */
 function PageViewTracker() {
   const pathname = usePathname();
@@ -49,7 +53,9 @@ export function GoogleAnalytics() {
           gtag('config', '${GA_ID}', { send_page_view: false });
         `}
       </Script>
-      <PageViewTracker />
+      <Suspense fallback={null}>
+        <PageViewTracker />
+      </Suspense>
     </>
   );
 }

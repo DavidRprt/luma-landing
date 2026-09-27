@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { pageMetadata, SITE_URL, HOME_COPY } from "@/lib/seo";
 import { OrganizationJsonLd } from "./components/OrganizationJsonLd";
 import { GoogleAnalytics } from "./components/GoogleAnalytics";
+import { MetaPixel } from "./components/MetaPixel";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
@@ -64,9 +64,8 @@ export default function RootLayout({
       </head>
       <body>
         {children}
-        <Suspense fallback={null}>
-          <GoogleAnalytics />
-        </Suspense>
+        <GoogleAnalytics />
+        <MetaPixel />
       </body>
     </html>
   );
