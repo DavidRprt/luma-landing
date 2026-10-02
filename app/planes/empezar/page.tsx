@@ -9,6 +9,7 @@ import { t } from "../../constants/translations";
 import { ShineButton } from "../../components/ShineButton";
 import { LangHtmlSync } from "../../components/LangHtmlSync";
 import { withLang, langFromPathname } from "@/lib/i18n";
+import { trackGa, trackMeta } from "@/lib/tracking";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -108,6 +109,8 @@ function EmpezarContent() {
           body: JSON.stringify({ email, telefono, empresa, descripcion, plan: planId, lang }),
         });
         if (!res.ok) throw new Error("request failed");
+        trackMeta("Lead", { content_name: `Plan ${planId}`, plan: planId });
+        trackGa("generate_lead", { placement: "empezar", plan: planId });
         setStatus("sent");
       } catch {
         setStatus("error");
@@ -130,6 +133,8 @@ function EmpezarContent() {
       ]);
       const data = await res.json();
       if (!res.ok || !data.url) throw new Error("checkout link failed");
+      trackMeta("InitiateCheckout", { content_name: `Plan ${planId}`, plan: planId });
+      trackGa("begin_checkout", { plan: planId });
       window.location.href = data.url;
     } catch {
       setStatus("error");

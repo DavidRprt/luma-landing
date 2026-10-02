@@ -11,7 +11,7 @@ export function emailListFromEnv(value: string | undefined): string[] {
 }
 
 /**
- * Notifica al equipo (no a un cliente) a uno o varios destinatarios — un
+ * Notifica al equipo (no a un cliente) a uno o varios destinatarios (devuelve si al menos uno salió bien) — un
  * envío por destinatario, para que si Resend rechaza a uno (p. ej. un
  * dominio sin verificar todavía) no se caiga el aviso para el resto.
  */
@@ -22,16 +22,21 @@ export async function notifyTeam(
   options?: { replyTo?: string }
 ) {
   const recipients = Array.isArray(to) ? to : [to];
-  if (!process.env.RESEND_API_KEY || recipients.length === 0) return;
+  if (!process.env.RESEND_API_KEY || recipients.length === 0) return false;
   const resend = new Resend(process.env.RESEND_API_KEY);
   const results = await Promise.allSettled(
     recipients.map((recipient) =>
       resend.emails.send({ from: FROM_EMAIL, to: recipient, replyTo: options?.replyTo, subject, react })
     )
   );
+  let alguno = false;
   for (const result of results) {
     if (result.status === "rejected" || result.value?.error) {
       console.error("[notifyTeam] no se pudo enviar a un destinatario:", result.status === "rejected" ? result.reason : result.value.error);
+    } else {
+      alguno = true;
     }
   }
+  // true si al menos un destinatario recibió el aviso.
+  return alguno;
 }

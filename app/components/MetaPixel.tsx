@@ -47,6 +47,8 @@ export function MetaPixel() {
     <>
       <Script id="meta-pixel-init" strategy="afterInteractive">
         {`
+          if (/^(localhost|127\\.0\\.0\\.1|\\[::1\\])$/.test(location.hostname)) { window.__lumaNoTrack = true; }
+          else {
           !function(f,b,e,v,n,t,s)
           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
           n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -57,6 +59,7 @@ export function MetaPixel() {
           'https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '${PIXEL_ID}');
           fbq('track', 'PageView');
+          }
         `}
       </Script>
       <noscript>

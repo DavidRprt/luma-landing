@@ -61,7 +61,7 @@ const STATIC_IMAGES: Record<string, { src: string; alt: string }> = {
   becha: { src: "/becha.png", alt: "BECHA SA" },
 };
 
-function WorkImg({ img }: { img: string }) {
+export function WorkImg({ img }: { img: string }) {
   const staticImg = STATIC_IMAGES[img];
   if (staticImg) return (
     <div className="w-full relative overflow-hidden shrink-0 aspect-[2940/1664]" style={{ background: "#0d0d13" }}>
@@ -90,7 +90,7 @@ export type Work = {
   highlights?: readonly Highlight[];
 };
 
-function HighlightGrid({ highlights }: { highlights: readonly Highlight[] }) {
+export function HighlightGrid({ highlights }: { highlights: readonly Highlight[] }) {
   return (
     <div className="flex flex-col gap-2.5">
       {highlights.map((h) => {

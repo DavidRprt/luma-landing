@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { t, type Lang } from "../constants/translations";
 import { ShineButton } from "../components/ShineButton";
+import { trackGa, trackMeta } from "@/lib/tracking";
 
 const MailIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -81,6 +82,9 @@ function ContactForm({ lang }: { lang: Lang }) {
         body: JSON.stringify({ ...form, lang }),
       });
       if (!res.ok) throw new Error("failed");
+      // Conversión para Meta y GA4 (si no están cargados, no hace nada).
+      trackMeta("Lead", { content_name: "Formulario de contacto" });
+      trackGa("generate_lead", { placement: "contacto" });
       setStatus("success");
       setForm(emptyForm);
     } catch {
