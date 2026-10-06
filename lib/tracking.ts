@@ -54,8 +54,13 @@ export function trackMeta(event: string, params?: Record<string, unknown>, event
   } catch { /* nunca romper la página por la medición */ }
 }
 
+// Conversión "Enviar formulario de clientes potenciales" de Google Ads. Se dispara
+// solo cuando el lead se envió bien (nunca en la carga de página, que contaría cada visita).
+const ADS_LEAD_CONVERSION = "AW-17134038147/bFKPCJOo6-IaEIPZkuo_";
+
 export function trackGa(event: string, params?: Record<string, unknown>) {
   try {
     window.gtag?.("event", event, params ?? {});
+    if (event === "generate_lead") window.gtag?.("event", "conversion", { send_to: ADS_LEAD_CONVERSION });
   } catch { /* idem */ }
 }

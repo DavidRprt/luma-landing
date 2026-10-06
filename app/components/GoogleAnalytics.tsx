@@ -52,6 +52,7 @@ export function GoogleAnalytics() {
             window.gtag = gtag;
             gtag('js', new Date());
             gtag('config', '${GA_ID}', { send_page_view: false });
+            gtag('config', 'AW-17134038147');
           }
         `}
       </Script>
