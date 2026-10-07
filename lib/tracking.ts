@@ -47,11 +47,36 @@ export function newEventId(): string {
   }
 }
 
+// Los scripts de GA4 y del píxel cargan después de que React hidrata. Un evento
+// que se dispara al montar la página (view_landing, ViewContent) llegaba antes
+// de que existiera gtag/fbq y se perdía en silencio: se reintenta hasta ~8 s.
+function cuandoEsteListo(listo: () => boolean, enviar: () => void) {
+  if (listo()) {
+    enviar();
+    return;
+  }
+  let intentos = 0;
+  const timer = setInterval(() => {
+    intentos++;
+    if (listo()) {
+      clearInterval(timer);
+      enviar();
+    } else if (intentos >= 40) clearInterval(timer);
+  }, 200);
+}
+
 export function trackMeta(event: string, params?: Record<string, unknown>, eventId?: string) {
   try {
-    if (eventId) window.fbq?.("track", event, params ?? {}, { eventID: eventId });
-    else window.fbq?.("track", event, params ?? {});
-  } catch { /* nunca romper la página por la medición */ }
+    cuandoEsteListo(
+      () => typeof window.fbq === "function",
+      () => {
+        try {
+          if (eventId) window.fbq?.("track", event, params ?? {}, { eventID: eventId });
+          else window.fbq?.("track", event, params ?? {});
+        } catch { /* nunca romper la página por la medición */ }
+      }
+    );
+  } catch { /* idem */ }
 }
 
 // Conversión "Enviar formulario de clientes potenciales" de Google Ads. Se dispara
@@ -60,7 +85,14 @@ const ADS_LEAD_CONVERSION = "AW-17134038147/bFKPCJOo6-IaEIPZkuo_";
 
 export function trackGa(event: string, params?: Record<string, unknown>) {
   try {
-    window.gtag?.("event", event, params ?? {});
-    if (event === "generate_lead") window.gtag?.("event", "conversion", { send_to: ADS_LEAD_CONVERSION });
+    cuandoEsteListo(
+      () => typeof window.gtag === "function",
+      () => {
+        try {
+          window.gtag?.("event", event, params ?? {});
+          if (event === "generate_lead") window.gtag?.("event", "conversion", { send_to: ADS_LEAD_CONVERSION });
+        } catch { /* idem */ }
+      }
+    );
   } catch { /* idem */ }
 }
