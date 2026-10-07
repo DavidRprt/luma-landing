@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { pageMetadata, SITE_URL, HOME_COPY } from "@/lib/seo";
 import { OrganizationJsonLd } from "./components/OrganizationJsonLd";
 import { GoogleAnalytics } from "./components/GoogleAnalytics";
+import { ClickTracker } from "./components/ClickTracker";
 import { MetaPixel } from "./components/MetaPixel";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -65,6 +66,7 @@ export default function RootLayout({
       <body>
         {children}
         <GoogleAnalytics />
+        <ClickTracker />
         <MetaPixel />
       </body>
     </html>
