@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Aurora, Resto, Shell, TopBar } from "./Sections";
 import { PrimaryCta } from "./Demo";
 import { Reveal } from "./Reveal";
@@ -18,6 +19,10 @@ export function PaginaLead({ lead, token }: { lead: Lead; token?: string }) {
           <header className={a.head}>
             <h1 className={b.h1}>Hi, {lead.negocio}.<br /><em>Here’s what we noticed.</em></h1>
             <p className={a.lede}>We build websites by hand for local businesses. We looked at yours, and here’s what we’d do differently in a new one.</p>
+            <div className={a.by}>
+              <Image src="/david.jpg" alt="David, from the _luma team" width={44} height={44} className={a.byFoto} />
+              <span>David, from our team</span>
+            </div>
           </header>
         </div>
         <Despiece lead={lead} />

@@ -54,3 +54,6 @@
 @media (prefers-reduced-motion: reduce) {
   .trazo { animation: none; stroke-dashoffset: 0; }
 }
+
+.by { display: inline-flex; align-items: center; gap: 12px; margin-top: 22px; font-size: 14px; color: var(--muted); }
+.byFoto { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line-2); }
