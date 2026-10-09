@@ -29,15 +29,12 @@
 
 /* ideas con su maqueta */
 .ideas { padding: 120px 0 0; }
-.idea { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; padding: 56px 0; border-bottom: 1px solid var(--line); }
+.idea { padding: 40px 0; border-bottom: 1px solid var(--line); }
 .idea:last-child { border-bottom: 0; }
 .ideas .wrap > div:first-child { margin-bottom: 20px; }
 .ideaText p { color: var(--muted); max-width: 26em; margin: 12px 0 0; }
 .ideaText h3 { font-size: clamp(24px, 2.6vw, 32px); letter-spacing: -0.025em; line-height: 1.12; }
 .ideaNum { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--blue); color: var(--blue); font: 500 12px/1 var(--mono); margin-bottom: 18px; }
-.tile { position: relative; display: grid; place-items: center; min-height: 280px; padding: 40px 24px; border-radius: 20px; border: 1px solid var(--line);
-  background: radial-gradient(70% 90% at 50% 100%, rgba(59, 130, 246, 0.22), transparent 70%), radial-gradient(60% 70% at 85% 0%, rgba(139, 92, 246, 0.16), transparent 70%), rgba(255, 255, 255, 0.02); }
-.tile > div { width: 100%; display: grid; place-items: center; }
 
 @media (max-width: 1080px) {
   .hero { min-height: 0; }
@@ -51,7 +48,7 @@
   .nota[data-on="0"] .notaIn, .hl[data-on="0"] { opacity: 1; }
 }
 @media (max-width: 900px) {
-  .idea { grid-template-columns: 1fr; gap: 28px; padding: 40px 0; }
+  .idea { padding: 32px 0; }
   .ideas { padding-top: 84px; }
 }
 @media (prefers-reduced-motion: reduce) {
