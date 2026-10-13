@@ -77,6 +77,28 @@
 .pillSm { padding: 11px 20px; font-size: 14px; }
 .pillDone { background: rgba(96, 165, 250, 0.12); color: #bfdbfe; box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.5); cursor: default; }
 .pillDone:hover { background: rgba(96, 165, 250, 0.12); box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.5); }
+/* Español: el pedido de la demo son dos controles separados, el campo del WhatsApp y el botón */
+.pedido { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; max-width: 100%; }
+.pedidoCampo { display: flex; align-items: center; gap: 10px; height: 56px; width: 300px; flex: none; padding: 0 22px; border: 1px solid var(--line-2); border-radius: 999px; background: rgba(255, 255, 255, 0.06); color: var(--dim); cursor: text;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease; }
+.pedidoCampo svg { flex: none; }
+.pedidoCampo:hover { border-color: rgba(255, 255, 255, 0.34); }
+.pedidoCampo:focus-within { border-color: var(--blue); background: rgba(255, 255, 255, 0.09); color: var(--blue); box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.18); }
+.pedidoCampo[data-mal="1"] { border-color: #f87171; color: #f87171; box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.16); }
+.pedidoCampo input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; color: #fff; font: 500 16px/1 var(--font-sans), sans-serif; }
+.pedidoCampo input::placeholder { color: rgba(255, 255, 255, 0.5); }
+.page .pedidoCampo input:focus-visible { outline: none; }
+.pedido { flex-shrink: 0; }
+.pedido .pill { height: 56px; padding-block: 0; padding-inline: 28px; white-space: nowrap; flex: none; }
+.pedidoError { flex-basis: 100%; margin: 0; padding-left: 22px; font-size: 14px; line-height: 1.4; color: #fca5a5; }
+.pedidoLg .pedidoCampo { height: 64px; width: 340px; }
+.pedidoLg .pill { height: 64px; padding-inline: 34px; }
+.pedidoSm { flex-wrap: nowrap; gap: 8px; }
+.pedidoSm .pedidoCampo { height: 44px; width: 220px; padding: 0 16px; }
+.pedidoSm .pedidoCampo input { font-size: 14px; }
+.pedidoSm .pill { height: 44px; padding-inline: 18px; font-size: 14px; }
+.pedidoSm .pedidoError { position: absolute; left: 22px; bottom: calc(100% + 8px); padding: 6px 12px; border-radius: 10px; background: #1a0b0e; border: 1px solid rgba(248, 113, 113, 0.4); }
+.stickyMsg { color: #bfdbfe; font-size: 14px; white-space: normal; padding: 6px 14px 6px 4px; }
 .ghost { background: none; border: 0; padding: 8px 4px; color: var(--muted); font: inherit; font-size: 15px; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; transition: color 0.2s; }
 .ghost:hover { color: #fff; }
 
@@ -155,8 +177,20 @@
   .close { margin-top: 90px; padding: 100px 0 110px; }
   .topTag { display: none; }
   .top { justify-content: center; }
-  .sticky > span { display: none; }
+  .sticky > span:not(.stickyMsg) { display: none; }
+  .sticky[data-hecho="1"] { max-width: calc(100vw - 32px); padding: 10px 16px; }
   .sticky { padding: 6px; }
+}
+@media (max-width: 640px) {
+  .pedido:not(.pedidoSm) { flex-direction: column; align-items: stretch; width: 100%; flex-shrink: 1; }
+  .pedido:not(.pedidoSm) .pedidoCampo { width: 100%; }
+  .pedido:not(.pedidoSm) .pill { width: 100%; justify-content: center; }
+  .pedidoError { padding-left: 4px; }
+  .pedidoSm .pedidoCampo { width: auto; flex: 1; min-width: 0; padding: 0 14px; }
+  .pedidoSm .pedidoCampo svg { display: none; }
+  .pedidoSm .pill { padding-inline: 16px; }
+  .sticky:not([data-hecho="1"]) { left: 12px; right: 12px; width: auto; transform: translate(0, 160%); }
+  .sticky[data-on="1"]:not([data-hecho="1"]) { transform: translate(0, 0); }
 }
 @media (max-width: 560px) {
   .wrap { padding: 0 20px; }

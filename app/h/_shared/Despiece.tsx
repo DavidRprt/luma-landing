@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { Lead } from "./lead";
+import { textos } from "./textos";
 import b from "./base.module.css";
 import a from "./despiece.module.css";
 
@@ -63,7 +64,7 @@ export function Despiece({ lead: LEAD }: { lead: Lead }) {
               <div className={b.addr}>{LEAD.dominio}</div>
             </div>
             <div className={b.stage}>
-              <Image src={LEAD.captura.src} alt={`The current ${LEAD.negocio} website`} width={LEAD.captura.w} height={LEAD.captura.h} priority sizes="(max-width: 1080px) 100vw, 600px" />
+              <Image src={LEAD.captura.src} alt={textos(LEAD.idioma ?? "en").altCaptura(LEAD.negocio)} width={LEAD.captura.w} height={LEAD.captura.h} priority sizes="(max-width: 1080px) 100vw, 600px" />
               {LEAD.hallazgos.map((h, i) => (
                 <div key={h.id} data-hl={h.id} className={`${b.hl} ${a.hl}`} data-on={activo === null || activo === h.id ? 1 : 0}
                   style={{ left: `${h.caja.x}%`, top: `${h.caja.y}%`, width: `${h.caja.w}%`, height: `${h.caja.h}%` }}>

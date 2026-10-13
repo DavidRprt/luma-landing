@@ -18,7 +18,8 @@ export const PASOS = [
 
 export type Caja = { x: number; y: number; w: number; h: number };
 export type Hallazgo = { id: string; titulo: string; detalle: string; idea: string; ideaDetalle: string; caja: Caja };
-export type Lead = { negocio: string; dominio: string; captura: { src: string; w: number; h: number }; hallazgos: Hallazgo[] };
+export type Datos = { rating?: number | null; resenas?: number | null; rubro?: string; sinHttps?: boolean; noResponsive?: boolean; plataforma?: string | null; oportunidades?: [string, string][] };
+export type Lead = { datos?: Datos; idioma?: "en" | "es"; negocio: string; dominio: string; captura: { src: string; w: number; h: number }; hallazgos: Hallazgo[] };
 
 // Agranda una caja alrededor de su centro (con margen) hasta una proporción razonable, sin salirse de la imagen.
 export function ampliar(c: Caja, iw: number, ih: number, min = 1.4, max = 2.6, margen = 0.12): Caja {

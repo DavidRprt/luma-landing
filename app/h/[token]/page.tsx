@@ -4,7 +4,8 @@ import { PaginaLead } from "../_shared/PaginaLead";
 import { leerLanding } from "@/lib/landings";
 
 // La landing de un mail de outreach. No se indexa y el token del link no se puede adivinar.
-export const metadata: Metadata = { title: "A page made for you", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: { absolute: "_luma" }, robots: { index: false, follow: false } };
+
 export const dynamic = "force-dynamic";
 
 export default async function Page({ params }: { params: Promise<{ token: string }> }) {

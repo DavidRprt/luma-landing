@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { CreditCard, UserRound, MessageCircle, Bot, Search, ShieldCheck } from "lucide-react";
+import { CreditCard, UserRound, MessageCircle, Bot, Search, ShieldCheck, Check } from "lucide-react";
 import AuroraGlow from "../../components/AuroraGlow";
 import { ClosingCta, DemoProvider, StickyDemo } from "./Demo";
 import { MotionRoot, Reveal } from "./Reveal";
-import { EXTRAS, PASOS } from "./lead";
+import { textos, type Idioma } from "./textos";
 import s from "./base.module.css";
 
 // Piezas que comparten las cuatro composiciones: el mundo visual de _luma y la parte de abajo de la página.
 
-export function Shell({ children, token }: { children: React.ReactNode; token?: string }) {
+export function Shell({ children, token, idioma = "en" }: { children: React.ReactNode; token?: string; idioma?: Idioma }) {
   return (
-    <DemoProvider token={token}>
+    <DemoProvider token={token} idioma={idioma}>
       <MotionRoot>
         <div className={s.page}>
           {children}
@@ -26,12 +26,12 @@ export const Aurora = () => (
   <div className={s.aurora} aria-hidden="true"><div><AuroraGlow /></div></div>
 );
 
-export function TopBar() {
+export function TopBar({ idioma = "en" }: { idioma?: Idioma }) {
   return (
     <div className={s.topWrap}>
       <div className={s.top}>
         <span className={s.logo}><i className={s.logoBar} />luma</span>
-        <span className={s.topTag}>made for you</span>
+        <span className={s.topTag}>{textos(idioma).topTag}</span>
       </div>
     </div>
   );
@@ -39,18 +39,43 @@ export function TopBar() {
 
 const ICONOS = [CreditCard, UserRound, MessageCircle, Bot, Search, ShieldCheck];
 
-export function Resto({ negocio }: { negocio: string }) {
+// Una sección de la landing: título a la izquierda y una lista de filas a la derecha.
+export function Bloque({ titulo, intro, filas, destacada }: { titulo: React.ReactNode; intro?: string; filas: readonly (readonly [string, string])[]; destacada?: boolean }) {
+  return (
+    <div className={`${s.sec} ${s.more}`}>
+      <div className={s.wrap}>
+        <div className={s.moreGrid}>
+          <Reveal className={s.moreHead}>
+            <h2 className={s.h2}>{titulo}</h2>
+            {intro && <p>{intro}</p>}
+          </Reveal>
+          {filas.length > 0 && <ul className={s.rows}>
+            {filas.map(([t, d], i) => (
+              <Reveal as="li" key={t} delay={i * 0.05} className={s.row}>
+                {destacada ? <Check size={22} strokeWidth={1.75} aria-hidden="true" /> : <span aria-hidden="true" />}
+                <div><strong>{t}</strong><span>{d}</span></div>
+              </Reveal>
+            ))}
+          </ul>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Resto({ negocio, idioma = "en", sinExtras = false }: { negocio: string; idioma?: Idioma; sinExtras?: boolean }) {
+  const t = textos(idioma);
   return (
     <>
-      <div className={`${s.sec} ${s.more}`}>
+      {!sinExtras && <div className={`${s.sec} ${s.more}`}>
         <div className={s.wrap}>
           <div className={s.moreGrid}>
             <Reveal className={s.moreHead}>
-              <h2 className={s.h2}>And everything else we <em>can build.</em></h2>
-              <p>Your site is the first thing many customers see. We build it by hand, around how your business actually works, with no builders like Wix.</p>
+              <h2 className={s.h2}>{t.masA}<em>{t.masB}</em></h2>
+              <p>{t.masP}</p>
             </Reveal>
             <ul className={s.rows}>
-              {EXTRAS.map(([t, d], i) => {
+              {t.extras.map(([t, d], i) => {
                 const Icono = ICONOS[i];
                 return (
                   <Reveal as="li" key={t} delay={i * 0.05} className={s.row}>
@@ -62,13 +87,13 @@ export function Resto({ negocio }: { negocio: string }) {
             </ul>
           </div>
         </div>
-      </div>
+      </div>}
 
       <div className={`${s.sec} ${s.how}`}>
         <div className={s.wrap}>
-          <Reveal><h2 className={`${s.h2} ${s.howHead}`}>How it <em>works.</em></h2></Reveal>
+          <Reveal><h2 className={`${s.h2} ${s.howHead}`}>{t.comoA}<em>{t.comoB}</em></h2></Reveal>
           <ol className={s.steps}>
-            {PASOS.map(([t, d], i) => (
+            {t.pasos.map(([t, d], i) => (
               <Reveal as="li" key={t} delay={i * 0.12}>
                 <strong>{t}</strong>
                 <span>{d}</span>
@@ -85,13 +110,13 @@ export function Resto({ negocio }: { negocio: string }) {
 
       <div className={s.wrap}>
         <div className={s.about}>
-          <h3 className={s.h3}>About _luma</h3>
+          <h3 className={s.h3}>{t.acerca}</h3>
           <div>
-            <p>We’re a small web studio. We build websites by hand, with no builders like Wix, so they’re shaped around how your business actually works.</p>
-            <Link href="/en/proyectos">See what we’ve built →</Link>
+            <p>{t.acercaP}</p>
+            <Link href={t.proyectosHref}>{t.verProyectos}</Link>
           </div>
         </div>
-        <div className={s.foot}>_luma · 3401 SW 160th Ave Suite 330, Miramar, FL 33027</div>
+        <div className={s.foot}>{t.pie}</div>
       </div>
     </>
   );
