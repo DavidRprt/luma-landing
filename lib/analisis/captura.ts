@@ -41,6 +41,7 @@ async function revisar(req: HTTPRequest, total: { n: number }) {
     if (url.protocol === "data:" || url.protocol === "blob:" || url.protocol === "about:") return req.continue();
     if (!/^https?:$/.test(url.protocol)) return req.abort("blockedbyclient");
     if (url.port && url.port !== "80" && url.port !== "443") return req.abort("blockedbyclient");
+    if (/(doubleclick|googlesyndication|googletagmanager|google-analytics|facebook\.net|hotjar|clarity\.ms|tiktok|snap\.licdn|tawk\.to|intercom|zdassets|crisp\.chat|adservice|criteo|taboola|outbrain)/i.test(url.hostname)) return req.abort("blockedbyclient");
     if (tipo === "media" || tipo === "websocket" || tipo === "eventsource" || ++total.n > 160) return req.abort("blockedbyclient");
     if (!(await hostPermitido(url.hostname))) return req.abort("blockedbyclient");
     return req.continue();
@@ -56,7 +57,15 @@ async function sacar(url: string): Promise<Captura | null> {
   try {
     browser = await puppeteer.launch({
       executablePath: process.env.CHROME_PATH || (await chromium.executablePath()),
-      args: dev ? ["--no-sandbox", "--disable-gpu", "--hide-scrollbars"] : [...chromium.args, "--hide-scrollbars"],
+      // En el servidor: se sacan los ajustes de GPU por software (gastan memoria de más y solo hacen falta para WebGL), se evita
+      // /dev/shm (en contenedores es chico y es la causa más común de "Target closed") y se limita la memoria de JavaScript.
+      args: dev
+        ? ["--no-sandbox", "--disable-gpu", "--hide-scrollbars"]
+        : [
+            ...chromium.args.filter((a) => !/use-gl|use-angle|swiftshader|in-process-gpu|ignore-gpu/.test(a)),
+            "--disable-gpu", "--disable-dev-shm-usage", "--disable-extensions", "--mute-audio", "--hide-scrollbars",
+            "--js-flags=--max-old-space-size=128",
+          ],
       headless: dev ? true : "shell",
       defaultViewport: { width: ANCHO, height: ALTO },
     });
@@ -126,9 +135,8 @@ async function sacar(url: string): Promise<Captura | null> {
     const clip = { x: 0, y: 0, width: ANCHO, height: ALTO };
     const jpeg = Buffer.from(await page.screenshot({ type: "jpeg", quality: 72, clip }));
     if (jpeg.length < 4000) return null; // pantalla en blanco
-    // Miniatura (la mitad) para pasársela a la IA con poco detalle: sale baratísima en tokens.
-    const mini = Buffer.from(await page.screenshot({ type: "jpeg", quality: 55, clip: { ...clip, scale: 0.5 } }));
-    return { jpeg, mini, ancho: ANCHO, alto: ALTO, zonas: medido.zonas, medidas: { cargaMs, kb: Math.round(bytes / 1024), itemsMenu: medido.itemsMenu } };
+    // La IA recibe la misma captura con detalle bajo (sale baratísima en tokens): no se vuelve a renderizar, que es cuando más memoria se usa.
+    return { jpeg, mini: jpeg, ancho: ANCHO, alto: ALTO, zonas: medido.zonas, medidas: { cargaMs, kb: Math.round(bytes / 1024), itemsMenu: medido.itemsMenu } };
   } catch (e) {
     console.error("[analisis captura]", (e as Error).message);
     return null;
