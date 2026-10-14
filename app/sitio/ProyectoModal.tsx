@@ -2,18 +2,18 @@
 
 import { useRef, useState } from "react";
 import { Dialog } from "radix-ui";
-import Image from "next/image";
-import { Plus, X } from "lucide-react";
+import { X } from "lucide-react";
 import { HighlightGrid, WorkImg, type Work } from "../components/WorkCard";
 import { ShineButton } from "../components/ShineButton";
-import { irAlFormulario } from "./irAlFormulario";
+import { abrirContacto } from "./constants";
 import { trackGa } from "@/lib/tracking";
 
-// Card de proyecto de la landing. "Ver más" abre el mismo popup que la home
+// Popup de un proyecto de la landing. Lo abre el botón que se le pasa como hijo; es el mismo popup que la home
 // (misma animación y mismo estilo), pero SIN link al sitio del cliente: la idea
-// es que nadie se vaya de la página. En su lugar, el popup lleva al formulario.
-export function ProyectoCard({ w }: { w: Work }) {
-  const [open, setOpen] = useState(false);
+// es que nadie se vaya de la página. El botón del popup abre la ventana de contacto con el proyecto elegido.
+export function ProyectoModal({ w, children, onCambio }: { w: Work; children: React.ReactElement; onCambio?: (abierto: boolean) => void }) {
+  const [open, setOpenRaw] = useState(false);
+  const setOpen = (v: boolean) => { setOpenRaw(v); onCambio?.(v); };
 
   // Igual que en la home: el popup sale y se esconde desde el botón que lo abrió.
   const triggerPointRef = useRef<{ x: number; y: number } | null>(null);
@@ -46,40 +46,7 @@ export function ProyectoCard({ w }: { w: Work }) {
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        <Image
-          src={`/${w.img}.png`}
-          alt={`Sitio de ${w.title}`}
-          width={1800}
-          height={1020}
-          sizes="(min-width: 1152px) 280px, (min-width: 640px) 48vw, 70vw"
-          className="aspect-[16/9] w-full object-cover object-top"
-        />
-        <div className="flex flex-1 flex-col p-4">
-          <div className="flex items-baseline justify-between gap-3">
-            <h3 className="font-semibold" style={{ fontSize: 16 }}>{w.title}</h3>
-            <span className="text-white/35" style={{ fontSize: 12 }}>{w.category}</span>
-          </div>
-          <p className="mt-2 line-clamp-3 text-white/55" style={{ fontSize: 13.5, lineHeight: 1.5 }}>{w.desc}</p>
-          {w.stat && <p className="mt-2 font-medium text-[#6aa9ff]" style={{ fontSize: 12.5 }}>{w.stat}</p>}
-          <Dialog.Trigger asChild>
-            <button
-              type="button"
-              onClick={onTriggerClick}
-              className="group mt-3 inline-flex w-fit items-center gap-1.5 text-white/45 transition-colors duration-300 hover:text-[#6aa9ff]"
-              style={{ fontSize: 13 }}
-            >
-              <span
-                className="flex items-center justify-center rounded-full transition-transform duration-300 group-hover:rotate-90"
-                style={{ width: 16, height: 16, border: "1px solid rgba(255,255,255,0.25)" }}
-              >
-                <Plus size={10} />
-              </span>
-              Ver más
-            </button>
-          </Dialog.Trigger>
-        </div>
-      </div>
+      <Dialog.Trigger asChild onClick={onTriggerClick}>{children}</Dialog.Trigger>
 
       <Dialog.Portal>
         <Dialog.Overlay
@@ -148,8 +115,14 @@ export function ProyectoCard({ w }: { w: Work }) {
             <ShineButton
               className="w-fit"
               onClick={() => {
+                trackGa("click_quiero_sitio", { placement: "proyecto", project: w.title });
                 setOpen(false);
-                window.setTimeout(irAlFormulario, 300);
+                window.setTimeout(() => abrirContacto({
+                  titulo: "Quiero un sitio así",
+                  subtitulo: `Te gustó el sitio de ${w.title}. Dejanos tu nombre y tu WhatsApp y te escribimos.`,
+                  contexto: `Le gustó el sitio de ${w.title}`,
+                  placement: "proyecto",
+                }), 250);
               }}
             >
               Quiero un sitio así

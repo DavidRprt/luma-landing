@@ -38,7 +38,8 @@ export async function POST(req: NextRequest) {
   if (limpiar(body.website, 50) || Number(body.tiempoMs) < 1500) return NextResponse.json({ ok: true })
   if (demasiadosIntentos(ip)) return NextResponse.json({ error: "Demasiados intentos, probá en unos minutos." }, { status: 429 })
 
-  const nombre = limpiar(body.nombre, 80)
+  const nombreIngresado = limpiar(body.nombre, 80)
+  const nombre = nombreIngresado || "(sin nombre)" // algunos formularios piden solo el WhatsApp
   const negocio = limpiar(body.negocio, 120)
   const telefonoOriginal = limpiar(body.telefono, 40)
   const telefono = normalizarWhatsApp(telefonoOriginal)
@@ -46,7 +47,7 @@ export async function POST(req: NextRequest) {
   const plan = PLANES[planClave] ? planClave : "no-se"
   const eventId = limpiar(body.eventId, 80)
 
-  if (nombre.length < 2) return NextResponse.json({ error: "Falta tu nombre", campo: "nombre" }, { status: 400 })
+  if (nombreIngresado && nombreIngresado.length < 2) return NextResponse.json({ error: "Falta tu nombre", campo: "nombre" }, { status: 400 })
   if (!telefono) return NextResponse.json({ error: "Revisá tu número de WhatsApp", campo: "telefono" }, { status: 400 })
 
   const attr: Record<string, string> = {}
@@ -57,10 +58,10 @@ export async function POST(req: NextRequest) {
     [attr.utm_source, attr.utm_medium, attr.utm_campaign, attr.utm_content].filter(Boolean).join(" / ") ||
     (attr.fbclid ? "Meta (fbclid)" : attr.gclid ? "Google (gclid)" : attr.referrer || "directo")
 
-  const primerNombre = nombre.split(/\s+/)[0]
+  const primerNombre = nombreIngresado ? nombre.split(/\s+/)[0] : ""
   const whatsappLead = linkWhatsApp(
     telefono,
-    `Hola ${primerNombre}! Te escribe David de _luma. Vi que pediste info para tu sitio${negocio ? ` (${negocio})` : ""}. ¿Cuándo tenés 10 minutos para charlarlo?`
+    `Hola${primerNombre ? ` ${primerNombre}` : ""}! Te escribe David de _luma. Vi que pediste info para tu sitio${negocio ? ` (${negocio})` : ""}. ¿Cuándo tenés 10 minutos para charlarlo?`
   )
 
   if (!process.env.RESEND_API_KEY) {
@@ -111,6 +112,6 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    whatsappUrl: linkWhatsApp(WHATSAPP_EQUIPO, negocio ? `Hola! Soy ${primerNombre}, tengo ${negocio} y quiero un sitio web.` : `Hola! Soy ${primerNombre} y quiero un sitio web.`),
+    whatsappUrl: linkWhatsApp(WHATSAPP_EQUIPO, `Hola!${primerNombre ? ` Soy ${primerNombre}${negocio ? `, tengo ${negocio}` : ""} y` : negocio ? ` Tengo ${negocio} y` : ""} quiero un sitio web.`),
   })
 }

@@ -1,23 +1,28 @@
 "use client";
 
-import { PLAN_EVENT, type PlanId } from "./constants";
+import { abrirContacto, type PlanId } from "./constants";
 import { trackGa } from "@/lib/tracking";
-import { irAlFormulario } from "./irAlFormulario";
 
-// Botón de un plan: elige ese plan en el formulario y lleva hasta él.
-export function PlanButton({ plan, className, children }: { plan: PlanId; className?: string; children: React.ReactNode }) {
+const NOMBRES: Record<PlanId, string> = { landing: "Landing", corporativo: "Corporativo", "no-se": "" };
+
+// Botón de un plan: la persona ya eligió, así que abre la ventana de contacto con ese plan cargado.
+export function PlanButton({ plan, precio, className, children }: { plan: PlanId; precio?: string; className?: string; children: React.ReactNode }) {
   return (
-    <a
-      href="#form"
+    <button
+      type="button"
       className={className}
-      onClick={(e) => {
-        e.preventDefault();
-        window.dispatchEvent(new CustomEvent(PLAN_EVENT, { detail: plan }));
+      onClick={() => {
         trackGa("select_plan", { plan });
-        irAlFormulario();
+        abrirContacto({
+          titulo: `Plan ${NOMBRES[plan]}`,
+          subtitulo: `${precio ? `${precio} · ` : ""}Sin pago inicial. Dejanos tu nombre y tu WhatsApp y te escribimos.`,
+          plan,
+          contexto: `Eligió el plan ${NOMBRES[plan]}`,
+          placement: "plan",
+        });
       }}
     >
       {children}
-    </a>
+    </button>
   );
 }

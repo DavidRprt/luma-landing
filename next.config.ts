@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Solo para probar desde el celular en la misma wifi (sin esto el servidor de desarrollo bloquea el JavaScript y nada se anima).
+  allowedDevOrigins: ["192.168.1.246", "192.168.68.54"],
+  serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core"], // Chromium para las capturas del analizador: no se empaqueta con el servidor
   compress: true,
   poweredByHeader: false,
   images: {

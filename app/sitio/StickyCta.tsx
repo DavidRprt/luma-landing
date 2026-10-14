@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 import { WhatsAppLink } from "./TrackedLink";
-import { WHATSAPP_URL } from "./constants";
+import { ANALISIS_EVENT, WHATSAPP_URL } from "./constants";
 import { irAlFormulario } from "./irAlFormulario";
+import s from "./sitio.module.css";
 
 // Barra fija abajo, solo en celular. Aparece al bajar del primer pantallazo y
 // se esconde cuando el formulario ya está a la vista (para no taparlo).
@@ -23,7 +24,6 @@ export function StickyCta() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    const forms = Array.from(document.querySelectorAll("[data-lead-form]"));
     const visibles = new Set<Element>();
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
@@ -33,36 +33,34 @@ export function StickyCta() {
       formVisible = visibles.size > 0;
       update();
     });
-    forms.forEach((f) => io.observe(f));
+    // El reporte aparece después de cargar la página: se vuelve a buscar cuando termina un análisis.
+    const observar = () => document.querySelectorAll("[data-lead-form]").forEach((f) => io.observe(f));
+    observar();
+    let id = 0;
+    const onAnalisis = () => { window.clearTimeout(id); id = window.setTimeout(observar, 1100); };
+    window.addEventListener(ANALISIS_EVENT, onAnalisis);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener(ANALISIS_EVENT, onAnalisis);
+      window.clearTimeout(id);
       io.disconnect();
     };
   }, []);
 
   return (
-    <div
-      className={`lg:hidden fixed inset-x-0 bottom-0 z-40 px-4 pt-3 transition-transform duration-300 ${visible ? "translate-y-0" : "translate-y-full"}`}
-      style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom))", background: "linear-gradient(to top, rgba(0,0,0,0.95) 60%, rgba(0,0,0,0))" }}
-      aria-hidden={!visible}
-    >
-      <div className="flex gap-2.5">
+    <div className={s.sticky} data-on={visible ? 1 : 0} style={{ transform: visible ? "translateY(0)" : "translateY(100%)" }} aria-hidden={!visible}>
+      <div className={s.stickyIn}>
         <a
           href="#form"
           onClick={(e) => { e.preventDefault(); irAlFormulario(); }}
           tabIndex={visible ? 0 : -1}
-          className="flex-1 inline-flex items-center justify-center rounded-full bg-white text-black font-semibold py-3.5"
-          style={{ fontSize: 15 }}
+          className={`${s.btn}`}
+          style={{ flex: 1 }}
         >
-          Quiero mi sitio
+          Analizar mi sitio
         </a>
-        <WhatsAppLink
-          href={WHATSAPP_URL}
-          placement="sticky"
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] text-[#06240f] font-semibold px-5 py-3.5"
-          style={{ fontSize: 15 }}
-        >
+        <WhatsAppLink href={WHATSAPP_URL} placement="sticky" className={`${s.btn} ${s.btnWa}`}>
           <WhatsAppIcon /> WhatsApp
         </WhatsAppLink>
       </div>
