@@ -685,3 +685,14 @@
 .precioTachado { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; color: var(--fg-3); text-decoration: line-through; text-decoration-thickness: 1.5px; margin-right: var(--s-2); align-self: flex-end; padding-bottom: 6px; }
 .promoNota { margin: var(--s-2) 0 0; font-size: 14px; line-height: 1.5; color: var(--fg-3); }
 @media (max-width: 1023px) { .precioTachado { font-size: 18px; padding-bottom: 4px; } }
+
+/* Confirmación de la ventana de contacto: un check, una frase y una salida por WhatsApp, centrado y sin repetir el título del plan */
+.enviadoOk { display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--s-4) 0 var(--s-2); }
+.enviadoIcono { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; margin-bottom: var(--s-5); color: var(--wa); background: rgba(74, 222, 128, 0.12); box-shadow: inset 0 0 0 1px rgba(74, 222, 128, 0.35); }
+.enviadoOk .panelTitulo { padding-right: 0; font-size: 32px; }
+.enviadoOk .panelSub { max-width: 22em; margin-top: var(--s-2); }
+.enviadoOk .accion { align-self: stretch; margin-top: var(--s-6); }
+.enviadoOk .btnWa { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14); color: var(--fg-2); }
+.enviadoOk .btnWa:hover { background: rgba(255, 255, 255, 0.05); color: var(--fg); }
+.enviadoOk .btnWa svg { color: var(--wa); }
+@media (max-width: 560px) { .enviadoOk .panelTitulo { font-size: 28px; } }

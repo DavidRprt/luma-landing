@@ -12,10 +12,11 @@ export function Contacto() {
   const [abierto, setAbierto] = useState(false);
   const [d, setD] = useState<ContactoDetalle | null>(null);
   const [n, setN] = useState(0); // fuerza un formulario nuevo en cada apertura
+  const [enviado, setEnviado] = useState(false); // ya se mandó: la ventana muestra solo la confirmación
   const cuerpo = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const on = (e: Event) => { setD((e as CustomEvent<ContactoDetalle>).detail); setN((x) => x + 1); setAbierto(true); };
+    const on = (e: Event) => { setD((e as CustomEvent<ContactoDetalle>).detail); setN((x) => x + 1); setEnviado(false); setAbierto(true); };
     window.addEventListener(CONTACTO_EVENT, on);
     return () => window.removeEventListener(CONTACTO_EVENT, on);
   }, []);
@@ -30,8 +31,8 @@ export function Contacto() {
           onOpenAutoFocus={(e) => { e.preventDefault(); cuerpo.current?.querySelector<HTMLInputElement>("input[name='nombre'], input[type='tel']")?.focus(); }}
         >
           <div ref={cuerpo}>
-            <Dialog.Title className={s.panelTitulo}>{d?.titulo}</Dialog.Title>
-            {d?.subtitulo && <p className={s.panelSub}>{d.subtitulo}</p>}
+            <Dialog.Title className={enviado ? "sr-only" : s.panelTitulo}>{enviado ? "Consulta enviada" : d?.titulo}</Dialog.Title>
+            {d?.subtitulo && !enviado && <p className={s.panelSub}>{d.soloWhatsApp ? d.subtitulo.replace("Dejanos tu nombre y tu WhatsApp", "Dejanos tu WhatsApp") : d.subtitulo}</p>}
             {d && (
               <LeadForm
                 key={n}
@@ -43,6 +44,7 @@ export function Contacto() {
                 planInicial={d.plan}
                 contexto={d.contexto}
                 soloWhatsApp={d.soloWhatsApp}
+                onEnviado={() => setEnviado(true)}
                 boton="Quiero mi sitio"
               />
             )}

@@ -31,10 +31,10 @@ const PLANES_ANALISIS: { id: PlanId; label: string; precio: string }[] = [
 // - "analisis": se usa después de mostrar el análisis; pide solo nombre y WhatsApp, y manda la dirección del sitio
 //   que analizamos dentro del campo "negocio" para que llegue en el mismo mail de siempre.
 export function LeadForm({
-  placement, title, subtitle, variante = "completo", sitio, planInicial = "no-se", plano = false, boton, contexto, soloWhatsApp = false,
+  placement, title, subtitle, variante = "completo", sitio, planInicial = "no-se", plano = false, boton, contexto, soloWhatsApp = false, onEnviado,
 }: {
   placement: Placement; title?: string; subtitle?: string; variante?: "completo" | "analisis" | "corto"; sitio?: string;
-  planInicial?: PlanId; plano?: boolean; boton?: string; contexto?: string; soloWhatsApp?: boolean;
+  planInicial?: PlanId; plano?: boolean; boton?: string; contexto?: string; soloWhatsApp?: boolean; onEnviado?: () => void;
 }) {
   const uid = useId();
   const analisis = variante === "analisis";
@@ -115,6 +115,7 @@ export function LeadForm({
       trackMeta("Lead", { content_name: "Landing /sitio", plan, placement }, eventId);
       trackGa("generate_lead", { placement, plan });
       setStatus("sent");
+      onEnviado?.();
     } catch {
       setStatus("error");
     }
@@ -124,15 +125,17 @@ export function LeadForm({
   const chrome = plano ? "" : `${s.panel} ${s.panelIn}`;
 
   if (status === "sent") {
+    const primero = nombre.trim().split(/\s+/)[0];
     return (
-      <div data-lead-form role="status" className={plano ? (corto ? s.enviado : "") : `${s.panel} ${s.panelIn}`}>
-        <h3 className={s.panelTitulo}>{soloWhatsApp ? "¡Listo! Recibimos tu consulta." : `¡Listo, ${nombre.trim().split(/\s+/)[0]}! Recibimos tu consulta.`}</h3>
-        <p className={s.panelSub}>
-          Te escribimos por WhatsApp en menos de 24 hs. Si querés ir más rápido, escribinos ahora y te respondemos apenas lo veamos.
-        </p>
+      <div data-lead-form role="status" className={plano ? (corto ? s.enviadoOk : "") : `${s.panel} ${s.panelIn}`}>
+        <span className={s.enviadoIcono} aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M6 13.5l4.5 4.5L20 8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </span>
+        <h3 className={s.panelTitulo}>{soloWhatsApp || !primero ? "¡Listo!" : `¡Listo, ${primero}!`}</h3>
+        <p className={s.panelSub}>Te escribimos por WhatsApp en menos de 24 horas.</p>
         <div className={s.accion}>
           <WhatsAppLink href={waUrl} placement="gracias" className={`${s.btn} ${s.btnWa} ${s.btnFull}`}>
-            <WhatsAppIcon /> Escribir por WhatsApp
+            <WhatsAppIcon /> ¿Preferís escribirnos vos?
           </WhatsAppLink>
         </div>
       </div>
