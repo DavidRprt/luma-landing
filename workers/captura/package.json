@@ -1,0 +1,19 @@
+{
+  "name": "luma-captura",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Saca la captura de un sitio (y mide el menú, el título y el botón) en Cloudflare Browser Rendering, para no gastar la memoria del servidor de la landing.",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev --remote",
+    "tipos": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cloudflare/puppeteer": "^1.4.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261006.1",
+    "typescript": "^5.6.0",
+    "wrangler": "^4.0.0"
+  }
+}

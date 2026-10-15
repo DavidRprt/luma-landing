@@ -50,7 +50,36 @@ async function revisar(req: HTTPRequest, total: { n: number }) {
   }
 }
 
+// Captura en Cloudflare (workers/captura): el navegador corre allá y no gasta la memoria de este servidor. Si CAPTURA_URL no está, se usa el
+// Chromium local (desarrollo, o producción sin el Worker). Si el Worker no tiene cupo o falla, devuelve null y el análisis sigue sin captura.
+async function sacarRemoto(url: string): Promise<Captura | null> {
+  try {
+    if (!(await hostPermitido(new URL(url).hostname))) return null;
+  } catch { return null; }
+  const ctl = new AbortController();
+  const corte = setTimeout(() => ctl.abort(), LIMITE_MS + 4000);
+  try {
+    const r = await fetch(process.env.CAPTURA_URL!, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.CAPTURA_TOKEN ?? ""}` },
+      body: JSON.stringify({ url }),
+      signal: ctl.signal,
+    });
+    if (!r.ok) { console.error("[analisis captura remota] respondió", r.status, (await r.text().catch(() => "")).slice(0, 160)); return null; }
+    const j = await r.json();
+    const jpeg = Buffer.from(String(j.jpeg ?? ""), "base64");
+    if (jpeg.length < 4000) return null; // pantalla en blanco
+    return { jpeg, mini: jpeg, ancho: Number(j.ancho) || ANCHO, alto: Number(j.alto) || ALTO, zonas: j.zonas ?? {}, medidas: j.medidas ?? { cargaMs: null, kb: 0, itemsMenu: null } };
+  } catch (e) {
+    console.error("[analisis captura remota]", (e as Error).message);
+    return null;
+  } finally {
+    clearTimeout(corte);
+  }
+}
+
 async function sacar(url: string): Promise<Captura | null> {
+  if (process.env.CAPTURA_URL) return sacarRemoto(url);
   const dev = Boolean(process.env.CHROME_PATH);
   let browser: Browser | null = null;
   const matar = setTimeout(() => { browser?.process()?.kill("SIGKILL"); }, LIMITE_MS + 4000);
