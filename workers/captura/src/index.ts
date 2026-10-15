@@ -51,7 +51,7 @@ export default {
       await page.goto(destino.toString(), { waitUntil: "load", timeout: 18_000 }).catch(() => undefined);
       await page.waitForNetworkIdle({ idleTime: 700, timeout: 5000 }).catch(() => undefined);
       await page.evaluate(esperarCarga, ALTO).catch(() => undefined);
-      await new Promise((r) => setTimeout(r, 1200));
+      await new Promise((r) => setTimeout(r, 3000)); // deja terminar las animaciones de entrada
       await page.evaluate(() => window.scrollTo(0, 0)).catch(() => undefined);
       const medido = await page.evaluate(medirPagina, ANCHO, ALTO);
       const cargaMs = await page.evaluate(() => {

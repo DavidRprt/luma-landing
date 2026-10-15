@@ -121,7 +121,7 @@ async function sacar(url: string): Promise<Captura | null> {
       })();
       await Promise.race([listo, tope]);
     }, ALTO).catch(() => undefined);
-    await new Promise((r) => setTimeout(r, 1200)); // deja asentar animaciones y carruseles
+    await new Promise((r) => setTimeout(r, 3000)); // deja terminar las animaciones de entrada (muchos sitios hacen aparecer el texto de a poco)
     await page.evaluate(() => window.scrollTo(0, 0)).catch(() => undefined);
     // Mide dónde están el menú, el título, el botón principal y el contacto (para marcar los hallazgos sobre la captura).
     const medido = await page.evaluate((W, H) => {
