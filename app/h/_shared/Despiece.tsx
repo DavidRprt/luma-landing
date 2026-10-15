@@ -25,21 +25,33 @@ export function Despiece({ lead: LEAD }: { lead: Lead }) {
     const o = el.getBoundingClientRect();
     const nuevos: Trazo[] = [];
     const nt: Tops = {};
-    LEAD.hallazgos.forEach((h, i) => {
+    // 1) Dónde cae cada nota (a la altura de su zona) y de qué lado va.
+    const items = LEAD.hallazgos.map((h, i) => {
       const caja = el.querySelector<HTMLElement>(`[data-hl="${h.id}"]`);
       const nota = el.querySelector<HTMLElement>(`[data-note="${h.id}"]`);
-      if (!caja || !nota) return;
+      if (!caja || !nota) return null;
       const c = caja.getBoundingClientRect();
       const n = nota.getBoundingClientRect();
-      const izq = i % 2 === 0;
-      const x1 = (izq ? n.right : n.left) - o.left + (izq ? 14 : -14);
-      const y2 = c.top + c.height / 2 - o.top;
-      const y1 = y2;
-      nt[h.id] = y2;
-      const x2 = (izq ? c.left : c.right) - o.left;
+      const alto = nota.querySelector("div")?.getBoundingClientRect().height ?? 80;
+      return { id: h.id, izq: i % 2 === 0, c, n, alto, ideal: c.top + c.height / 2 - o.top, top: c.top + c.height / 2 - o.top };
+    }).filter((x): x is NonNullable<typeof x> => x !== null);
+    // 2) Si dos notas del mismo lado quedan una encima de la otra, la de abajo se corre lo justo para no pisarse.
+    for (const izq of [true, false]) {
+      const lado = items.filter((x) => x.izq === izq).sort((p, q) => p.ideal - q.ideal);
+      for (let k = 1; k < lado.length; k++) {
+        const minimo = lado[k - 1].top + lado[k - 1].alto / 2 + lado[k].alto / 2 + 20;
+        if (lado[k].top < minimo) lado[k].top = minimo;
+      }
+    }
+    // 3) Cada línea sale de la nota (ya corrida) y llega al centro de su zona en la captura.
+    for (const x of items) {
+      const x1 = (x.izq ? x.n.right : x.n.left) - o.left + (x.izq ? 14 : -14);
+      const y2 = x.ideal;
+      const x2 = (x.izq ? x.c.left : x.c.right) - o.left;
       const mx = (x1 + x2) / 2;
-      nuevos.push({ id: h.id, d: `M${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}` });
-    });
+      nt[x.id] = x.top;
+      nuevos.push({ id: x.id, d: `M${x1} ${x.top} C ${mx} ${x.top}, ${mx} ${y2}, ${x2} ${y2}` });
+    }
     setTrazos(nuevos);
     setTops(nt);
   }, [LEAD]);

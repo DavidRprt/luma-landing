@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
+    // Las capturas de las landings llevan ?v=<fecha> para que el navegador no muestre una versión vieja al actualizarlas.
+    localPatterns: [{ pathname: "/**" }],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },

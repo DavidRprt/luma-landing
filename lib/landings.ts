@@ -18,12 +18,12 @@ export async function leerLanding(token: string): Promise<Lead | null> {
   const p = db();
   if (!p || !TOKEN.test(token)) return null;
   const { rows } = await p.query(
-    `SELECT negocio, dominio, idioma, datos, hallazgos, captura_ancho, captura_alto FROM outreach.landings WHERE token = $1`, [token]);
+    `SELECT negocio, dominio, idioma, datos, hallazgos, captura_ancho, captura_alto, actualizado_en FROM outreach.landings WHERE token = $1`, [token]);
   if (!rows[0]) return null;
   const r = rows[0];
   // Cuenta la visita (mejor esfuerzo: si falla, la página igual se muestra).
   p.query(`UPDATE outreach.landings SET vistas = vistas + 1, ultima_vista = now() WHERE token = $1`, [token]).catch(() => {});
-  return { datos: r.datos ?? undefined, idioma: r.idioma === "es" ? "es" : "en", negocio: r.negocio, dominio: r.dominio, captura: { src: `/h/${token}/captura`, w: r.captura_ancho, h: r.captura_alto }, hallazgos: r.hallazgos };
+  return { datos: r.datos ?? undefined, idioma: r.idioma === "es" ? "es" : "en", negocio: r.negocio, dominio: r.dominio, captura: { src: `/h/${token}/captura?v=${Math.floor(new Date(r.actualizado_en).getTime() / 1000)}`, w: r.captura_ancho, h: r.captura_alto }, hallazgos: r.hallazgos };
 }
 
 export async function leerCaptura(token: string): Promise<{ data: Buffer; tipo: string } | null> {
