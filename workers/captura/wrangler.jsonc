@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "luma-captura",
+  "account_id": "8c3b617762be6b1225b839f3f494f6f5", // cuenta de davirapo@gmail.com: fija para no tocar nunca otra cuenta
   "main": "src/index.ts",
   "compatibility_date": "2025-09-01",
   "compatibility_flags": ["nodejs_compat"],
